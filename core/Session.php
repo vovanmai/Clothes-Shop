@@ -12,11 +12,18 @@ class Session
 
 	public static function getSession($msgKey)
 	{
-		return $_SESSION[$msgKey];
+
+		if(isset($_SESSION[$msgKey])){
+			return $_SESSION[$msgKey];
+		} else
+		{
+			return null;
+		}
 	}
 
 	public static function unsetSession($msgKey)
 	{
+		session_start();
 		unset($_SESSION[$msgKey]);
 	}
 }

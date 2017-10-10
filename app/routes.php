@@ -9,6 +9,11 @@ $router->get('admin/users/delete','UsersController@destroy');
 $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/active','UsersController@changeActive');
 
+$router->get('admin/login','AuthController@getLogin');
+$router->post('admin/login','AuthController@postLogin');
+$router->post('admin/remember','AuthController@ajaxRemember');
+$router->get('admin/logout','AuthController@getLogout');
+
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
 
