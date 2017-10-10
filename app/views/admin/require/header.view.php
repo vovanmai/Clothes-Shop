@@ -1,6 +1,14 @@
 <?php 
 ob_start();
 session_start();
+
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+     
+} else {
+    return redirect('admin/login');
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,45 +20,31 @@ session_start();
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-		<!-- bootstrap & fontawesome -->
+		
 		<link rel="stylesheet" href="/public/admin/assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/public/admin/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
-		<!-- page specific plugin styles -->
+		
 		<link rel="stylesheet" href="/public/admin/assets/css/bootstrap-duallistbox.min.css" />
 		<link rel="stylesheet" href="/public/admin/assets/css/bootstrap-multiselect.min.css" />
 		<link rel="stylesheet" href="/public/admin/assets/css/select2.min.css" />
 
-		<!-- text fonts -->
+		
 		<link rel="stylesheet" href="/public/admin/assets/css/fonts.googleapis.com.css" />
 
-		<!-- ace styles -->
+		
 		<link rel="stylesheet" href="/public/admin/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 
-		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
-		<![endif]-->
+		
 		<link rel="stylesheet" href="/public/admin/assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="/public/admin/assets/css/ace-rtl.min.css" />
-		<link rel="stylesheet" href="/public/admin/assets/css/mystyle.css" />
-
-		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-		<![endif]-->
-
-		<!-- inline styles related to this page -->
-
-		<!-- ace settings handler -->
+		<link rel="stylesheet" href="/public/admin/assets/css/mystyle.css" />		
 		<script src="/public/admin/assets/js/ace-extra.min.js"></script>
 
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-		<!--[if lte IE 8]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
+		
 	</head>
 
+	
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
@@ -68,7 +62,9 @@ session_start();
 					<a href="index.html" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Ace Admin
+							<?php
+                                                                                                echo $user[0]->fullname;
+                                                                                            ?>
 						</small>
 					</a>
 				</div>
@@ -81,22 +77,20 @@ session_start();
 								<img class="nav-user-photo" src="/public/admin/assets/images/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									<?php
+                                                                                                                            echo $user[0]->username;
+                                                                                                                      ?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
-									<a href="#">
-										<i class="ace-icon fa fa-cog"></i>
-										Settings
-									</a>
-								</li>
 
 								<li>
-									<a href="profile.html">
+									<a href="/admin/users/edit/<?php  
+                                                                                                                             echo   $user[0]->id;
+                                                                                                                        ?>" >
 										<i class="ace-icon fa fa-user"></i>
 										Profile
 									</a>
@@ -111,6 +105,8 @@ session_start();
 									</a>
 								</li>
 							</ul>
+
+
 						</li>
 					</ul>
 				</div>
