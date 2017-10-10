@@ -62,14 +62,14 @@ class Users
 		$avatar=$edited_User['avatar'];
 
 		$query="UPDATE users SET   	username='{$username}',
-								   	password='{$password}',
-								   	fullname='{$fullname}',
-									email='{$email}',	
-									phone='{$phone}',	
-									address='{$address}',	
-									level={$level},
-									avatar='{$avatar}'	
-								   	WHERE id={$id}";						   	
+						password='{$password}',
+						fullname='{$fullname}',
+						email='{$email}',	
+						phone='{$phone}',	
+						address='{$address}',	
+						level={$level},
+						avatar='{$avatar}'	
+					   	WHERE id={$id}";						   	
 		return App::get('database')->query_excute($query);						   	
 	}
 
@@ -79,6 +79,12 @@ class Users
 		return App::get('database')->query_excute($query);	
 	}
 
+
+	public static function checkLogin($username,$pass) {
+	   $query = "SELECT * FROM users WHERE active =1 AND username='".$username."' AND password ='".md5($pass)."'";
+               
+               return App::get('database')->query_fetch($query);
+ }
 	public static function search($search_User)
 	{
 		$username=$search_User['username'];
@@ -103,6 +109,7 @@ class Users
 			$query.=' and level ='.$level;
 		}
 		return App::get('database')->query_fetch($query);
+
 	}
 
 }
