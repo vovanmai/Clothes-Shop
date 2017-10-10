@@ -91,7 +91,7 @@
 						<div class="row">
 							<div class="col-md-10 col-md-offset-1">
 								<!-- PAGE CONTENT BEGINS -->
-							 	<form action="/admin/users/add" method="post" enctype="multipart/form-data">
+							 	<form  action="/admin/users/add" method="post" enctype="multipart/form-data">
 							    	<div class="form-group">
 							      		<label style="font-weight:bold;">Username: </label>
 							      		<input type="text" class="form-control" id="username" placeholder="Enter username" name="username">

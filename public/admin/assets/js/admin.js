@@ -29,6 +29,23 @@ $(document).ready(function() {
             return false;
         }else{
             $('#username_warning_msg').html('');
+            $.ajax({
+                url: "/admin/users/add/check_username",
+                type: "GET",
+                data: {
+                    'username': username
+                },
+                success: function(data) {
+                    if(data==1){
+                        return true;
+                    }
+                    if(data==0){
+                        $('#username_warning_msg').html('<span style="color:red"><strong>Username</strong> đã trùng !</span>');
+                        return false;
+                    }
+                }
+            });
+          
         }
 
         if(password==''){
@@ -50,6 +67,25 @@ $(document).ready(function() {
             return false;
         }else{
             $('#email_warning_msg').html('');
+            
+            $.ajax({
+                url: "/admin/users/add/check_email",
+                type: "GET",
+                data: {
+                    'email': email
+                },
+                success: function(data) {
+                    if(data==1){
+                        return true;
+                    }
+                    if(data==0){
+                        $('#email_warning_msg').html('<span style="color:red"><strong>Email</strong> đã trùng !</span>');
+                        return false;
+                    }
+                }
+            });
+
+            
         }
 
         if(phone==''){

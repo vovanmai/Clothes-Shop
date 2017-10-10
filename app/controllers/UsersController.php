@@ -215,6 +215,28 @@ class UsersController
 		}
 	}
 
+	public function checkUsername()
+	{
+		$username=$_GET['username'];
+		$user=Users::findByUsername($username);
+		if($user==null){
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
+
+	public function checkEmail()
+	{
+		$email=$_GET['email'];
+		$user=Users::findByEmail($email);
+		if($user==null){
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
+
 	
 }
 
