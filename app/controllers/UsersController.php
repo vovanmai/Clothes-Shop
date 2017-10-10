@@ -176,6 +176,7 @@ class UsersController
 			return redirect('admin/users?msg=Deleted Successfully!');
 		}
 	}
+
 	public function pagination()
 	{
 		$count= Users::count();
@@ -192,6 +193,28 @@ class UsersController
  		$paginghtml = $paging->html();
  		return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
 	} 
+
+
+	public function search()
+	{
+		if(isset($_POST['search']))
+		{
+			$username=$_POST['username'];
+			$fullname=$_POST['fullname'];
+			$active=$_POST['active'];
+			$level=$_POST['level'];
+			$search_User = array(
+				'username' =>$username, 
+				'fullname' =>$fullname, 
+				'active' =>$active, 
+				'level' =>$level
+				);
+
+			$users=Users::search($search_User);
+			return view('admin/users/index',['users'=>$users,'search_User'=>$search_User]);
+		}
+	}
+
 	
 }
 

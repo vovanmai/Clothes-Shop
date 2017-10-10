@@ -79,5 +79,31 @@ class Users
 		return App::get('database')->query_excute($query);	
 	}
 
+	public static function search($search_User)
+	{
+		$username=$search_User['username'];
+		$fullname=$search_User['fullname'];
+		$active=$search_User['active'];
+		$level=$search_User['level'];
+		$query='select * from users where 1'; 
+		if($username!='')
+		{
+			$query.=' and username like "%'.$username.'%"';
+		}
+		if($fullname!='')
+		{
+			$query.=' and fullname like "%'.$fullname.'%"';
+		}
+		if($active!=-1)
+		{
+			$query.=' and active ='.$active;
+		}
+		if($level!=0)
+		{
+			$query.=' and level ='.$level;
+		}
+		return App::get('database')->query_fetch($query);
+	}
+
 }
 ?>
