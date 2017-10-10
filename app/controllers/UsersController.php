@@ -3,13 +3,17 @@ namespace app\controllers;
 use app\Core\App;
 use app\Core\Session;
 use app\models\Users;
-
+use core\Pagination;
 class UsersController
 {
 	public function index()
 	{
-		$users=Users::all();
-		return view('admin/users/index',['users'=>$users]);
+		$pagination = $this->pagination();
+		$paginghtml = $pagination['paginghtml'];
+		$limit = $pagination['config']['limit'];
+		$current_page = $pagination['config']['current_page'];
+		$users=Users::all($current_page,$limit);	
+		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
 	{
@@ -172,6 +176,22 @@ class UsersController
 			return redirect('admin/users?msg=Deleted Successfully!');
 		}
 	}
+	public function pagination()
+	{
+		$count= Users::count();
+		$config = array(
+		    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+		    'total_record'  => $count[0]->total_record, // Tổng số record
+		 	//  'limit'         => 10,// limit
+		    'link_full'     => '/admin/users?p={page}',// Link full có dạng như sau: domain/com/page/{page}
+		    'link_first'    => '/admin/users?p=1',// Link trang đầu tiên
+		    'range'         => 9, // Số button trang bạn muốn hiển thị 
+		);
+		$paging = new Pagination();
+ 		$paging->init($config);
+ 		$paginghtml = $paging->html();
+ 		return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+	} 
 	
 }
 
