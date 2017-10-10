@@ -112,7 +112,7 @@ class Users
 
 
 	public static function checkLogin($username,$pass) {
-	   $query = "SELECT * FROM users WHERE active =1 AND username='".$username."' AND password ='".md5($pass)."'";
+	   $query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username='".$username."' AND password ='".md5($pass)."'";
                
                return App::get('database')->query_fetch($query);
  }
