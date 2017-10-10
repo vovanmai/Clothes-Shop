@@ -298,24 +298,18 @@ require dirname(__DIR__).'/require/header.view.php';
                         </tr>
 
                         <?php 
-                          }
-                        ?>                      
-                      </tbody>
-                    </table>
-                  </div><!-- /.span -->
-                </div><!-- /.row -->
+                      }
+                      ?>                      
+                    </tbody>
+                  </table>
+                </div><!-- /.span -->
+              </div><!-- /.row -->
 
-                <div class="row text-center">
-                  <?php 
-                    echo $paginghtml;
-                   ?>
-                </div>
-
-                
-
-             
-
-              
+              <div class="row text-center">
+                <?php 
+                  echo $paginghtml;
+                ?>
+              </div>
               <!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->
           </div><!-- /.row -->
