@@ -296,6 +296,21 @@ require dirname(__DIR__).'/require/header.view.php';
                         <tr>
                           <td class="text-center" colspan="8">No data</td>
                         </tr>
+
+                        <?php 
+                          }
+                        ?>                      
+                      </tbody>
+                    </table>
+                  </div><!-- /.span -->
+                </div><!-- /.row -->
+
+                <div class="row text-center">
+                  <?php 
+                    echo $paginghtml;
+                   ?>
+                </div>
+
                         <?php
                       }
                       ?>                      
@@ -304,15 +319,8 @@ require dirname(__DIR__).'/require/header.view.php';
                 </div><!-- /.span -->
               </div><!-- /.row -->
 
-              <div class="row text-center">
-                <ul class="pagination">
-                  <li><a href="#">1</a></li>
-                  <li class="active"><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                </ul>
-              </div>
+             
+
               
               <!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->

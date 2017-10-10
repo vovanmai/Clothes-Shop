@@ -6,12 +6,17 @@ use core\App;
 class Users
 {
 
-	public static function all()
+		public static function all($current_page, $limit)
 	{
-		$query='SELECT * FROM users';
+		$start = ($current_page - 1) * $limit;
+		$query='select * from users limit '.$start.', '.$limit;
 		return App::get('database')->query_fetch($query);
 	}
-
+	public static function count()
+	{
+		$query='select count(*) as total_record from users';
+		return App::get('database')->query_fetch($query);
+	}
 	public static function find($id)
 	{
 		$query='select * from users where id='.$id;
