@@ -311,13 +311,7 @@ require dirname(__DIR__).'/require/header.view.php';
                    ?>
                 </div>
 
-                        <?php
-                      }
-                      ?>                      
-                    </tbody>
-                  </table>
-                </div><!-- /.span -->
-              </div><!-- /.row -->
+                
 
              
 
