@@ -6,12 +6,17 @@ use core\App;
 class Users
 {
 
-	public static function all()
+		public static function all($current_page, $limit)
 	{
-		$query='SELECT * FROM users';
+		$start = ($current_page - 1) * $limit;
+		$query='select * from users limit '.$start.', '.$limit;
 		return App::get('database')->query_fetch($query);
 	}
-
+	public static function count()
+	{
+		$query='select count(*) as total_record from users';
+		return App::get('database')->query_fetch($query);
+	}
 	public static function find($id)
 	{
 		$query='select * from users where id='.$id;
@@ -74,10 +79,37 @@ class Users
 		return App::get('database')->query_excute($query);	
 	}
 
+
 	public static function checkLogin($username,$pass) {
 	   $query = "SELECT * FROM users WHERE active =1 AND username='".$username."' AND password ='".md5($pass)."'";
                
                return App::get('database')->query_fetch($query);
+ }
+	public static function search($search_User)
+	{
+		$username=$search_User['username'];
+		$fullname=$search_User['fullname'];
+		$active=$search_User['active'];
+		$level=$search_User['level'];
+		$query='select * from users where 1'; 
+		if($username!='')
+		{
+			$query.=' and username like "%'.$username.'%"';
+		}
+		if($fullname!='')
+		{
+			$query.=' and fullname like "%'.$fullname.'%"';
+		}
+		if($active!=-1)
+		{
+			$query.=' and active ='.$active;
+		}
+		if($level!=0)
+		{
+			$query.=' and level ='.$level;
+		}
+		return App::get('database')->query_fetch($query);
+
 	}
 
 }
