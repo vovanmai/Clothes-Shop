@@ -161,7 +161,7 @@
                             </div>
 
                             <div class="form-group text-center">
-                                <button type="submit" name="submit" id="edit-submit" class="btn btn-success">Edit</button>
+                                <button type="submit" name="submit" disabled id="add-submit" class="btn btn-success">Edit</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

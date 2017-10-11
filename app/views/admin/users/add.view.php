@@ -146,7 +146,7 @@
 							      		<input type="file" name="avatar">
 							    	</div>
 							    	<div class="form-group text-center">
-							      		<button type="submit" name="submit" id="add-submit"  class="btn btn-success">Add</button>
+							      		<button type="submit" name="submit" disabled id="add-submit"  class="btn btn-success">Add</button>
 							    	</div>
 							  	</form>
 								<!-- PAGE CONTENT ENDS -->
