@@ -1,7 +1,7 @@
 <?php 
 namespace app\models;
 use core\App;
-
+use core\Session;
 
 class Users
 {
@@ -12,6 +12,37 @@ class Users
 		$query='select * from users limit '.$start.', '.$limit;
 		return App::get('database')->query_fetch($query);
 	}
+
+	public static function allSearch($current_page, $limit,$search_User)
+	{
+		$start = ($current_page - 1) * $limit;
+
+		$username=$search_User['username'];
+		$fullname=$search_User['fullname'];
+		$active=$search_User['active'];
+		$level=$search_User['level'];
+		$query='select * from users where 1'; 
+		if($username!='')
+		{
+			$query.=' and username like "%'.$username.'%"';
+		}
+		if($fullname!='')
+		{
+			$query.=' and fullname like "%'.$fullname.'%"';
+		}
+		if($active!=-1)
+		{
+			$query.=' and active ='.$active;
+		}
+		if($level!=0)
+		{
+			$query.=' and level ='.$level;
+		}
+
+		$query.=' limit '.$start.', '.$limit;
+		return App::get('database')->query_fetch($query);
+	}
+
 	public static function count()
 	{
 		$query='select count(*) as total_record from users';
@@ -81,7 +112,7 @@ class Users
 
 
 	public static function checkLogin($username,$pass) {
-	   $query = "SELECT * FROM users WHERE active =1 AND username='".$username."' AND password ='".md5($pass)."'";
+	   $query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username='".$username."' AND password ='".md5($pass)."'";
                
                return App::get('database')->query_fetch($query);
  }
@@ -110,6 +141,21 @@ class Users
 		}
 		
 		return App::get('database')->query_fetch($query);
+
+	}
+
+	public static function auth($id)
+	{
+        if ( Session::getSession('user') !=null) {
+            $user=Session::getSession('user');
+            if($user[0]->level==1||$user[0]->id==$id)
+            {
+            	return true;
+            }else
+            {
+            	return false;
+            }
+        }
 
 	}
 

@@ -8,7 +8,6 @@ class AuthController
 {
     public function getLogin()
     {
-        session_start();
         if ( Session::getSession('user') !=null) {
             return redirect('admin/users');
             die();

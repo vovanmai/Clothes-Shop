@@ -1,5 +1,6 @@
 <?php
 ob_start();
+session_start();
 require "core/Autoload.php";
 new core\Autoload;
 
