@@ -9,5 +9,7 @@ use core\Router;
 use core\Request;
 
 Router::load('app/routes.php')->direct(Request::uri(),Request::method());
-
+if(isset($_GET['url'])) {
+	echo $_GET['url'];
+}
 ?>

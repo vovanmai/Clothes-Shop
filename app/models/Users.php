@@ -108,6 +108,7 @@ class Users
 		{
 			$query.=' and level ='.$level;
 		}
+		
 		return App::get('database')->query_fetch($query);
 
 	}
