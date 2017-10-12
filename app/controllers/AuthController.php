@@ -24,8 +24,8 @@ class AuthController
 
     public function postLogin()
     {
-        $userName = str_replace(" ","", $_POST['txtName']);
-        $password =  str_replace(" ","", $_POST['password']);
+        $userName = trim($_POST['txtName']);
+        $password = trim($_POST['password']);
 
         if ($userName == '' || $password == '') {
             return redirect('admin/login?msg=1');
@@ -64,7 +64,9 @@ class AuthController
 
             $value['password']=$_COOKIE['"'.$user.'"'];
         } 
-         die(json_encode($value));
+         // die(json_encode($value));
+        echo json_encode($value);
+        die();
     }
 }
 

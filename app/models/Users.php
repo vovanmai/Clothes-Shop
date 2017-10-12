@@ -1,16 +1,19 @@
 <?php 
 namespace app\models;
 use core\App;
+use \PDO;
 use core\Session;
+use core\database\QueryBuilder;
+use core\database\Connection;;
 
 class Users
 {
 
-		public static function all($current_page, $limit)
+	public static function all($current_page, $limit)
 	{
 		$start = ($current_page - 1) * $limit;
-		$query='select * from users limit '.$start.', '.$limit;
-		return App::get('database')->query_fetch($query);
+		$query='select * from users limit ?, ?';
+		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 
 	public static function allSearch($current_page, $limit,$search_User)
@@ -22,25 +25,33 @@ class Users
 		$active=$search_User['active'];
 		$level=$search_User['level'];
 		$query='select * from users where 1'; 
+		$params=array();
 		if($username!='')
 		{
-			$query.=' and username like "%'.$username.'%"';
+			$query.=' and username like concat("%", ?, "%")';
+			$params['username']=$username;
 		}
 		if($fullname!='')
 		{
-			$query.=' and fullname like "%'.$fullname.'%"';
+			$query.=' and fullname like concat("%", ?, "%")';
+			$params['fullname']=$fullname;
 		}
 		if($active!=-1)
 		{
-			$query.=' and active ='.$active;
+			$query.=' and active = ?';
+			$params['active']=$active;
 		}
 		if($level!=0)
 		{
-			$query.=' and level ='.$level;
+			$query.=' and level = ?';
+			$params['level']=$level;
 		}
 
-		$query.=' limit '.$start.', '.$limit;
-		return App::get('database')->query_fetch($query);
+		
+		$query.=' limit ?, ?';
+		$params['start']=$start;
+		$params['limit']=$limit;
+		return App::get('database')->query_fetch_params($query,$params);
 	}
 
 	public static function count()
@@ -50,8 +61,8 @@ class Users
 	}
 	public static function find($id)
 	{
-		$query='select * from users where id='.$id;
-		return App::get('database')->query_fetch($query);
+		$query='select * from users where id=?';
+		return App::get('database')->query_fetch_params($query,array('id'=>$id));
 	}
 
 	public static function insert($new_User){
@@ -64,21 +75,31 @@ class Users
 		$level=$new_User['level'];
 		$avatar=$new_User['avatar'];
 		$query="INSERT INTO users(username,password,fullname,email,phone,address,level,avatar)
-		VALUES('{$username}','{$password}','{$fullname}','{$email}','{$phone}','{$address}',{$level},'{$avatar}')";
-		return App::get('database')->query_excute($query);
+		VALUES(?,?,?,?,?,?,?,?)";
+		$params=array(
+			'username'=>$username,
+			'password'=>$password,
+			'fullname'=>$fullname,
+			'email'=>$email,
+			'phone'=>$phone,
+			'address'=>$address,
+			'level'=>$level,
+			'avatar'=>$avatar
+			);
+		return App::get('database')->query_excute_params($query,$params);
 
 	}
 
 	public static function delete($id)
 	{
-		$query="DELETE FROM users WHERE id={$id}";
-		return App::get('database')->query_excute($query);
+		$query="DELETE FROM users WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
 
 	public function deleteById($id)
 	{
-		$query='delete from users where id='.$id;
-		return App::get('database')->query_excute($query);
+		$query='delete from users where id=?';
+		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
 
 	public static function update($edited_User,$id)
@@ -92,30 +113,33 @@ class Users
 		$level=$edited_User['level'];
 		$avatar=$edited_User['avatar'];
 
-		$query="UPDATE users SET   	username='{$username}',
-						password='{$password}',
-						fullname='{$fullname}',
-						email='{$email}',	
-						phone='{$phone}',	
-						address='{$address}',	
-						level={$level},
-						avatar='{$avatar}'	
-					   	WHERE id={$id}";						   	
-		return App::get('database')->query_excute($query);						   	
+		$query="UPDATE users SET username= ?, password= ?, fullname= ?, email= ?, phone= ?, address= ?, level= ?, avatar= ?	WHERE id= ?";
+		$params=array(
+			'username'=>$username,
+			'password'=>$password,
+			'fullname'=>$fullname,
+			'email'=>$email,
+			'phone'=>$phone,
+			'address'=>$address,
+			'level'=>$level,
+			'avatar'=>$avatar,
+			'id'=>$id
+			);						   	
+		return App::get('database')->query_excute_params($query,$params);						   	
 	}
 
 	public static function updateActive($active,$id)
 	{
-		$query="UPDATE users SET active={$active} WHERE id={$id}";
-		return App::get('database')->query_excute($query);	
+		$query="UPDATE users SET active=? WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('active'=>$active,'id'=>$id));	
 	}
 
 
 	public static function checkLogin($username,$pass) {
-	   $query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username='".$username."' AND password ='".md5($pass)."'";
-               
-               return App::get('database')->query_fetch($query);
- }
+		$query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username=? AND password =md5(?)";
+
+		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
+	}
 	public static function search($search_User)
 	{
 		$username=$search_User['username'];
@@ -123,38 +147,44 @@ class Users
 		$active=$search_User['active'];
 		$level=$search_User['level'];
 		$query='select * from users where 1'; 
+		$params=array();
 		if($username!='')
 		{
-			$query.=' and username like "%'.$username.'%"';
+			$query.=' and username like concat("%", ?, "%")';
+			$params['username']=$username;
 		}
 		if($fullname!='')
 		{
-			$query.=' and fullname like "%'.$fullname.'%"';
+			$query.=' and fullname like concat("%", ?, "%")';
+			$params['fullname']=$fullname;
 		}
 		if($active!=-1)
 		{
-			$query.=' and active ='.$active;
+			$query.=' and active = ?';
+			$params['active']=$active;
 		}
 		if($level!=0)
 		{
-			$query.=' and level ='.$level;
+			$query.=' and level = ?';
+			$params['level']=$level;
 		}
-		return App::get('database')->query_fetch($query);
+
+		return App::get('database')->query_fetch_params($query,$params);
 
 	}
 
 	public static function auth($id)
 	{
-        if ( Session::getSession('user') !=null) {
-            $user=Session::getSession('user');
-            if($user[0]->level==1||$user[0]->id==$id)
-            {
-            	return true;
-            }else
-            {
-            	return false;
-            }
-        }
+		if ( Session::getSession('user') !=null) {
+			$user=Session::getSession('user');
+			if($user[0]->level==1||$user[0]->id==$id)
+			{
+				return true;
+			}else
+			{
+				return false;
+			}
+		}
 
 	}
 
