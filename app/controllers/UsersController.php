@@ -14,8 +14,8 @@ class UsersController
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$users=Users::all($current_page,$limit);	
-		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
+		$allusers=Users::all($current_page,$limit);	
+		return view('admin/users/index',['allusers'=>$allusers, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
 	{
@@ -71,16 +71,17 @@ class UsersController
 	}
 
 	public function edit($id)
-	{	
-		//check phan quyen nge :)))
+	{
+		//check phan quyen nge
 		if(Users::auth($id))
 		{
-			$user=Users::find($id);
-			return view('admin/users/edit',['user'=>$user]);
+			$auser=Users::find($id);
+			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
 			return redirect('admin/users?msg=Non-permission');
 		}
 		
+
 	}
 
 	public function update($id)
@@ -248,7 +249,47 @@ class UsersController
 			return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
 		}
 
-
+	public function checkUsername()
+	{
+		$username=$_GET['username'];
+		$user=Users::findByUsername($username);
+		if($user==null){
+			echo 1;
+		}else{
+			echo 0;
+		}
 	}
+	//function check a added email existence.
+	public function checkAddEmail()
+	{
+		$email=$_GET['email'];
+		$user=Users::findByEmail($email);
+		if($user==null){
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
+
+
+	//function check a edited email existence.
+	public function checkEditEmail()
+	{
+		$id=$_GET['id'];	
+		$email=$_GET['email'];
+		$currentEmail=Users::find($id)[0]->email;
+		if($email==$currentEmail){
+			echo 1;	
+		}else{
+			$usedEmail=Users::findByEmail($email);
+			if($usedEmail==null){
+				echo 1;
+			}else{
+				echo 0;
+			}
+		}
+	}
+}
+
 
 	?>

@@ -54,6 +54,7 @@ class Users
 		return App::get('database')->query_fetch_params($query,$params);
 	}
 
+
 	public static function count()
 	{
 		$query='select count(*) as total_record from users';
@@ -63,6 +64,17 @@ class Users
 	{
 		$query='select * from users where id=?';
 		return App::get('database')->query_fetch_params($query,array('id'=>$id));
+	}
+
+	public static function findByUsername($username)
+	{
+		$query="select username from users where username='{$username}'";
+		return App::get('database')->query_fetch($query);
+	}
+	public static function findByEmail($email)
+	{
+		$query="select email from users where email='{$email}'";
+		return App::get('database')->query_fetch($query);
 	}
 
 	public static function insert($new_User){
@@ -135,11 +147,13 @@ class Users
 	}
 
 
+
 	public static function checkLogin($username,$pass) {
 		$query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username=? AND password =md5(?)";
 
 		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
 	}
+
 	public static function search($search_User)
 	{
 		$username=$search_User['username'];
