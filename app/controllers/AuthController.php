@@ -105,6 +105,8 @@ class AuthController
                     die();
                 }
 
+
+
                 //chua nhan code
                 if ( Session::getSession('rand') ==null ) {
 
@@ -119,6 +121,10 @@ class AuthController
 
                     } else {
                         //Thong tin nguoi get Pass
+                          if ( $newPass == '' || $passwordAgain == '') {
+                                return redirect('admin/newpass?msg=0');
+                                die();
+                          }
                         $currentUser = Session::getSession('forgetPass');
 
                        $id = $currentUser[0]->id;
