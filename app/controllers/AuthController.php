@@ -49,7 +49,13 @@ class AuthController
                             setcookie('"'.$userName.'"',"$password", time() + 300); 
                                       
                         }
-                    }             
+                    }  else {
+                         if (isset($_COOKIE['"'.$userName.'"'])) {   
+
+                            setcookie('"'.$userName.'"',"$password", time() -3300); 
+                                      
+                        }
+                    }           
                    Session::createSession('user',$user);
                    return redirect('admin/users');
                 }
