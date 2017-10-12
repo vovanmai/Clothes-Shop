@@ -4,8 +4,12 @@ use core\App;
 use core\Session;
 use app\models\Users;
 use core\Pagination;
+
 class UsersController
 {
+    function __construct() {
+        checkExist();
+    }
 	public function index()
 	{
 		$link_full='/admin/users?p={page}';

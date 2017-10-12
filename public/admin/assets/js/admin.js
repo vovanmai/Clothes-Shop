@@ -342,7 +342,6 @@ $(document).ready(function() {
             },
             success: function(result) {
                 $.each(result, function() {
-
                     var html = ' ';
                     html += result.password;
                     if (html != ' ') {
@@ -357,4 +356,4 @@ $(document).ready(function() {
             }
         });
     });
- })       
+})       

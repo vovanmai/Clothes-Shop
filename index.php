@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 require "core/Autoload.php";
+require "core/checkExist.php";
 new core\Autoload;
 
 require 'core/bootstrap.php';
