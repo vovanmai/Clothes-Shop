@@ -19,7 +19,13 @@ class UsersController
 	}
 	public function add()
 	{
-		return view('admin/users/add');
+		if($_SESSION['user'][0]->level==1)
+		{
+			return view('admin/users/add');
+		} else {
+			return redirect('admin/users?msg=Non-permission');
+		}
+		
 	}
 
 	public function store()
@@ -167,68 +173,81 @@ class UsersController
 
 	public function changeActive()
 	{
-		$id=$_GET['id'];
-		$user=Users::find($id);
-		if($user[0]->active==1){
-			if(Users::updateActive(0,$id)){
-				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
+		if($user[0]->level==1)
+		{
+			$id=$_GET['id'];
+			$user=Users::find($id);
+			if($user[0]->active==1){
+				if(Users::updateActive(0,$id)){
+					echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
+				}
+			}else{
+				if(Users::updateActive(1,$id)){
+					echo '<img src="/public/admin/assets/images/active.gif" alt="">';
+				}
 			}
-		}else{
-			if(Users::updateActive(1,$id)){
-				echo '<img src="/public/admin/assets/images/active.gif" alt="">';
+		} else {
+			return redirect('admin/users?msg=Non-permission');
+		}
+		
+	}
+
+	public function destroy()
+	{	
+		if($_SESSION['user'][0]->level==1)
+		{
+			$id=$_GET['id'];
+			if(Users::delete($id)){
+				return redirect('admin/users?msg=Deleted Successfully!');
+			} else {
+				return redirect('admin/users?msg=Non-permission');
+
 			}
 		}
 	}
 
-	public function destroy()
-	{	$id=$_GET['id'];
-	if(Users::delete($id)){
-		return redirect('admin/users?msg=Deleted Successfully!');
-	}
-}
-
-public function pagination($count,$link_full)
-{
-	$config = array(
-		    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
-		    'total_record'  => $count, // Tổng số record
-		 	//  'limit'         => 10,// limit
-		    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
-		    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
-		    'range'         => 9, // Số button trang bạn muốn hiển thị 
-		    );
-	$paging = new Pagination();
-	$paging->init($config);
-	$paginghtml = $paging->html();
-	return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
-} 
+		public function pagination($count,$link_full)
+		{
+			$config = array(
+			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+			    'total_record'  => $count, // Tổng số record
+			 	//  'limit'         => 10,// limit
+			    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
+			    'range'         => 9, // Số button trang bạn muốn hiển thị 
+			    );
+			$paging = new Pagination();
+			$paging->init($config);
+			$paginghtml = $paging->html();
+			return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+		} 
 
 
-public function search()
-{
-	$username=$_REQUEST['username'];
-	$fullname=$_REQUEST['fullname'];
-	$active=$_REQUEST['active'];
-	$level=$_REQUEST['level'];
-	$search_User = array(
-		'username' =>$username, 
-		'fullname' =>$fullname, 
-		'active' =>$active, 
-		'level' =>$level
-		);
-	$params=http_build_query($search_User);
+		public function search()
+		{
+			$username=$_REQUEST['username'];
+			$fullname=$_REQUEST['fullname'];
+			$active=$_REQUEST['active'];
+			$level=$_REQUEST['level'];
+			$search_User = array(
+				'username' =>$username, 
+				'fullname' =>$fullname, 
+				'active' =>$active, 
+				'level' =>$level
+				);
+			$params=http_build_query($search_User);
 
-	$ArrUsers=Users::search($search_User);
+			$ArrUsers=Users::search($search_User);
 
-	$link_full='/admin/users/search?p={page}&'.$params;
-	$count=count($ArrUsers);
-	$pagination = $this->pagination($count,$link_full);
-	$paginghtml = $pagination['paginghtml'];
-	$limit = $pagination['config']['limit'];
-	$current_page = $pagination['config']['current_page'];
-	$users=Users::allSearch($current_page,$limit,$search_User);	
-	return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
-}
+			$link_full='/admin/users/search?p={page}&'.$params;
+			$count=count($ArrUsers);
+			$pagination = $this->pagination($count,$link_full);
+			$paginghtml = $pagination['paginghtml'];
+			$limit = $pagination['config']['limit'];
+			$current_page = $pagination['config']['current_page'];
+			$users=Users::allSearch($current_page,$limit,$search_User);	
+			return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
+		}
 
 	public function checkUsername()
 	{
@@ -252,6 +271,7 @@ public function search()
 		}
 	}
 
+
 	//function check a edited email existence.
 	public function checkEditEmail()
 	{
@@ -271,4 +291,5 @@ public function search()
 	}
 }
 
-?>
+
+	?>
