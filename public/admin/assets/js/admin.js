@@ -331,7 +331,7 @@ $(document).ready(function() {
     }); 
     //remember me
 
-    $("#txtName").keyup(function() {
+    $("#txtName").blur(function() {
         var userName = ($('#txtName').val()).trim();
         $.ajax({
             url: '/admin/remember',
