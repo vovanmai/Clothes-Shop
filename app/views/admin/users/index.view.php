@@ -207,9 +207,9 @@ require dirname(__DIR__).'/require/header.view.php';
 
             <tbody>
               <?php 
-              if(!empty($allusers))
+              if(!empty($users))
               { 
-                foreach($allusers as $item){
+                foreach($users as $item){
                   $id=$item->id;
                   $username=$item->username;
                   $fullname=$item->fullname;

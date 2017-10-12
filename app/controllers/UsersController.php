@@ -18,8 +18,8 @@ class UsersController
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$allusers=Users::all($current_page,$limit);	
-		return view('admin/users/index',['allusers'=>$allusers, 'paginghtml'=>$paginghtml]);
+		$users=Users::all($current_page,$limit);	
+		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
 	{
