@@ -12,8 +12,8 @@ class UsersController
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$users=Users::all($current_page,$limit);	
-		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
+		$allusers=Users::all($current_page,$limit);	
+		return view('admin/users/index',['allusers'=>$allusers, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
 	{
@@ -64,8 +64,8 @@ class UsersController
 
 	public function edit($id)
 	{	
-		$user=Users::find($id);
-		return view('admin/users/edit',['user'=>$user]);
+		$auser=Users::find($id);
+		return view('admin/users/edit',['auser'=>$auser]);
 	}
 
 	public function update($id)
@@ -226,14 +226,32 @@ class UsersController
 		}
 	}
 
-	public function checkEmail()
+	public function checkAddEmail()
 	{
+		
 		$email=$_GET['email'];
 		$user=Users::findByEmail($email);
 		if($user==null){
 			echo 1;
 		}else{
 			echo 0;
+		}
+	}
+
+	public function checkEditEmail()
+	{
+		$id=$_GET['id'];	
+		$email=$_GET['email'];
+		$currentEmail=Users::find($id)[0]->email;
+		if($email==$currentEmail){
+			echo 1;	
+		}else{
+			$usedEmail=Users::findByEmail($email);
+			if($usedEmail==null){
+				echo 1;
+			}else{
+				echo 0;
+			}
 		}
 	}
 
