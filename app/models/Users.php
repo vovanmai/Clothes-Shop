@@ -116,7 +116,7 @@ class Users
 
 	public static function update($edited_User,$id)
 	{
-		$username=$edited_User['username'];
+		
 		$password=$edited_User['password'];
 		$fullname=$edited_User['fullname'];
 		$email=$edited_User['email'];
@@ -125,9 +125,9 @@ class Users
 		$level=$edited_User['level'];
 		$avatar=$edited_User['avatar'];
 
-		$query="UPDATE users SET username= ?, password= ?, fullname= ?, email= ?, phone= ?, address= ?, level= ?, avatar= ?	WHERE id= ?";
+		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, level= ?, avatar= ?	WHERE id= ?";
 		$params=array(
-			'username'=>$username,
+		
 			'password'=>$password,
 			'fullname'=>$fullname,
 			'email'=>$email,
