@@ -1,14 +1,16 @@
 <?php 
 namespace app\controllers;
-use app\Core\App;
-use app\Core\Session;
+use core\App;
+use core\Session;
 use app\models\Users;
 use core\Pagination;
 class UsersController
 {
 	public function index()
 	{
-		$pagination = $this->pagination();
+		$link_full='/admin/users?p={page}';
+		$count=Users::count();
+		$pagination = $this->pagination($count[0]->total_record,$link_full);
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
@@ -55,7 +57,7 @@ class UsersController
 				if($uploadAction){
 					$new_User['avatar']=$new_file_name;
 					if(Users::insert($new_User)){
-					return redirect('admin/users?msg=Added Successfully !');
+						return redirect('admin/users?msg=Added Successfully !');
 					}
 				}
 			}
@@ -63,9 +65,17 @@ class UsersController
 	}
 
 	public function edit($id)
-	{	
-		$auser=Users::find($id);
-		return view('admin/users/edit',['auser'=>$auser]);
+	{
+		//check phan quyen nge
+		if(Users::auth($id))
+		{
+			$auser=Users::find($id);
+			return view('admin/users/edit',['auser'=>$auser]);
+		} else {
+			return redirect('admin/users?msg=Non-permission');
+		}
+		
+
 	}
 
 	public function update($id)
@@ -150,8 +160,8 @@ class UsersController
 				}
 			}
 			if(Users::update($edited_User,$id)){
-					return redirect('admin/users?msg=Edited Successfully!');
-				}
+				return redirect('admin/users?msg=Edited Successfully!');
+			}
 		}
 	}
 
@@ -172,48 +182,53 @@ class UsersController
 
 	public function destroy()
 	{	$id=$_GET['id'];
-		if(Users::delete($id)){
-			return redirect('admin/users?msg=Deleted Successfully!');
-		}
+	if(Users::delete($id)){
+		return redirect('admin/users?msg=Deleted Successfully!');
 	}
+}
 
-	public function pagination()
-	{
-		$count= Users::count();
-		$config = array(
+public function pagination($count,$link_full)
+{
+	$config = array(
 		    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
-		    'total_record'  => $count[0]->total_record, // Tổng số record
+		    'total_record'  => $count, // Tổng số record
 		 	//  'limit'         => 10,// limit
-		    'link_full'     => '/admin/users?p={page}',// Link full có dạng như sau: domain/com/page/{page}
-		    'link_first'    => '/admin/users?p=1',// Link trang đầu tiên
+		    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+		    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
 		    'range'         => 9, // Số button trang bạn muốn hiển thị 
+		    );
+	$paging = new Pagination();
+	$paging->init($config);
+	$paginghtml = $paging->html();
+	return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+} 
+
+
+public function search()
+{
+	$username=$_REQUEST['username'];
+	$fullname=$_REQUEST['fullname'];
+	$active=$_REQUEST['active'];
+	$level=$_REQUEST['level'];
+	$search_User = array(
+		'username' =>$username, 
+		'fullname' =>$fullname, 
+		'active' =>$active, 
+		'level' =>$level
 		);
-		$paging = new Pagination();
- 		$paging->init($config);
- 		$paginghtml = $paging->html();
- 		return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
-	} 
+	$params=http_build_query($search_User);
 
+	$ArrUsers=Users::search($search_User);
 
-	public function search()
-	{
-		if(isset($_POST['search']))
-		{
-			$username=$_POST['username'];
-			$fullname=$_POST['fullname'];
-			$active=$_POST['active'];
-			$level=$_POST['level'];
-			$search_User = array(
-				'username' =>$username, 
-				'fullname' =>$fullname, 
-				'active' =>$active, 
-				'level' =>$level
-				);
-
-			$users=Users::search($search_User);
-			return view('admin/users/index',['users'=>$users,'search_User'=>$search_User]);
-		}
-	}
+	$link_full='/admin/users/search?p={page}&'.$params;
+	$count=count($ArrUsers);
+	$pagination = $this->pagination($count,$link_full);
+	$paginghtml = $pagination['paginghtml'];
+	$limit = $pagination['config']['limit'];
+	$current_page = $pagination['config']['current_page'];
+	$users=Users::allSearch($current_page,$limit,$search_User);	
+	return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
+}
 
 	public function checkUsername()
 	{
@@ -254,7 +269,6 @@ class UsersController
 			}
 		}
 	}
-	
 }
 
 ?>
