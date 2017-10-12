@@ -18,6 +18,12 @@ $router->get('admin/login','AuthController@getLogin');
 $router->post('admin/login','AuthController@postLogin');
 $router->post('admin/remember','AuthController@ajaxRemember');
 $router->get('admin/logout','AuthController@getLogout');
+$router->get('admin/mail','AuthController@getMail');
+$router->get('admin/check','AuthController@getCheck');
+$router->post('admin/check','AuthController@postCheck');
+$router->post('admin/mail','AuthController@postMail');
+$router->get('admin/newPass','AuthController@getNewPass');
+$router->post('admin/newPass','AuthController@postNewPass');
 
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');

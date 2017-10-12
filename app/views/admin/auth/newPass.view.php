@@ -34,19 +34,20 @@
                             <h4 class="red" id="id-company-text">
                             <?php
                                 if (isset($_GET['msg'])) {
-                                    if ($_GET['msg']==1) {
-                                        echo 'Vui lòng điền thông tin đầy đủ !' ;
+                                    
+
+                                    if ($_GET['msg']==0) {
+                                        echo 'Vui lòng điền pass đầy đủ  !' ;
                                     }
 
+                                     if ($_GET['msg']==1) {
+                                        echo 'Vui lòng nhận mã trong Email  !' ;
+                                    }
                                      if ($_GET['msg']==2) {
-                                        echo 'Thông tin tài khoản không đúng  !' ;
+                                        echo 'Mật khẩu không trùng nhau  !' ;
                                     }
 
-                                    if ($_GET['msg']==3) {
-                                        echo 'Vui lòng điền Email đầy đủ  !' ;
-                                    }
-
-                                     if ($_GET['msg']==4) {
+                                     if ($_GET['msg']==1) {
                                         echo 'Thông tin email không đúng  !' ;
                                     }
                                 }
@@ -61,42 +62,33 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <h4 class="header blue lighter bigger">
-                                            <i class="ace-icon fa fa-coffee green"></i> Please Enter Your Information
+                                            <i class="ace-icon fa fa-coffee green"></i> Please Enter New Password
                                         </h4>
 
                                         <div class="space-6"></div>
 
-                                        <form method="POST" action="/admin/login">
+                                        <form method="POST" action="/admin/newpass">
                                             <fieldset>
                                                 <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="text" class="form-control" placeholder="Username" name="txtName" id='txtName' required />
-                                                            <i class="ace-icon fa fa-user"></i>
+                                                            <input type="password" class="form-control" placeholder="Enter New Password" id='newpass' name = 'newpass' required />
+                                                           
                                                         </span>
                                                     </label>
 
-                                                <label class="block clearfix">
+                                                     <label class="block clearfix">
                                                         <span class="block input-icon input-icon-right">
-                                                            <input type="password" class="form-control" placeholder="Password" name="password" id='password'  required/>
-                                                            <i class="ace-icon fa fa-lock"></i>
+                                                            <input type="password" class="form-control" placeholder="Enter Again Password" id='passwordAgain' name = 'passwordAgain' required />
+                                                            
                                                         </span>
                                                     </label>
-
-                                                <div class="space"></div>
 
                                                 <div class="clearfix">
-                                                    <label class="inline">
-                                                            <input type="checkbox" class="ace" name="cbRemember" value="1" />
-                                                            <span class="lbl"> Remember Me</span>
-                                                        </label>
-
-                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-                                                            <i class="ace-icon fa fa-key"></i>
-                                                            <span class="bigger-110">Login</span>
+                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger" name='smGetPass' id='smGetPass'>
+                                                            <i class="ace-icon fa fa-lightbulb-o"></i>
+                                                            <span class="bigger-110">Send !</span>
                                                         </button>
                                                 </div>
-
-                                                <div class="space-4"></div>
                                             </fieldset>
                                         </form>
 
@@ -106,9 +98,9 @@
 
                                     <div class="toolbar clearfix">
                                         <div>
-                                            <a href="#" data-target="#forgot-box" class="forgot-password-link">
+                                            <a href="/admin/login"  class="forgot-password-link">
                                                     <i class="ace-icon fa fa-arrow-left"></i>
-                                                    I forgot my password
+                                                    Back to Login
                                                 </a>
                                         </div>
 
@@ -119,45 +111,7 @@
                             </div>
                             <!-- /.login-box -->
 
-                            <div id="forgot-box" class="forgot-box widget-box no-border">
-                                <div class="widget-body">
-                                    <div class="widget-main">
-                                        <h4 class="header red lighter bigger">
-                                            <i class="ace-icon fa fa-key"></i> Retrieve Password
-                                        </h4>
-
-                                        <div class="space-6"></div>
-                                        <p>
-                                            Enter your email and to receive instructions
-                                        </p>
-
-                                        <form method="POST" action="/admin/mail">
-                                            <fieldset>
-                                                <label class="block clearfix">
-                                                        <span class="block input-icon input-icon-right">
-                                                            <input type="email" class="form-control" placeholder="Email" id='email' name = 'email' required />
-                                                            <i class="ace-icon fa fa-envelope"></i>
-                                                        </span>
-                                                    </label>
-
-                                                <div class="clearfix">
-                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger" name='smGetPass' id='smGetPass'>
-                                                            <i class="ace-icon fa fa-lightbulb-o"></i>
-                                                            <span class="bigger-110">Send Me!</span>
-                                                        </button>
-                                                </div>
-                                            </fieldset>
-                                        </form>
-                                    </div>
-                                    <!-- /.widget-main -->
-
-                                    <div class="toolbar center">
-                                        <a href="#" data-target="#login-box" class="back-to-login-link">
-                                                Back to login
-                                                <i class="ace-icon fa fa-arrow-right"></i>
-                                            </a>
-                                    </div>
-                                </div>
+                           
                                 <!-- /.widget-body -->
                             </div>
                             <!-- /.forgot-box -->
