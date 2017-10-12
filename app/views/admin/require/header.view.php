@@ -7,6 +7,7 @@ if (isset($_SESSION['user'])) {
 	return redirect('admin/login');
 	die();
 }
+require dirname(__DIR__).'/../core/checkExist.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

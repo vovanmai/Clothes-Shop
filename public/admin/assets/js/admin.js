@@ -1,5 +1,5 @@
 $(document).ready(function() {
-            //change active users
+    //change active users
     $(".edit_active").click(function() {
         var id = $(this).attr('id');
         var idstring = "#" + id;
@@ -28,7 +28,6 @@ $(document).ready(function() {
             },
             success: function(result) {
                 $.each(result, function() {
-
                     var html = ' ';
                     html += result.password;
                     if (html != ' ') {
@@ -43,4 +42,4 @@ $(document).ready(function() {
             }
         });
     });
- })       
+})       
