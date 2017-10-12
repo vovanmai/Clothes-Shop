@@ -23,6 +23,10 @@ $(document).ready(function() {
     checkEmail=false;
     checkPhone=false;
     checkAddress=false;
+
+    //confirm password
+    checkNewPass=false;
+    checkConfirmPass=false;
     //A checkAdd function will check all valid fields of the added form.
     function checkAdd(){
         if(checkUsername&&checkPassword&&checkFullname&&checkEmail&&checkPhone&&checkAddress){
@@ -356,4 +360,32 @@ $(document).ready(function() {
             }
         });
     });
+
+    //check confirm pass
+    function checkConfirm(){
+        if(checkNewPass&&checkConfirmPass){
+            $("#smGetPass").removeAttr("disabled");
+             checkNewPass = false;
+            checkConfirmPass = false ;
+
+        }else{
+            $("#smGetPass").attr('disabled', true);
+        }
+
+    }
+
+     $("#smGetPass").mouseover(function() {
+
+        newPass = ($('#newpass').val()).trim();
+        confirmPass = ($('#passwordAgain').val()).trim();
+
+        if ( newPass != confirmPass) {
+            checkConfirm();
+        } else {
+            checkNewPass = true;
+            checkConfirmPass = true ;
+
+            checkConfirm();
+        }
+    }); 
 })       
