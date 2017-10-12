@@ -225,10 +225,9 @@ class UsersController
 			echo 0;
 		}
 	}
-
+	//function check a added email existence.
 	public function checkAddEmail()
 	{
-		
 		$email=$_GET['email'];
 		$user=Users::findByEmail($email);
 		if($user==null){
@@ -238,6 +237,7 @@ class UsersController
 		}
 	}
 
+	//function check a edited email existence.
 	public function checkEditEmail()
 	{
 		$id=$_GET['id'];	
@@ -254,7 +254,6 @@ class UsersController
 			}
 		}
 	}
-
 	
 }
 
