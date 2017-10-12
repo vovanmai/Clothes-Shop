@@ -93,7 +93,6 @@ class UsersController
 		$user=Users::find($id)[0];
 		
 		if(isset($_POST['submit'])){
-			$username=$_POST['username'];
 			$password=$_POST['password'];
 			$fullname=$_POST['fullname'];
 			$email=$_POST['email'];
@@ -124,8 +123,7 @@ class UsersController
 					$new_file_name='avatar-'.$username.'-'.time().'.'.$file_end;
 					$pathUpload=$_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$new_file_name;
 					$uploadAction=move_uploaded_file($tmp_name, $pathUpload);
-					$edited_User=array(
-						'username' => $username, 
+					$edited_User=array( 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -137,8 +135,7 @@ class UsersController
 				}	
 			}else{
 				if($avatar==''){
-					$edited_User=array(
-						'username' => $username, 
+					$edited_User=array( 
 						'password' => md5($password), 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -158,7 +155,6 @@ class UsersController
 					$pathUpload=$_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$new_file_name;
 					$uploadAction=move_uploaded_file($tmp_name, $pathUpload);
 					$edited_User=array(
-						'username' => $username, 
 						'password' => md5($password), 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -177,7 +173,7 @@ class UsersController
 
 	public function changeActive()
 	{
-		if($user[0]->level==1)
+		if($_SESSION['user'][0]->level==1)
 		{
 			$id=$_GET['id'];
 			$user=Users::find($id);
