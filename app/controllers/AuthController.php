@@ -219,9 +219,9 @@ class AuthController
                         $mail->Password = "phamdinhhung03072311";
                         $mail->Port = "465";
                         $mail->isHTML(true);
-                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Mailer');
+                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
                         $mail->addAddress($email, 'Shop'); 
-                        $mail->Subject = '<b> Get Password </b>';
+                        $mail->Subject = 'Get Password';
                         $mail->Body    = 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
 
                         $mail->send();
