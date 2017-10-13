@@ -196,9 +196,11 @@ require dirname(__DIR__).'/require/header.view.php';
                 <th class="text-center">
                   Level
                 </th>
+                <?php if($_SESSION['user'][0]->level==1){?>
                 <th class="text-center">
                   Active
                 </th>
+                <?php } ?>
                 <th class="text-center">
                   Action
                 </th>
@@ -251,8 +253,9 @@ require dirname(__DIR__).'/require/header.view.php';
                       }
                       ?>
                     </td>
+                    <?php if($_SESSION['user'][0]->level==1){?>
                     <td class="text-center">
-                      <a href="javascript:void(0)" <?php if($_SESSION['user'][0]->level!=1){echo "hidden";}?> class="edit_active" id="<?php echo $id; ?>">
+                      <a href="javascript:void(0)"  class="edit_active" id="<?php echo $id; ?>">
                         <img src="/public/admin/assets/images/<?php 
                         if($active==1){
                           echo "active.gif";
@@ -262,6 +265,7 @@ require dirname(__DIR__).'/require/header.view.php';
                         ?>" alt="">
                       </a>
                     </td>
+                    <?php } ?>
                     <td class="text-center">
                       <div class="hidden-sm hidden-xs btn-group">
                               <!-- <button class="btn btn-xs btn-success">

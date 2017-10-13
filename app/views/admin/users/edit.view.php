@@ -141,14 +141,14 @@
                                 <div id="address_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label style="font-weight:bold;">Level:</label>
                                 <div>
                                     <select name="level" class="selectpicker">
                                         <option value="2" >Employee</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Old Avatar:</label>
                                 <div>

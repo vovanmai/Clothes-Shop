@@ -122,10 +122,9 @@ class Users
 		$email=$edited_User['email'];
 		$phone=$edited_User['phone'];
 		$address=$edited_User['address'];
-		$level=$edited_User['level'];
 		$avatar=$edited_User['avatar'];
 
-		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, level= ?, avatar= ?	WHERE id= ?";
+		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, avatar= ?	WHERE id= ?";
 		$params=array(
 		
 			'password'=>$password,
@@ -133,7 +132,6 @@ class Users
 			'email'=>$email,
 			'phone'=>$phone,
 			'address'=>$address,
-			'level'=>$level,
 			'avatar'=>$avatar,
 			'id'=>$id
 			);						   	
