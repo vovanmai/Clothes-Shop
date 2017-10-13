@@ -25,18 +25,19 @@ class AuthController
 
   }
 
+
   public function postLogin()
   {
     $userName = trim($_POST['txtName']);
     $password = trim($_POST['password']);
 
+
     if ($userName == '' || $password == '') {
-      return redirect('admin/login?msg=1');
+      return redirect('admin/login?msg=0');
     } else {
       $user = Users::checkLogin($userName,$password);
       if ($user == null) {
-
-        return redirect('admin/login?msg=2');
+        return redirect('admin/login?msg=1');
         die();
       } else {
 
@@ -104,14 +105,13 @@ class AuthController
                 
                 $newPass = trim($_POST['newpass']);
                  $passwordAgain = trim($_POST['passwordAgain']);
-                
 
-                if ( $newPass == '' || $passwordAgain == '') {
-                    return redirect('admin/newpass?msg=0');
-                    die();
-                }
-
-
+                 //bieu thuc chinh quy
+                $pattern = ' /^[a-zA-Z0-7@_]{6,}$/';
+                if (!preg_match($pattern, $newPass,$match) || !preg_match($pattern, $passwordAgain,$match)){
+                     return redirect('admin/newpass?msg=0');
+                     die();
+                } 
 
                 //chua nhan code
                 if ( Session::getSession('rand') ==null ) {
@@ -127,10 +127,6 @@ class AuthController
 
                     } else {
                         //Thong tin nguoi get Pass
-                          if ( $newPass == '' || $passwordAgain == '') {
-                                return redirect('admin/newpass?msg=0');
-                                die();
-                          }
                         $currentUser = Session::getSession('forgetPass');
 
                        $id = $currentUser[0]->id;
