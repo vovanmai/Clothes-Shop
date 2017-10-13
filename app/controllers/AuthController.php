@@ -32,35 +32,27 @@ class AuthController
 
     if ($userName == '' || $password == '') {
       return redirect('admin/login?msg=1');
-    } else {
+    }else{
       $user = Users::checkLogin($userName,$password);
       if ($user == null) {
-
         return redirect('admin/login?msg=2');
-        die();
-      } else {
-
+      }else{
         if (isset($_POST['cbRemember'])) {
-              
           if (!isset($_COOKIE['"'.$userName.'"'])) {   
-
-                            setcookie('"'.$userName.'"',"$password", time() + 300); 
-                                      
-                        }
-                    }  else {
-                         if (isset($_COOKIE['"'.$userName.'"'])) {   
-
-                            setcookie('"'.$userName.'"',"$password", time() -3300); 
-                                      
-                        }
-                    }           
-                   Session::createSession('user',$user);
-                   return redirect('admin/users');
-                }
-         }
-
+            setcookie('"'.$userName.'"',"$password", time() + 300);                            
+          }
+        }else{
+          if (isset($_COOKIE['"'.$userName.'"'])) {   
+            setcookie('"'.$userName.'"',"$password", time() -3300);                         
+          }
+        }           
+        Session::createSession('user',$user);
+        return redirect('admin/users');
+      }
     }
+
   }
+  
 
     public function ajaxRemember()
     {
