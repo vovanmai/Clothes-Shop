@@ -193,10 +193,10 @@ class UsersController
 			$id=$_GET['id'];
 			if(Users::delete($id)){
 				return redirect('admin/users?msg=Deleted Successfully!');
-			} else {
-				return redirect('admin/users?msg=Non-permission');
+			} 
+		} else {
+			return redirect('admin/users?msg=Non-permission');
 
-			}
 		}
 	}
 
@@ -219,28 +219,35 @@ class UsersController
 
 		public function search()
 		{
-			$username=$_REQUEST['username'];
-			$fullname=$_REQUEST['fullname'];
-			$active=$_REQUEST['active'];
-			$level=$_REQUEST['level'];
-			$search_User = array(
-				'username' =>$username, 
-				'fullname' =>$fullname, 
-				'active' =>$active, 
-				'level' =>$level
-				);
-			$params=http_build_query($search_User);
+			if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
+			{
+				$username=$_REQUEST['username'];
+				$fullname=$_REQUEST['fullname'];
+				$active=$_REQUEST['active'];
+				$level=$_REQUEST['level'];
+				$search_User = array(
+					'username' =>$username, 
+					'fullname' =>$fullname, 
+					'active' =>$active, 
+					'level' =>$level
+					);
+				$params=http_build_query($search_User);
 
-			$ArrUsers=Users::search($search_User);
+				$ArrUsers=Users::search($search_User);
 
-			$link_full='/admin/users/search?p={page}&'.$params;
-			$count=count($ArrUsers);
-			$pagination = $this->pagination($count,$link_full);
-			$paginghtml = $pagination['paginghtml'];
-			$limit = $pagination['config']['limit'];
-			$current_page = $pagination['config']['current_page'];
-			$users=Users::allSearch($current_page,$limit,$search_User);	
-			return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
+				$link_full='/admin/users/search?p={page}&'.$params;
+				$count=count($ArrUsers);
+				$pagination = $this->pagination($count,$link_full);
+				$paginghtml = $pagination['paginghtml'];
+				$limit = $pagination['config']['limit'];
+				$current_page = $pagination['config']['current_page'];
+				$users=Users::allSearch($current_page,$limit,$search_User);	
+				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
+			} else {
+				return redirect('admin/users');
+
+			}
+				
 		}
 
 	public function checkUsername()
