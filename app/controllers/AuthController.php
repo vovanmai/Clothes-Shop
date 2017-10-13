@@ -44,13 +44,21 @@ class AuthController
               
           if (!isset($_COOKIE['"'.$userName.'"'])) {   
 
-            setcookie('"'.$userName.'"',"$password", time() + 300); 
-                            
-            }
-        }             
-        Session::createSession('user',$user);
-        return redirect('admin/users');
-      }
+                            setcookie('"'.$userName.'"',"$password", time() + 300); 
+                                      
+                        }
+                    }  else {
+                         if (isset($_COOKIE['"'.$userName.'"'])) {   
+
+                            setcookie('"'.$userName.'"',"$password", time() -3300); 
+                                      
+                        }
+                    }           
+                   Session::createSession('user',$user);
+                   return redirect('admin/users');
+                }
+         }
+
     }
   }
 
@@ -103,6 +111,8 @@ class AuthController
                     die();
                 }
 
+
+
                 //chua nhan code
                 if ( Session::getSession('rand') ==null ) {
 
@@ -117,6 +127,10 @@ class AuthController
 
                     } else {
                         //Thong tin nguoi get Pass
+                          if ( $newPass == '' || $passwordAgain == '') {
+                                return redirect('admin/newpass?msg=0');
+                                die();
+                          }
                         $currentUser = Session::getSession('forgetPass');
 
                        $id = $currentUser[0]->id;
