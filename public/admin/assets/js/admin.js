@@ -229,7 +229,7 @@ $(document).ready(function() {
             }
         }else{
             $('#password_warning_msg').html('');
-            checkEditPassword=true;
+            checkEditPassword=false;
             checkEdit(); 
         }
 

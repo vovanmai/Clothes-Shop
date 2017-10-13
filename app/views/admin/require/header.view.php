@@ -72,7 +72,7 @@ if (isset($_SESSION['user'])) {
 
 					<li class="light-blue dropdown-modal">
 						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-							<img class="nav-user-photo" src="/public/admin/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+							<img class="nav-user-photo" src="/public/upload/avatar/<?php if($user[0]->avatar==''){echo "default.png";}else{echo $user[0]->avatar;}  ?>" alt="Jason's Photo" />
 							<span class="user-info">
 								<small>Welcome,</small>
 								<?php

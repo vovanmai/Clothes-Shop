@@ -134,14 +134,6 @@
 							   			</div>
 							    	</div>
 									<div class="form-group">
-										<label style="font-weight:bold;">Level:</label>
-										<div>
-									    	<select name="level" class="selectpicker">
-											  	<option value="2">Employee</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
 							      		<label style="font-weight:bold;" for="pwd">Avatar:</label>
 							      		<input type="file" name="avatar">
 							    	</div>
