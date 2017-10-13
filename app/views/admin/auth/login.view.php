@@ -33,23 +33,21 @@
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
+
                                 if (isset($_GET['msg'])) {
-                                    if ($_GET['msg']==1) {
-                                        echo 'Vui lòng điền thông tin đầy đủ !' ;
-                                    }
+                                
+                                    switch ($_GET['msg']) {
 
-                                     if ($_GET['msg']==2) {
-                                        echo 'Thông tin tài khoản không đúng  !' ;
-                                    }
-
-                                    if ($_GET['msg']==3) {
-                                        echo 'Vui lòng điền Email đầy đủ  !' ;
-                                    }
-
-                                     if ($_GET['msg']==4) {
-                                        echo 'Thông tin email không đúng  !' ;
-                                    }
+                                        case 0:
+                                            echo "Please do not empty" ;
+                                            break;
+                        
+                                         case 1:
+                                            echo "Account do not valid" ;
+                                            break;                                                                              
+                                    }                                 
                                 }
+
                             ?>
                             </h4>
                         </div>

@@ -33,20 +33,21 @@
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
-                                if (isset($_GET['msg'])) {
-                                    
+                            
+                                  if (isset($_GET['msg'])) {
+                                
+                                    switch ($_GET['msg']) {
 
-                                    if ($_GET['msg']==0) {
-                                        echo 'Vui lòng điền code đầy đủ  !' ;
-                                    }
-
-                                     if ($_GET['msg']==1) {
-                                        echo 'Vui lòng nhận mã ở email của bạn   !' ;
-                                    }
-
-                                    if ($_GET['msg']==2) {
-                                        echo 'Thông tin code không đúng  !' ;
-                                    }
+                                        case 0:
+                                            echo "Code do not empty" ;
+                                            break;
+                                        case 1:
+                                            echo "Please receive the code in Email" ;
+                                            break;
+                                         case 2:
+                                            echo "Code do not match" ;
+                                            break;                                                                              
+                                    }                                 
                                 }
                             ?>
                             </h4>
