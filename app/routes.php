@@ -1,5 +1,8 @@
 <?php 
 
+$router->get('admin/user','UserController@index');
+
+
 $router->get('admin/users','UsersController@index');
 $router->get('admin/users/add','UsersController@add');
 $router->post('admin/users/add','UsersController@store');
@@ -27,5 +30,9 @@ $router->post('admin/newPass','AuthController@postNewPass');
 
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
+
+
+
+
 
 ?>

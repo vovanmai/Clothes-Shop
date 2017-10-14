@@ -4,21 +4,21 @@ require dirname(__DIR__).'/require/header.view.php';
 ?>
 
 <div class="main-container ace-save-state" id="main-container">
-  <script type="text/javascript">
-    try{ace.settings.loadState('main-container')}catch(e){}
-  </script>
-  <?php 
-  require dirname(__DIR__).'/require/leftbar.view.php';
-  ?>
-  <div class="main-content">
-    <div class="main-content-inner">
-      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-          <li>
-            <i class="ace-icon fa fa-home home-icon"></i>
-            <a href="">Home</a>
-          </li>
-          <li class="active">Dashboard</li>
+    <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+    </script>
+    <?php 
+    require dirname(__DIR__).'/require/leftbar.view.php';
+    ?>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="">Home</a>
+                    </li>
+                <li class="active">Dashboard</li>
         </ul><!-- /.breadcrumb -->
 
       </div>

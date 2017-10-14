@@ -12,10 +12,10 @@ class AuthController
     public function getLogin()
     {
         if ( Session::getSession('user') !=null) {
-            return redirect('admin/users');
-            die();
+        return redirect('admin/users');
+        die();
         }
-        return view('admin/auth/login');
+    return view('admin/auth/login');
     }
 
     public function getLogout()
@@ -30,8 +30,6 @@ class AuthController
   {
     $userName = trim($_POST['txtName']);
     $password = trim($_POST['password']);
-
-
     if ($userName == '' || $password == '') {
       return redirect('admin/login?msg=0');
     } else {
@@ -39,25 +37,23 @@ class AuthController
       if ($user == null) {
         return redirect('admin/login?msg=1');
       } else {
-                    if (isset($_POST['cbRemember'])) {
-
-                        if (!isset($_COOKIE['"'.$userName.'"'])) {   
-
-                            setcookie('"'.$userName.'"',"$password", time() + 300); 
-                                      
-                        }
-                    }  else {
-                         if (isset($_COOKIE['"'.$userName.'"'])) {   
-
-                            setcookie('"'.$userName.'"',"$password", time() -3300); 
-                                      
-                        }
-                    }           
-                   Session::createSession('user',$user);
-                   return redirect('admin/users');
-                }
-        }
+        if (isset($_POST['cbRemember'])) {
+          if (!isset($_COOKIE['"'.$userName.'"'])) {   
+            setcookie('"'.$userName.'"',"$password", time() + 300);                            
+          }
+        }else{
+          if (isset($_COOKIE['"'.$userName.'"'])) {   
+            setcookie('"'.$userName.'"',"$password", time() -3300);                         
+          }
+        }           
+        Session::createSession('user',$user);
+        return redirect('admin/users');
+      }
     }
+
+  }
+  
+
     public function ajaxRemember()
     {
         $user = isset($_POST['aName']) ? $_POST['aName'] : ' ' ;
