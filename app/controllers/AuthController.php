@@ -9,14 +9,14 @@ use core\PHPMailer\SMTP;
 require dirname(__DIR__).'/../core/PHPMailer/PHPMailerAutoload.php';
 class AuthController
 {
-  public function getLogin()
-  {
-    if ( Session::getSession('user') !=null) {
-      return redirect('admin/users');
-      die();
-    }
+    public function getLogin()
+    {
+        if ( Session::getSession('user') !=null) {
+        return redirect('admin/users');
+        die();
+        }
     return view('admin/auth/login');
-  }
+    }
 
   public function getLogout()
   {
@@ -25,18 +25,19 @@ class AuthController
 
   }
 
+
   public function postLogin()
   {
     $userName = trim($_POST['txtName']);
     $password = trim($_POST['password']);
-
     if ($userName == '' || $password == '') {
-      return redirect('admin/login?msg=1');
-    }else{
+      return redirect('admin/login?msg=0');
+    } else {
       $user = Users::checkLogin($userName,$password);
       if ($user == null) {
-        return redirect('admin/login?msg=2');
-      }else{
+        return redirect('admin/login?msg=1');
+        die();
+      } else {
         if (isset($_POST['cbRemember'])) {
           if (!isset($_COOKIE['"'.$userName.'"'])) {   
             setcookie('"'.$userName.'"',"$password", time() + 300);                            
@@ -96,14 +97,13 @@ class AuthController
                 
                 $newPass = trim($_POST['newpass']);
                  $passwordAgain = trim($_POST['passwordAgain']);
-                
 
-                if ( $newPass == '' || $passwordAgain == '') {
-                    return redirect('admin/newpass?msg=0');
-                    die();
-                }
-
-
+                 //bieu thuc chinh quy
+                $pattern = ' /^[a-zA-Z0-7@_]{6,}$/';
+                if (!preg_match($pattern, $newPass,$match) || !preg_match($pattern, $passwordAgain,$match)){
+                     return redirect('admin/newpass?msg=0');
+                     die();
+                } 
 
                 //chua nhan code
                 if ( Session::getSession('rand') ==null ) {
@@ -119,10 +119,6 @@ class AuthController
 
                     } else {
                         //Thong tin nguoi get Pass
-                          if ( $newPass == '' || $passwordAgain == '') {
-                                return redirect('admin/newpass?msg=0');
-                                die();
-                          }
                         $currentUser = Session::getSession('forgetPass');
 
                        $id = $currentUser[0]->id;
