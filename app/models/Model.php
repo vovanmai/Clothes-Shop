@@ -47,6 +47,7 @@ class Model
 		}
 		$finished_string=trim($string,",");	
 		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
+
 		return App::get('database')->query_excute($query);
 	}
 

@@ -32,6 +32,26 @@ class QueryBuilder
 		return $statement->execute();	
 	}
 
+	public function query_fetch_params($query,$params)
+	{
+		$statement=$this->pdo->prepare($query);
+		$i=0;
+		foreach ($params as $key => $value) {
+			$i++;
+			if(is_int($value))
+			{
+				
+				$statement->bindValue($i,$value,PDO::PARAM_INT);
+			} else {
+				$statement->bindValue($i,$value,PDO::PARAM_STR);
+			}
+
+		}
+		$statement->execute();
+		
+		return $statement->fetchAll(PDO::FETCH_CLASS);
+	}
+
 
 	public function query_fetch($query)
 	{
