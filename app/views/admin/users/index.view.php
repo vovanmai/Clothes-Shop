@@ -99,12 +99,13 @@ require dirname(__DIR__).'/require/header.view.php';
                   </br>
                 </br>
                 <?php 
-                if(isset($_GET['msg'])){
+                if(isset($_SESSION['msg'])){
                   ?>
                   <div class="alert alert-success" role="alert">
                     <strong>
                       <?php
-                      echo $_GET['msg'];
+                      echo $_SESSION['msg'];
+                      unset($_SESSION['msg']);
                       ?>
                     </strong> 
                   </div>

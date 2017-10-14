@@ -15,16 +15,16 @@ class Session
 
 		if(isset($_SESSION[$msgKey])){
 			return $_SESSION[$msgKey];
-		} else
-		{
+		} else {
 			return null;
 		}
 	}
 
 	public static function unsetSession($msgKey)
 	{
-		
-		unset($_SESSION[$msgKey]);
+		if(isset($_SESSION[$msgKey])){
+			unset($_SESSION[$msgKey]);
+		} 
 	}
 }
 ?>

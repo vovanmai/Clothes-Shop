@@ -27,7 +27,8 @@ class UsersController
 		{
 			return view('admin/users/add');
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 	}
@@ -54,7 +55,8 @@ class UsersController
 			if($avatar==''){
 				$new_User['avatar']='';
 				if(Users::insert($new_User)){
-					return redirect('admin/users?msg=Added Successfully!');
+					Session::createSession('msg','Added Successfully!');
+					return redirect('admin/users');
 				}
 			}else{
 				$tmp_name=$_FILES['avatar']['tmp_name'];
@@ -66,7 +68,8 @@ class UsersController
 				if($uploadAction){
 					$new_User['avatar']=$new_file_name;
 					if(Users::insert($new_User)){
-						return redirect('admin/users?msg=Added Successfully !');
+						Session::createSession('msg','Added Successfully!');
+						return redirect('admin/users');
 					}
 				}
 			}
@@ -81,7 +84,8 @@ class UsersController
 			$auser=Users::find($id);
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 
@@ -160,7 +164,8 @@ class UsersController
 				}
 			}
 			if(Users::update($edited_User,$id)){
-				return redirect('admin/users?msg=Edited Successfully!');
+				Session::createSession('msg','Edited Successfully!');
+				return redirect('admin/users');
 			}
 		}
 	}
@@ -181,7 +186,8 @@ class UsersController
 				}
 			}
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 	}
@@ -192,10 +198,12 @@ class UsersController
 		{
 			$id=$_GET['id'];
 			if(Users::delete($id)){
-				return redirect('admin/users?msg=Deleted Successfully!');
+				Session::createSession('msg','Deleted Successfully!');
+				return redirect('admin/users');
 			} 
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 
 		}
 	}

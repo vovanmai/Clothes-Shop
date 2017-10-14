@@ -9,40 +9,42 @@ use core\PHPMailer\SMTP;
 require dirname(__DIR__).'/../core/PHPMailer/PHPMailerAutoload.php';
 class AuthController
 {
-  public function getLogin()
-  {
-    if ( Session::getSession('user') !=null) {
-      return redirect('admin/users');
-      die();
+    public function getLogin()
+    {
+        if ( Session::getSession('user') !=null) {
+            return redirect('admin/users');
+            die();
+        }
+        return view('admin/auth/login');
     }
-    return view('admin/auth/login');
-  }
 
-  public function getLogout()
-  {
-    Session::unsetSession('user');
-    return redirect('admin/login');
+    public function getLogout()
+    {
+        Session::unsetSession('user');
+        return redirect('admin/login');
 
-  }
+    }
 
-  public function postLogin()
-  {
-    $userName = trim($_POST['txtName']);
-    $password = trim($_POST['password']);
+    public function postLogin()
+    {
+        $userName = trim($_POST['txtName']);
+        $password = trim($_POST['password']);
 
-    if ($userName == '' || $password == '') {
-      return redirect('admin/login?msg=1');
-    } else {
-      $user = Users::checkLogin($userName,$password);
-      if ($user == null) {
+        if ($userName == '' || $password == '') {
+            return redirect('admin/login?msg=1');
+            die();
+        } else {
+                $user = Users::checkLogin($userName,$password);
 
-        return redirect('admin/login?msg=2');
-        die();
-      } else {
+                if ($user == null) {
 
-        if (isset($_POST['cbRemember'])) {
-              
-          if (!isset($_COOKIE['"'.$userName.'"'])) {   
+                     return redirect('admin/login?msg=2');
+                    die();
+                } else {
+
+                    if (isset($_POST['cbRemember'])) {
+
+                        if (!isset($_COOKIE['"'.$userName.'"'])) {   
 
                             setcookie('"'.$userName.'"',"$password", time() + 300); 
                                       
@@ -58,9 +60,7 @@ class AuthController
                    return redirect('admin/users');
                 }
          }
-
     }
-  }
 
     public function ajaxRemember()
     {
@@ -123,7 +123,7 @@ class AuthController
                     if ( $newPass !=  $passwordAgain ) {
 
                         return redirect('admin/newpass?msg=2');
-                        die();
+                         die();
 
                     } else {
                         //Thong tin nguoi get Pass
@@ -219,9 +219,9 @@ class AuthController
                         $mail->Password = "phamdinhhung03072311";
                         $mail->Port = "465";
                         $mail->isHTML(true);
-                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
+                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Mailer');
                         $mail->addAddress($email, 'Shop'); 
-                        $mail->Subject = 'Get Password';
+                        $mail->Subject = '<b> Get Password </b>';
                         $mail->Body    = 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
 
                         $mail->send();
