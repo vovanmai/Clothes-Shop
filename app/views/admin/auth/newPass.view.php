@@ -34,22 +34,24 @@
                             <h4 class="red" id="id-company-text">
                             <?php
                                 if (isset($_GET['msg'])) {
-                                    
+                                
+                                    switch ($_GET['msg']) {
 
-                                    if ($_GET['msg']==0) {
-                                        echo 'Vui lòng điền pass đầy đủ  !' ;
+                                        case 0:
+                                            echo "Password do not valid" ;
+                                            break;
+                                        case 1:
+                                            echo "Please receive the code in Email" ;
+                                            break;
+                                         case 2:
+                                            echo "Please receive the code in Email" ;
+                                            break;
+                                         case 3:
+                                            echo "Password do not match" ;
+                                            break;
+                                        
                                     }
-
-                                     if ($_GET['msg']==1) {
-                                        echo 'Vui lòng nhận mã trong Email  !' ;
-                                    }
-                                     if ($_GET['msg']==2) {
-                                        echo 'Mật khẩu không trùng nhau  !' ;
-                                    }
-
-                                     if ($_GET['msg']==1) {
-                                        echo 'Thông tin email không đúng  !' ;
-                                    }
+                                  
                                 }
                             ?>
                             </h4>
