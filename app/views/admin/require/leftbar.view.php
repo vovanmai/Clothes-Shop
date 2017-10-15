@@ -62,6 +62,20 @@
 
 						<b class="arrow"></b>
 					</li>
+					<li class="">
+						<a href="/admin/colors">
+							<i class="menu-icon fa fa-user"></i>
+							<span class="menu-text" style="font-weight: bold;"> Colors</span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="/admin/sizes">
+							<i class="menu-icon fa fa-user"></i>
+							<span class="menu-text" style="font-weight: bold;"> Sizes</span>
+						</a>
+						<b class="arrow"></b>
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

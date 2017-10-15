@@ -9,15 +9,15 @@ use core\database\Connection;
 
 class Model
 {
-    
-
-	public static function all($tbl)
+	protected $tbl;
+	
+	public static function all()
 	{
         $query="SELECT * FROM $tbl";
         return App::get('database')->query_fetch($query);
 	}
 
-	public static function find($tbl,$id)
+	public static function find($id)
 	{
         $query="SELECT * FROM $tbl WHERE id=$id";
         return App::get('database')->query_fetch($query);
@@ -35,26 +35,21 @@ class Model
 
     }
 
-	public static function update($tbl,$id,$parameters)
+	public static function update($id,$parameters)
 	{
 		$string="";
-		foreach ($parameters as $key => $value) {
-			if(is_int($value)){
-				$string=$string.$key.'='.$value.' ,';
-			}else{
-				$string=$string.$key.'="'.$value.'" ,';
-			}
-		}
-		$finished_string=trim($string,",");	
-		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
-
-		return App::get('database')->query_excute($query);
+		$query=sprintf(
+            'UPDATE %s SET %s = ?  WHERE id = ',
+           	$tbl,
+            implode(' = ?,',array_keys($parameters))
+            ). $id;
+		return App::get('database')->query_excute_params($query, $parameters);
 	}
 
-	public static function delete($tbl,$id)
+	public static function delete($id)
     {
         $query="DELETE FROM $tbl WHERE id=$id";
-        return App::get('database')->query_excute($query);
+		return App::get('database')->query_excute($query);
     }
 
 }

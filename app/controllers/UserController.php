@@ -12,7 +12,7 @@ class UserController
 	
 	public function index(){
 		$parameters=array(
-    		'username'=>'votranquocviet'
+    		'username'=>'tuongvy1902'
     		);
 		$ex=User::update("users",1029,$parameters);
 		if($ex){

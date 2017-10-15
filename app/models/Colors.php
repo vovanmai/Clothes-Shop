@@ -7,8 +7,10 @@ use core\Session;
 use core\database\QueryBuilder;
 use core\database\Connection;
 
-class User extends Model
+class Colors extends Model
 {
-    
+    function __CONSTRUCT() {
+        
+    }   
 }
 ?>
