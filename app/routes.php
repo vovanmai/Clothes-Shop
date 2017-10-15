@@ -1,7 +1,7 @@
 <?php 
-
 $router->get('admin/user','UserController@index');
 
+// ==============USERS==============
 
 $router->get('admin/users','UsersController@index');
 $router->get('admin/users/add','UsersController@add');
@@ -17,6 +17,14 @@ $router->get('admin/users/active','UsersController@changeActive');
 $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/search','UsersController@search');
 
+
+// ====================PRODUCTS==================
+$router->get('admin/products','AdminProductsController@index');
+
+
+
+
+//======================REGISTER==============
 $router->get('admin/login','AuthController@getLogin');
 $router->post('admin/login','AuthController@postLogin');
 $router->post('admin/remember','AuthController@ajaxRemember');
