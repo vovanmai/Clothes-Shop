@@ -11,19 +11,19 @@ class Pagination
         'start'         => 0, // start
         'link_full'     => '',// Link full có dạng như sau: domain/com/page/{page}
         'link_first'    => '',// Link trang đầu tiên
-        'range'         => 6, // Số button trang bạn muốn hiển thị 
+        'range'         => 9, // Số button trang bạn muốn hiển thị 
         'min'           => 0, // Tham số min
         'max'           => 0  // tham số max, min và max là 2 tham số private
         );
     
     
-    function init($config = array())
+    function init($current_page, $limit, $link_full, $total_record)
     {
-        foreach ($config as $key => $val){
-            if (isset($this->_config[$key])){
-                $this->_config[$key] = $val;
-            }
-        }
+        $this->_config['current_page'] = $current_page;
+        $this->_config['limit'] = $limit;
+        $this->_config['link_full'] = $link_full;
+        $this->_config['total_record'] = $total_record;
+        $this->_config['link_first'] = str_replace('{page}', '1', $link_full);
         
         
         if ($this->_config['limit'] < 0){

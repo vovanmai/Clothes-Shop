@@ -63,17 +63,11 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
-						<a href="/admin/colors">
+						<a href="/admin/users">
 							<i class="menu-icon fa fa-user"></i>
-							<span class="menu-text" style="font-weight: bold;"> Colors</span>
+							<span class="menu-text" style="font-weight: bold;"> Orders</span>
 						</a>
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="/admin/sizes">
-							<i class="menu-icon fa fa-user"></i>
-							<span class="menu-text" style="font-weight: bold;"> Sizes</span>
-						</a>
+
 						<b class="arrow"></b>
 					</li>
 				</ul><!-- /.nav-list -->

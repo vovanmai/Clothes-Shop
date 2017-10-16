@@ -12,14 +12,14 @@ class UsersController
     }
 	public function index()
 	{
-		$link_full ='/admin/users?p={page}';
-		$limit = 10;
+		$link_full='/admin/users?p={page}';
 		$count=Users::count();
-		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-		$paging = new Pagination();
-		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
-		$users=Users::allPagination($current_page,$limit);	
-		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html()]);
+		$pagination = $this->pagination($count[0]->total_record,$link_full);
+		$paginghtml = $pagination['paginghtml'];
+		$limit = $pagination['config']['limit'];
+		$current_page = $pagination['config']['current_page'];
+		$users=Users::all($current_page,$limit);	
+		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
 	{
@@ -27,8 +27,7 @@ class UsersController
 		{
 			return view('admin/users/add');
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 	}
@@ -55,8 +54,7 @@ class UsersController
 			if($avatar==''){
 				$new_User['avatar']='';
 				if(Users::insert($new_User)){
-					Session::createSession('msg','Added Successfully!');
-					return redirect('admin/users');
+					return redirect('admin/users?msg=Added Successfully!');
 				}
 			}else{
 				$tmp_name=$_FILES['avatar']['tmp_name'];
@@ -68,8 +66,7 @@ class UsersController
 				if($uploadAction){
 					$new_User['avatar']=$new_file_name;
 					if(Users::insert($new_User)){
-						Session::createSession('msg','Added Successfully!');
-						return redirect('admin/users');
+						return redirect('admin/users?msg=Added Successfully !');
 					}
 				}
 			}
@@ -84,8 +81,7 @@ class UsersController
 			$auser=Users::find($id);
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 
@@ -106,6 +102,7 @@ class UsersController
 			if($password==''){
 				if($avatar==''){
 					$edited_User=array(
+						'username' => $username, 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -163,8 +160,7 @@ class UsersController
 				}
 			}
 			if(Users::update($edited_User,$id)){
-				Session::createSession('msg','Edited Successfully!');
-				return redirect('admin/users');
+				return redirect('admin/users?msg=Edited Successfully!');
 			}
 		}
 	}
@@ -185,8 +181,7 @@ class UsersController
 				}
 			}
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 	}
@@ -197,15 +192,30 @@ class UsersController
 		{
 			$id=$_GET['id'];
 			if(Users::delete($id)){
-				Session::createSession('msg','Deleted Successfully!');
-				return redirect('admin/users');
+				return redirect('admin/users?msg=Deleted Successfully!');
 			} 
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 
 		}
 	}
+
+		public function pagination($count,$link_full)
+		{
+			$config = array(
+			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+			    'total_record'  => $count, // Tổng số record
+			 	//  'limit'         => 10,// limit
+			    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
+			    'range'         => 9, // Số button trang bạn muốn hiển thị 
+			    );
+			$paging = new Pagination();
+			$paging->init($config);
+			$paginghtml = $paging->html();
+			return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+		} 
+
 
 		public function search()
 		{
@@ -226,13 +236,13 @@ class UsersController
 				$ArrUsers=Users::search($search_User);
 
 				$link_full='/admin/users/search?p={page}&'.$params;
-				$paging = new Pagination();
-				$limit = 10;
-				$count = count($ArrUsers);
-				$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-				$paging->init($current_page, $limit, $link_full, $count);
+				$count=count($ArrUsers);
+				$pagination = $this->pagination($count,$link_full);
+				$paginghtml = $pagination['paginghtml'];
+				$limit = $pagination['config']['limit'];
+				$current_page = $pagination['config']['current_page'];
 				$users=Users::allSearch($current_page,$limit,$search_User);	
-				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html(),'search_User'=>$search_User]);
+				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
 			} else {
 				return redirect('admin/users');
 
