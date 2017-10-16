@@ -19,7 +19,8 @@ $router->get('admin/users/search','UsersController@search');
 
 
 // ====================PRODUCTS==================
-$router->get('admin/products','AdminProductsController@index');
+$router->get('admin/product_info','AdminProductInfoController@index');
+$router->get('admin/product_info/add','AdminProductInfoController@add');
 
 
 
