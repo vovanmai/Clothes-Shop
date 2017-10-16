@@ -14,7 +14,7 @@ class Model
 
 	public static function all()
 	{
-		$query="SELECT * FROM $tbl";
+		$query="SELECT * FROM ".static::$table;
 		return App::get('database')->query_fetch($query);
 	}
 
