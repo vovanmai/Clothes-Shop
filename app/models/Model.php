@@ -9,53 +9,63 @@ use core\database\Connection;
 
 class Model
 {
-    
 
-	public static function all($tbl)
+	public static $table;
+
+	public static function all()
 	{
-        $query="SELECT * FROM $tbl";
-        return App::get('database')->query_fetch($query);
+		$query="SELECT * FROM ".static::$table;
+		return App::get('database')->query_fetch($query);
 	}
 
-	public static function find($tbl,$id)
+	public static function allPagination($current_page, $limit)
 	{
-        $query="SELECT * FROM $tbl WHERE id=$id";
-        return App::get('database')->query_fetch($query);
+		$start = ($current_page - 1) * $limit;
+		$query='select * from '.static::$table.' limit ?, ?';
+		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 
-	public static function insert($tbl,$parameters)
-    {	
-        $query=sprintf(
-            'insert into %s(%s) value(%s)',
-           	$tbl,
-            implode(',',array_keys($parameters)),
-            implode(', ',array_fill(0,count($parameters),'?'))
-            );
-        return App::get('database')->query_excute_params($query,$parameters);
+	public static function count()
+	{
+		$query='select count(*) as total_record from '.static::$table;
+		return App::get('database')->query_fetch($query);
+	}
 
-    }
+	public static function find($id)
+	{
+		$query="SELECT * FROM ".static::$table." WHERE id=?";
+		return App::get('database')->query_fetch_params($query,array('id'=>$id));
+	}
 
-	public static function update($tbl,$id,$parameters)
+	public static function insert($parameters)
+	{	
+		$query=sprintf(
+			'insert into %s(%s) value(%s)',
+			$tbl,
+			implode(',',array_keys($parameters)),
+			implode(', ',array_fill(0,count($parameters),'?'))
+			);
+		return App::get('database')->query_excute_params($query,$parameters);
+
+	}
+
+	public static function update($parameters,$id)
 	{
 		$string="";
 		foreach ($parameters as $key => $value) {
-			if(is_int($value)){
-				$string=$string.$key.'='.$value.' ,';
-			}else{
-				$string=$string.$key.'="'.$value.'" ,';
-			}
+			$string=$string.$key.'=?,';
 		}
 		$finished_string=trim($string,",");	
-		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
-
-		return App::get('database')->query_excute($query);
+		$parameters['id']=$id;
+		$query="UPDATE ".static::$table." SET $finished_string WHERE id=?";
+		return App::get('database')->query_excute_params($query,$parameters);
 	}
 
-	public static function delete($tbl,$id)
-    {
-        $query="DELETE FROM $tbl WHERE id=$id";
-        return App::get('database')->query_excute($query);
-    }
+	public static function delete($id)
+	{
+		$query="DELETE FROM ".static::$table." WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('id'=>$id));
+	}
 
 }
 ?>

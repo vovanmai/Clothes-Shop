@@ -18,7 +18,7 @@ class UsersController
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$users=Users::allPagination($current_page,$limit);	
+		$users=Users::all($current_page,$limit);	
 		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
@@ -27,8 +27,7 @@ class UsersController
 		{
 			return view('admin/users/add');
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 	}
@@ -55,8 +54,7 @@ class UsersController
 			if($avatar==''){
 				$new_User['avatar']='';
 				if(Users::insert($new_User)){
-					Session::createSession('msg','Added Successfully!');
-					return redirect('admin/users');
+					return redirect('admin/users?msg=Added Successfully!');
 				}
 			}else{
 				$tmp_name=$_FILES['avatar']['tmp_name'];
@@ -68,8 +66,7 @@ class UsersController
 				if($uploadAction){
 					$new_User['avatar']=$new_file_name;
 					if(Users::insert($new_User)){
-						Session::createSession('msg','Added Successfully!');
-						return redirect('admin/users');
+						return redirect('admin/users?msg=Added Successfully !');
 					}
 				}
 			}
@@ -84,8 +81,7 @@ class UsersController
 			$auser=Users::find($id);
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 
@@ -106,6 +102,7 @@ class UsersController
 			if($password==''){
 				if($avatar==''){
 					$edited_User=array(
+						'username' => $username, 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -163,8 +160,7 @@ class UsersController
 				}
 			}
 			if(Users::update($edited_User,$id)){
-				Session::createSession('msg','Edited Successfully!');
-				return redirect('admin/users');
+				return redirect('admin/users?msg=Edited Successfully!');
 			}
 		}
 	}
@@ -185,8 +181,7 @@ class UsersController
 				}
 			}
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 		}
 		
 	}
@@ -197,12 +192,10 @@ class UsersController
 		{
 			$id=$_GET['id'];
 			if(Users::delete($id)){
-				Session::createSession('msg','Deleted Successfully!');
-				return redirect('admin/users');
+				return redirect('admin/users?msg=Deleted Successfully!');
 			} 
 		} else {
-			Session::createSession('msg','Non-permission');
-			return redirect('admin/users');
+			return redirect('admin/users?msg=Non-permission');
 
 		}
 	}
