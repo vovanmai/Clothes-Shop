@@ -16,7 +16,21 @@ class Pagination
         'max'           => 0  // tham số max, min và max là 2 tham số private
         );
     
-    
+    public static function pagination($count,$link_full)
+    {
+        $config = array(
+            'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+            'total_record'  => $count, // Tổng số record
+            //  'limit'         => 10,// limit
+            'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+            'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
+            'range'         => 9, // Số button trang bạn muốn hiển thị 
+            );
+        $paging = new Pagination();
+        $paging->init($config);
+        $paginghtml = $paging->html();
+        return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+    }
     function init($config = array())
     {
         foreach ($config as $key => $val){

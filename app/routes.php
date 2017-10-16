@@ -18,7 +18,7 @@ $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/search','UsersController@search');
 
 
-// ====================PRODUCTS==================
+// ====================PRODUCTS_INFO==================
 $router->get('admin/product_info','AdminProductInfoController@index');
 $router->get('admin/product_info/add','AdminProductInfoController@add');
 $router->post('admin/product_info/add','AdminProductInfoController@store');
@@ -28,6 +28,12 @@ $router->post('admin/product_info/edit','AdminProductInfoController@update');
 $router->get('admin/product_info/active','AdminProductInfoController@changeProductInfoActive');
 
 
+// ====================PRODUCTS==================
+$router->get('admin/products','AdminProductsController@index');
+$router->get('admin/products/delete','AdminProductsController@destroy');
+$router->get('admin/products/add','AdminProductsController@add');
+$router->post('admin/products/add','AdminProductsController@store');
+$router->get('admin/products/edit','AdminProductsController@edit');
 
 
 //======================REGISTER==============

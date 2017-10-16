@@ -82,64 +82,56 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Add Products Info
+                        Users
                     </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <!-- PAGE CONTENT BEGINS -->
-                        <form  action="/admin/product_info/add" method="post" enctype="multipart/form-data">
+                        <form  action="/admin/products/edit" method="post" enctype="multipart/form-data">
+                            <input type="hidden" value="<?php echo $product[0]->id; ?>" name="id">
                             <div class="form-group">
-                                <label style="font-weight:bold;">Name: </label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
-                                <div id="name_warning_msg" style="margin-top: 10px;">           
-                                </div>  
-                            </div>
-
-                            <div class="form-group">
-                                <label for="form-field-select-3" style="font-weight:bold;">Category :</label>
+                                <label for="form-field-select-3" style="font-weight:bold;">Product Info :</label>
                                 <br />
                                 <select class="chosen-select form-control" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
-                                    <option value="0">-------Choose Category----------</option>
+                                    <option value="">Choose Product Info</option>
                                     <?php 
-                                        foreach ($cat as $key => $item){
+                                        foreach ($product_info as $key => $item){
                                             $id=$item->id;
                                             $name=$item->name;
+                                            if($product[0]->product_info_id==$id){
+                                                $selected="selected";
+                                            }else{
+                                                $selected="";
+                                            }                                           
                                     ?>
-                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                    <option <?php echo $selected; ?> value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                     <?php } ?>  
                             </select>
                             </div>
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Image:</label>
-                                <input type="file" name="image">
-                            </div>
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Price:</label>
-                                <input type="text" name="price" class="form-control" placeholder="Enter price" name="email">
-                                <div id="price_warning_msg" style="margin-top: 10px;">          
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Description:</label>
-                                <div>
-                                    <textarea name="description" class="description"></textarea>
-                                </div>
-                                <div id="description_warning_msg" style="margin-top: 10px;">           
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="">Detail:</label>
-                                <div>
-                                    <textarea name="detail" class="ckeditor"></textarea>
-                                </div>
-                                <div id="detail_warning_msg" style="margin-top: 10px;">           
-                                </div>
-                            </div>
                             
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Color :</label>
+                                <input type="text" name="color" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <div id="color_warning_msg" style="margin-top: 10px;">           
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Size :</label>
+                                <input type="text" name="size" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <div id="size_warning_msg" style="margin-top: 10px;">           
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Quantity :</label>
+                                <input type="text" name="quantity" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <div id="quantity_warning_msg" style="margin-top: 10px;">           
+                                </div>
+                            </div>            
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  id="add-submit"  class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  id=""  class="btn btn-success">Edit</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

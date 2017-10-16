@@ -18,6 +18,12 @@ class Model
 		return App::get('database')->query_fetch($query);
 	}
 
+	public static function count()
+	{
+		$query="select count(*) as total_record from ".static::$table;
+		return App::get('database')->query_fetch($query);
+	}
+
 	public static function find($id)
 	{
 		$query="SELECT * FROM ".static::$table." WHERE id=?";

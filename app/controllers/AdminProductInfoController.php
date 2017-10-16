@@ -10,22 +10,18 @@ use core\Pagination;
 
 class AdminProductInfoController
 {
+	 
 	public function index()
 	{	
 		$link_full='/admin/product_info?p={page}';
 		$count=Products_info::count();
-		$pagination = $this->pagination($count[0]->total_record,$link_full);
+		$pagination = Pagination::pagination($count[0]->total_record,$link_full);
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
 		$products_info=Products_info::getAllPagination($current_page,$limit);	
-		return view('admin/product_info/index',['products_info'=>$products_info, 'paginghtml'=>$paginghtml]);
-
-
-
-		// $cat=Category::all();
-		// $product_info=Products_info::all();
-		// return view('admin/product_info/index',['product_info'=>$product_info,'cat'=>$cat]);
+		$cats=Category::all();
+		return view('admin/product_info/index',['products_info'=>$products_info,'cats'=>$cats ,'paginghtml'=>$paginghtml]);	
 	}
 	public function add()
 	{

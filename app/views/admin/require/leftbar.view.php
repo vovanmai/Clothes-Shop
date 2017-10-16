@@ -54,6 +54,14 @@
 
 						<b class="arrow"></b>
 					</li>
+					<li class="active">
+						<a href="/admin/products">
+							<i class="menu-icon fa fa-product-hunt"></i>
+							<span class="menu-text" style="font-weight: bold;"> Products</span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 					<li class="">
 						<a href="/admin/users">
 							<i class="menu-icon fa fa-user"></i>
