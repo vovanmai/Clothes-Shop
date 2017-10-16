@@ -8,8 +8,6 @@ use app\models\Category;
 use core\Pagination;
 
 
-
-
 class AdminProductInfoController
 {
 	public function index()
