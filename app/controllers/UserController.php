@@ -12,9 +12,10 @@ class UserController
 	
 	public function index(){
 		$parameters=array(
-    		'username'=>'votranquocviet'
+    		'username'=>'admin',
+    		'level'   =>2
     		);
-		$ex=User::update("users",1029,$parameters);
+		$ex=User::update("users",1004,$parameters);
 		if($ex){
 			echo "updated successfully";
 		}else{

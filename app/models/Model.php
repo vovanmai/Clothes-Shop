@@ -39,16 +39,11 @@ class Model
 	{
 		$string="";
 		foreach ($parameters as $key => $value) {
-			if(is_int($value)){
-				$string=$string.$key.'='.$value.' ,';
-			}else{
-				$string=$string.$key.'="'.$value.'" ,';
-			}
+			$string=$string.$key.' =?,';
 		}
 		$finished_string=trim($string,",");	
 		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
-
-		return App::get('database')->query_excute($query);
+		return App::get('database')->query_excute_params($query,$parameters);
 	}
 
 	public static function delete($tbl,$id)
