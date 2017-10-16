@@ -102,7 +102,6 @@ class UsersController
 			if($password==''){
 				if($avatar==''){
 					$edited_User=array(
-						'username' => $username, 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 

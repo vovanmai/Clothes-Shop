@@ -14,7 +14,7 @@ class Model
 
 	public static function all()
 	{
-		$query="SELECT * FROM $tbl";
+		$query="SELECT * FROM ".static::$table;
 		return App::get('database')->query_fetch($query);
 	}
 
@@ -36,24 +36,15 @@ class Model
 
 	}
 
-	public static function update($id,$parameters)
+	public static function update($parameters,$id)
 	{
 		$string="";
 		foreach ($parameters as $key => $value) {
-<<<<<<< HEAD
-
-				$string=$string.$key.'=?,';
+			$string=$string.$key.'=?,';
 		}
 		$finished_string=trim($string,",");	
 		$parameters['id']=$id;
 		$query="UPDATE ".static::$table." SET $finished_string WHERE id=?";
-
-=======
-			$string=$string.$key.' =?,';
-		}
-		$finished_string=trim($string,",");	
-		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
->>>>>>> 08ec835464f0ce6d3405107b8b868760e151c67a
 		return App::get('database')->query_excute_params($query,$parameters);
 	}
 

@@ -6,11 +6,11 @@ use core\Session;
 use core\database\QueryBuilder;
 use core\database\Connection;;
 
-class Users
+class Users extends Model
 {
 	public static $table="users";
 	
-	public static function all($current_page, $limit)
+	public static function allPagination($current_page, $limit)
 	{
 		$start = ($current_page - 1) * $limit;
 		$query='select * from users limit ?, ?';
@@ -61,11 +61,6 @@ class Users
 		$query='select count(*) as total_record from users';
 		return App::get('database')->query_fetch($query);
 	}
-	public static function find($id)
-	{
-		$query='select * from users where id=?';
-		return App::get('database')->query_fetch_params($query,array('id'=>$id));
-	}
 
 	public static function findByUsername($username)
 	{
@@ -78,66 +73,12 @@ class Users
 		return App::get('database')->query_fetch($query,array('email'=>$email));
 	}
 
-	public static function insert($new_User){
-		$username=$new_User['username'];
-		$password=$new_User['password'];
-		$fullname=$new_User['fullname'];
-		$email=$new_User['email'];
-		$phone=$new_User['phone'];
-		$address=$new_User['address'];
-		$level=$new_User['level'];
-		$avatar=$new_User['avatar'];
-		$query="INSERT INTO users(username,password,fullname,email,phone,address,level,avatar)
-		VALUES(?,?,?,?,?,?,?,?)";
-		$params=array(
-			'username'=>$username,
-			'password'=>$password,
-			'fullname'=>$fullname,
-			'email'=>$email,
-			'phone'=>$phone,
-			'address'=>$address,
-			'level'=>$level,
-			'avatar'=>$avatar
-			);
-		return App::get('database')->query_excute_params($query,$params);
-
-	}
-
-	public static function delete($id)
-	{
-		$query="DELETE FROM users WHERE id=?";
-		return App::get('database')->query_excute_params($query,array('id'=>$id));
-	}
-
 	public function deleteById($id)
 	{
 		$query='delete from users where id=?';
 		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
 
-	public static function update($edited_User,$id)
-	{
-		
-		$password=$edited_User['password'];
-		$fullname=$edited_User['fullname'];
-		$email=$edited_User['email'];
-		$phone=$edited_User['phone'];
-		$address=$edited_User['address'];
-		$avatar=$edited_User['avatar'];
-
-		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, avatar= ?	WHERE id= ?";
-		$params=array(
-			
-			'password'=>$password,
-			'fullname'=>$fullname,
-			'email'=>$email,
-			'phone'=>$phone,
-			'address'=>$address,
-			'avatar'=>$avatar,
-			'id'=>$id
-			);						   	
-		return App::get('database')->query_excute_params($query,$params);						   	
-	}
 
 	public static function updateActive($active,$id)
 	{
