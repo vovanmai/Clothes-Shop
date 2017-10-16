@@ -9,13 +9,6 @@ use core\database\Connection;;
 class Users extends Model
 {
 	public static $table="users";
-	
-	public static function allPagination($current_page, $limit)
-	{
-		$start = ($current_page - 1) * $limit;
-		$query='select * from users limit ?, ?';
-		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
-	}
 
 	public static function allSearch($current_page, $limit,$search_User)
 	{
@@ -55,13 +48,6 @@ class Users extends Model
 		return App::get('database')->query_fetch_params($query,$params);
 	}
 
-
-	public static function count()
-	{
-		$query='select count(*) as total_record from users';
-		return App::get('database')->query_fetch($query);
-	}
-
 	public static function findByUsername($username)
 	{
 		$query="select username from users where username=?";
@@ -72,13 +58,6 @@ class Users extends Model
 		$query="select email from users where email=?";
 		return App::get('database')->query_fetch($query,array('email'=>$email));
 	}
-
-	public function deleteById($id)
-	{
-		$query='delete from users where id=?';
-		return App::get('database')->query_excute_params($query,array('id'=>$id));
-	}
-
 
 	public static function updateActive($active,$id)
 	{

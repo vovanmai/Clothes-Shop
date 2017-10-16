@@ -18,6 +18,19 @@ class Model
 		return App::get('database')->query_fetch($query);
 	}
 
+	public static function allPagination($current_page, $limit)
+	{
+		$start = ($current_page - 1) * $limit;
+		$query='select * from '.static::$table.' limit ?, ?';
+		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
+	}
+
+	public static function count()
+	{
+		$query='select count(*) as total_record from '.static::$table;
+		return App::get('database')->query_fetch($query);
+	}
+
 	public static function find($id)
 	{
 		$query="SELECT * FROM ".static::$table." WHERE id=?";
