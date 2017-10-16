@@ -40,6 +40,7 @@ class Model
 	{
 		$string="";
 		foreach ($parameters as $key => $value) {
+<<<<<<< HEAD
 
 				$string=$string.$key.'=?,';
 		}
@@ -47,6 +48,12 @@ class Model
 		$parameters['id']=$id;
 		$query="UPDATE ".static::$table." SET $finished_string WHERE id=?";
 
+=======
+			$string=$string.$key.' =?,';
+		}
+		$finished_string=trim($string,",");	
+		$query="UPDATE $tbl SET $finished_string WHERE id=$id";
+>>>>>>> 08ec835464f0ce6d3405107b8b868760e151c67a
 		return App::get('database')->query_excute_params($query,$parameters);
 	}
 
