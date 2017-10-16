@@ -45,8 +45,6 @@ class Model
 		$finished_string=trim($string,",");	
 		$parameters['id']=$id;
 		$query="UPDATE ".static::$table." SET $finished_string WHERE id=?";
-
-
 		return App::get('database')->query_excute_params($query,$parameters);
 	}
 
