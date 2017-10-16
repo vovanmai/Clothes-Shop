@@ -55,12 +55,6 @@ require dirname(__DIR__).'/require/header.view.php';
                     </strong> 
                   </div>
                   <?php } ?>
-                  
-                  <div class="row text-center">
-                    <div class="col-xs-12">
-                      <!-- PAGE CONTENT BEGINS -->
-              <!-- PAGE CONTENT ENDS -->
-            </div><!-- /.col -->
           </div>
 
           <table id="simple-table" class="table  table-bordered table-hover">

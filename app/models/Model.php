@@ -11,6 +11,7 @@ class Model
 {
 	protected $tbl;
 	
+	
 	public static function all()
 	{
         $query="SELECT * FROM $tbl";
