@@ -46,10 +46,10 @@
 
 					
 
-					<li class="">
-						<a href="widgets.html">
+					<li class="active">
+						<a href="/admin/product_info">
 							<i class="menu-icon fa fa-product-hunt"></i>
-							<span class="menu-text" style="font-weight: bold;"> Products </span>
+							<span class="menu-text" style="font-weight: bold;"> Product Info</span>
 						</a>
 
 						<b class="arrow"></b>

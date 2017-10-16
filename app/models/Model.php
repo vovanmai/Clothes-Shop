@@ -32,7 +32,6 @@ class Model
             implode(', ',array_fill(0,count($parameters),'?'))
             );
         return App::get('database')->query_excute_params($query,$parameters);
-
     }
 
 	public static function update($tbl,$id,$parameters)
