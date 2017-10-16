@@ -82,7 +82,7 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Users
+                        Products Info
                     </h1>
                 </div><!-- /.page-header -->
 
@@ -91,12 +91,19 @@ require dirname(__DIR__).'/require/header.view.php';
                     <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
                             <div class="col-xs-12">
-                                <a href="/admin/product_info/add" class="btn btn-success fa fa-plus-square fa-lg" title=""> Add Product</a>
-                                <div class="alert alert-success" role="alert" style="margin-top: 10px;">
+                                <a href="/admin/product_info/add" style="margin-bottom: 10px;" class="btn btn-success fa fa-plus-square fa-lg" title=""> Add Product</a>
+                                <?php 
+                                    if(isset($_SESSION['msg'])){
+                                ?>
+                                <div class="alert alert-success" role="alert">
                                     <strong>
-                             
+                                        <?php 
+                                            echo $_SESSION['msg']; 
+                                            unset($_SESSION['msg']);
+                                        ?>        
                                     </strong> 
                                 </div>
+                                <?php } ?>
                                 <table id="simple-table" class="table  table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -164,10 +171,10 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
 
                                             <td class="text-center">
-                                                <?php echo $price; ?>
+                                                <?php echo number_format ($price).' VNĐ'; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="javascript:void(0)"  class="" id="<?php echo $id; ?>">
+                                                <a href="javascript:void(0)"  class="product_info_active" id="<?php echo $id; ?>">
                                                     <img src="/public/admin/assets/images/<?php 
                                                     if($active==1){
                                                     echo "active.gif";
@@ -179,7 +186,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
                                             <td class="text-center">
                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                    <a class="btn btn-xs btn-info" href="/admin/product_info/edit/<?php echo $id; ?>">
+                                                    <a class="btn btn-xs btn-info" href="/admin/product_info/edit?id=<?php echo $id; ?>">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                         

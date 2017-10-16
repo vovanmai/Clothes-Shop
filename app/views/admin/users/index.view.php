@@ -276,7 +276,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                               </a>
                               <?php
-                              if($username!='admin'){
+                              if($level!=3){
                                 ?>
                                 <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete?id=<?php echo $id; ?>">
                                   <i class="ace-icon fa fa-trash-o bigger-120"></i>

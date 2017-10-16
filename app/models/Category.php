@@ -9,6 +9,6 @@ use core\database\Connection;
 
 class Category extends Model
 {
-	
+	public static $table="cat";
 }
 ?>

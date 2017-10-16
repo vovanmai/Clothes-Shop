@@ -8,7 +8,8 @@ use core\database\Connection;;
 
 class Users
 {
-
+	public static $table="users";
+	
 	public static function all($current_page, $limit)
 	{
 		$start = ($current_page - 1) * $limit;
@@ -68,13 +69,13 @@ class Users
 
 	public static function findByUsername($username)
 	{
-		$query="select username from users where username='{$username}'";
-		return App::get('database')->query_fetch($query);
+		$query="select username from users where username=?";
+		return App::get('database')->query_fetch_params($query,array('username'=>$username));
 	}
 	public static function findByEmail($email)
 	{
-		$query="select email from users where email='{$email}'";
-		return App::get('database')->query_fetch($query);
+		$query="select email from users where email=?";
+		return App::get('database')->query_fetch($query,array('email'=>$email));
 	}
 
 	public static function insert($new_User){
@@ -126,7 +127,7 @@ class Users
 
 		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, avatar= ?	WHERE id= ?";
 		$params=array(
-		
+			
 			'password'=>$password,
 			'fullname'=>$fullname,
 			'email'=>$email,
@@ -153,28 +154,28 @@ class Users
 	}
 
 	public static function checkEmail($email) {
-	   $query = "SELECT * FROM users WHERE active =?  AND email=?";
-	   
-	   $data = array(
-	   	1 => (int)1,
-	   	2 =>$email,
-	   	
-	   );
-               return App::get('database')->query_fetch_params($query,$data);
- 	}
+		$query = "SELECT * FROM users WHERE active =?  AND email=?";
+		
+		$data = array(
+			1 => (int)1,
+			2 =>$email,
+			
+			);
+		return App::get('database')->query_fetch_params($query,$data);
+	}
  	//Get password
 
- 	public static function getPass($id,$pass) {
- 	    $query = "UPDATE users SET password =md5(?) WHERE active =?  AND id =?";
+	public static function getPass($id,$pass) {
+		$query = "UPDATE users SET password =md5(?) WHERE active =?  AND id =?";
 
-                    $data = array(
-                        1 => $pass,
-                        2 =>1,
-                        3 =>$id
-                        
-                    );
-                    return App::get('database')->query_excute_params($query,$data);
- 	}
+		$data = array(
+			1 => $pass,
+			2 =>1,
+			3 =>$id
+			
+			);
+		return App::get('database')->query_excute_params($query,$data);
+	}
 
 	public static function search($search_User)
 	{

@@ -56,6 +56,7 @@
 		<script src="/public/admin/assets/js/bootstrap-multiselect.min.js"></script>
 		<script src="/public/admin/assets/js/select2.min.js"></script>
 		<script src="/public/admin/assets/js/jquery-typeahead.js"></script>
+		<script src="/public/admin/assets/js/form.js"></script>
 
 		
 		<script type="text/javascript">

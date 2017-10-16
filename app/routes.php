@@ -21,6 +21,11 @@ $router->get('admin/users/search','UsersController@search');
 // ====================PRODUCTS==================
 $router->get('admin/product_info','AdminProductInfoController@index');
 $router->get('admin/product_info/add','AdminProductInfoController@add');
+$router->post('admin/product_info/add','AdminProductInfoController@store');
+$router->get('admin/product_info/delete','AdminProductInfoController@destroy');
+$router->get('admin/product_info/edit','AdminProductInfoController@edit');
+$router->post('admin/product_info/edit','AdminProductInfoController@update');
+$router->get('admin/product_info/active','AdminProductInfoController@changeProductInfoActive');
 
 
 

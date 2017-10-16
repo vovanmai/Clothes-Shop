@@ -5,7 +5,7 @@ class Session
 {
 	public static function createSession($msgKey,$message)
 	{
-		
+		session_start();
 		$_SESSION[$msgKey]=$message;
 		
 	}

@@ -82,13 +82,13 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Add Product Info
+                        Products Info
                     </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                    <!-- PAGE CONTENT BEGINS -->
+                        <!-- PAGE CONTENT BEGINS -->
                         <form  action="/admin/product_info/add" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label style="font-weight:bold;">Name: </label>
@@ -98,104 +98,53 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
 
                             <div class="form-group">
+                                <label for="form-field-select-3" style="font-weight:bold;">Category :</label>
+                                <br />
+                                <select class="chosen-select form-control" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
+                                    <option value="">Choose Category</option>
+                                    <?php 
+                                        foreach ($cat as $key => $item){
+                                            $id=$item->id;
+                                            $name=$item->name;
+                                    ?>
+                                    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+                                    <?php } ?>  
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Image:</label>
+                                <input type="file" name="image">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Price:</label>
+                                <input type="text" name="price" class="form-control" placeholder="Enter price" name="email">
+                                <div id="price_warning_msg" style="margin-top: 10px;">          
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:bold;" for="pwd">Description:</label>
                                 <div>
-                                    <label for="form-field-select-3" style="font-weight:bold;">Category</label>
-                                    <br />
-                                    <select class="chosen-select form-control" id="form-field-select-3" data-placeholder="Choose a State...">
-                                        <option value="">  </option>
-                                        <option value="AL">Alabama</option>
-                                        <option value="AK">Alaska</option>
-                                        <option value="AZ">Arizona</option>
-                                        <option value="AR">Arkansas</option>
-                                        <option value="CA">California</option>
-                                        <option value="CO">Colorado</option>
-                                        <option value="CT">Connecticut</option>
-                                        <option value="DE">Delaware</option>
-                                        <option value="FL">Florida</option>
-                                        <option value="GA">Georgia</option>
-                                        <option value="HI">Hawaii</option>
-                                        <option value="ID">Idaho</option>
-                                        <option value="IL">Illinois</option>
-                                        <option value="IN">Indiana</option>
-                                        <option value="IA">Iowa</option>
-                                        <option value="KS">Kansas</option>
-                                        <option value="KY">Kentucky</option>
-                                        <option value="LA">Louisiana</option>
-                                        <option value="ME">Maine</option>
-                                        <option value="MD">Maryland</option>
-                                        <option value="MA">Massachusetts</option>
-                                        <option value="MI">Michigan</option>
-                                        <option value="MN">Minnesota</option>
-                                        <option value="MS">Mississippi</option>
-                                        <option value="MO">Missouri</option>
-                                        <option value="MT">Montana</option>
-                                        <option value="NE">Nebraska</option>
-                                        <option value="NV">Nevada</option>
-                                        <option value="NH">New Hampshire</option>
-                                        <option value="NJ">New Jersey</option>
-                                        <option value="NM">New Mexico</option>
-                                        <option value="NY">New York</option>
-                                        <option value="NC">North Carolina</option>
-                                        <option value="ND">North Dakota</option>
-                                        <option value="OH">Ohio</option>
-                                        <option value="OK">Oklahoma</option>
-                                        <option value="OR">Oregon</option>
-                                        <option value="PA">Pennsylvania</option>
-                                        <option value="RI">Rhode Island</option>
-                                        <option value="SC">South Carolina</option>
-                                        <option value="SD">South Dakota</option>
-                                        <option value="TN">Tennessee</option>
-                                        <option value="TX">Texas</option>
-                                        <option value="UT">Utah</option>
-                                        <option value="VT">Vermont</option>
-                                        <option value="VA">Virginia</option>
-                                        <option value="WA">Washington</option>
-                                        <option value="WV">West Virginia</option>
-                                        <option value="WI">Wisconsin</option>
-                                        <option value="WY">Wyoming</option>
-                                    </select>
+                                    <textarea name="description" class="description"></textarea>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Fullname:</label>
-                                <input type="text" id="fullname" class="form-control" placeholder="Enter fullname" name="fullname">
-                                <div id="fullname_warning_msg" style="margin-top: 10px;">           
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Email:</label>
-                                <input type="text" id="email" class="form-control" placeholder="Enter email" name="email">
-                                <div id="email_warning_msg" style="margin-top: 10px;">          
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="font-weight:bold;">Phone:</label>
-                                <input type="text" id="phone" class="form-control" placeholder="Enter phone" name="phone">
-                                <div id="phone_warning_msg" style="margin-top: 10px;">          
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="font-weight:bold;">Address:</label>
-                                <input type="text" id="address" class="form-control" placeholder="Enter address" name="address">
-                                <div id="address_warning_msg" style="margin-top: 10px;">            
+                                <div id="description_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Avatar:</label>
-                                <input type="file" name="avatar">
+                                <label style="font-weight:bold;" for="">Detail:</label>
+                                <div>
+                                    <textarea name="detail" class="ckeditor"></textarea>
+                                </div>
+                                <div id="detail_warning_msg" style="margin-top: 10px;">           
+                                </div>
                             </div>
+                            
                             <div class="form-group text-center">
-                                <button type="submit" name="submit" disabled id="add-submit"  class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  id="add-submit"  class="btn btn-success">Add</button>
                             </div>
                         </form>
-                  <!-- PAGE CONTENT ENDS -->
-                    
-                    </div><!-- /.row -->
-                </div><!-- /.page-content -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
             </div>
         </div><!-- /.main-content -->
     </div>

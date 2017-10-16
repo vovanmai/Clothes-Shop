@@ -62,6 +62,14 @@
 
 						<b class="arrow"></b>
 					</li>
+					<li class="">
+						<a href="/admin/users">
+							<i class="menu-icon fa fa-user"></i>
+							<span class="menu-text" style="font-weight: bold;"> Orders</span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
