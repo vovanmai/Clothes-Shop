@@ -63,7 +63,7 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
-						<a href="/admin/users">
+						<a href="/admin/orders">
 							<i class="menu-icon fa fa-user"></i>
 							<span class="menu-text" style="font-weight: bold;"> Orders</span>
 						</a>

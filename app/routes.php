@@ -32,7 +32,11 @@ $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
 
 
-
+$router->get('admin/orders','OrdersController@index');
+$router->get('admin/orders/delete','OrdersController@destroy');
+$router->post('admin/orders/search','OrdersController@search');
+$router->get('admin/orders/active','UsersController@changeActive');
+$router->get('admin/users/search','UsersController@search');
 
 
 ?>
