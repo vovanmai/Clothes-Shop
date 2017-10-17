@@ -1,5 +1,4 @@
-
-window.addEventListener("DOMContentLoaded", function (event) 
+window.addEventListener("DOMContentLoaded", function(events)
 {
 	let body = document.getElementsByTagName("body")[0];
 
@@ -79,33 +78,4 @@ window.addEventListener("DOMContentLoaded", function (event)
 	{
 		plusImageHot(1);
 	});
-	// slide images head
-	
-	let listImagesHead = document.getElementById("list-images-head");
-	let indImageHead = -1;
-	function handleIndexHead (n)
-	{
-		indImageHead = indImageHead + n;
-		if (indImageHead < 0) {
-			indImageHead = 1;
-		} else{
-			if (indImageHead > 1){
-				indImageHead = 0;
-			}
-		};
-	}
-	function slideHead(n)
-	{
-		handleIndexHead(n);
-
-		listImagesHead.style.transition = 'transform 1s ease';
-		listImagesHead.style.transform = 'translateX(' + indImageHead * (-body.clientWidth) + 'px)';
-	}
-	function controlSlideHead()
-	{
-		slideHead(1);
-		setTimeout(controlSlideHead, 4000);
-	}
-	controlSlideHead();
-	
 });

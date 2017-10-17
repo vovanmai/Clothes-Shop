@@ -7,40 +7,40 @@
 				</div>
 				<div class="cover-brands">
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-adidas.png" alt=""></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-adidas.png" alt=""></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-nike.jpg" alt=""></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-nike.jpg" alt=""></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-convers.png" alt=""></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-convers.png" alt=""></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-finders.jpg" alt=""></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-finders.jpg" alt=""></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-gstar.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-gstar.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-fenty.png" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-fenty.png" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-meo.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-meo.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-runningbare.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-runningbare.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-tigerlily.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-tigerlily.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-bensherman.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-bensherman.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-birkenstock.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-birkenstock.jpg" alt="adidas-brand"></div>
 					</div>
 					<div class="brand-box">
-						<div class="cover-img"><img src="img/brand-gstar.jpg" alt="adidas-brand"></div>
+						<div class="cover-img"><img src="/public/assets/img/brand-gstar.jpg" alt="adidas-brand"></div>
 					</div>
 				</div>
 			</div>

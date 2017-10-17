@@ -1,5 +1,4 @@
-
-window.addEventListener("DOMContentLoaded", function (event) 
+window.addEventListener("DOMContentLoaded", function (events) 
 {
 	let body = document.getElementsByTagName("body")[0];
 
@@ -30,6 +29,50 @@ window.addEventListener("DOMContentLoaded", function (event)
 		};
 		
 	});
+	let quantity = document.getElementById('quantity');
+	let btnSub = quantity.querySelector(".btn-sub");
+	let btnPlus = quantity.querySelector(".btn-plus");
+	let intNum = quantity.querySelector(".input-num");
+	
+	btnSub.addEventListener('click', function(events){
+		let valueNum = parseInt(intNum.value);
+		valueNum = valueNum - 1;
+		if(valueNum < 0){
+			valueNum =0;
+		}
+		intNum.value = valueNum;
+		
+	});
+	btnPlus.addEventListener('click', function(events){
+		let valueNum = parseInt(intNum.value) ;
+		valueNum = valueNum + 1;
+		intNum.value = valueNum; 
+	});
+	// click images
+	let imagesProduct = document.getElementById("images-product");
+	let mainImage = imagesProduct.querySelector(".main-image");
+	let img = mainImage.querySelector('.img-product');
+	let ulImages = imagesProduct.querySelector("#list-images");
+	let listImg = ulImages.querySelectorAll(".small-image");
+	let listSrcImg = [];
+	for (var i = 0; i < listImg.length; i++) {
+		listSrcImg[i] = listImg[i].src;
+		
+	}
+	
+	listImg[0].addEventListener("click", function()
+	{
+		img.src = listImg[0].src;
+	});
+	listImg[1].addEventListener("click", function()
+	{
+		img.src = listImg[1].src;
+	});
+	listImg[2].addEventListener("click", function()
+	{
+		img.src = listImg[2].src;
+	});
+
 	// slide hot products
 	let listImagesHot = document.getElementById("list-hot-products");
 	let prev = document.getElementById("btn-prev");
@@ -79,33 +122,45 @@ window.addEventListener("DOMContentLoaded", function (event)
 	{
 		plusImageHot(1);
 	});
-	// slide images head
-	
-	let listImagesHead = document.getElementById("list-images-head");
-	let indImageHead = -1;
-	function handleIndexHead (n)
+	// pick color 
+	let listColors = document.getElementById("list-color");
+	let listRadio = listColors.querySelectorAll(".radio-color");
+	console.log(listRadio);
+	listRadio[0].addEventListener("click",function(event)
 	{
-		indImageHead = indImageHead + n;
-		if (indImageHead < 0) {
-			indImageHead = 1;
-		} else{
-			if (indImageHead > 1){
-				indImageHead = 0;
-			}
-		};
-	}
-	function slideHead(n)
+		if(this.checked === true){
+			console.log(0);
+		}
+	});
+	listRadio[1].addEventListener("click",function(event)
 	{
-		handleIndexHead(n);
+		if(this.checked === true){
+			console.log(1);
+		}
+	});
+	listRadio[2].addEventListener("click",function(event)
+	{
+		if(this.checked === true){
+			console.log(2);
+		}
+	});
 
-		listImagesHead.style.transition = 'transform 1s ease';
-		listImagesHead.style.transform = 'translateX(' + indImageHead * (-body.clientWidth) + 'px)';
-	}
-	function controlSlideHead()
-	{
-		slideHead(1);
-		setTimeout(controlSlideHead, 4000);
-	}
-	controlSlideHead();
-	
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

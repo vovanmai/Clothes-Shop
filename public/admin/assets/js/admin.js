@@ -1,11 +1,95 @@
 $(document).ready(function() {
     //change active users
+    $(document).on('click', '.edit_color', function(){
+        var color_id = $(this).attr("id");
+        $('#myModal').modal('show');
+        $("#submitedit").click(function(event) {
+        var name = $("#colorname").val();
+            $.ajax({
+                url: "/admin/colors/edit",
+                type: "POST",
+                data: {
+                    'id': color_id,
+                    'name': name
+                },
+                success: function(data) {
+                    $("#name-"+color_id).html(data);
+                    color_id = 0;
+                }
+            });
+        $('#myModal').modal('hide');
+        return false;
+        });
+    });
+    $(".addcolor").click(function() {
+        var scntDiv = $('#p_scents');
+        var i = $('#p_scents tr').size() + 1;
+        $('#myModal').modal('show');
+        $("#submitedit").click(function(event) {
+            var name = $("#colorname").val();
+                $.ajax({
+                    url: "/admin/colors/add",
+                    type: "POST",
+                    data: {
+                        'name': name
+                    },
+                    success: function(data) {
+                        scntDiv.append(data);
+                        i++;
+                    }
+            });
+            $('#myModal').modal('hide');
+            return false;
+        });
+    });
+    $(document).on('click', '.edit_size', function(){
+        var size_id = $(this).attr("id");
+        $('#myModal').modal('show');
+        $("#submitedit").click(function(event) {
+        var size = $("#sizename").val();
+            $.ajax({
+                url: "/admin/sizes/edit",
+                type: "POST",
+                data: {
+                    'id': size_id,
+                    'size': size
+                },
+                success: function(data) {
+                    $("#size-"+size_id).html(data);
+                    size_id = 0;
+                }
+            });
+        $('#myModal').modal('hide');
+        return false;
+        });
+    });
+    $(".addsize").click(function() {
+        var scntDiv = $('#p_scents');
+        var i = $('#p_scents tr').size() + 1;
+        $('#myModal').modal('show');
+        $("#submitedit").click(function(event) {
+            var size = $("#sizename").val();
+                $.ajax({
+                    url: "/admin/sizes/add",
+                    type: "POST",
+                    data: {
+                        'size': size
+                    },
+                    success: function(data) {
+                        scntDiv.append(data);
+                        i++;
+                    }
+            });
+            $('#myModal').modal('hide');
+            return false;
+        });
+    });
     $(".edit_active").click(function() {
         var id = $(this).attr('id');
         var idstring = "#" + id;
         $.ajax({
             url: "/admin/users/active",
-            type: "GET",
+            type: "POST",
             data: {
                 'id': id
             },

@@ -17,6 +17,19 @@ $router->get('admin/users/active','UsersController@changeActive');
 $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/search','UsersController@search');
 
+//=====================COLORS====================
+$router->get('admin/colors','ColorsController@index');
+$router->get('admin/colors/add','ColorsController@add');
+$router->post('admin/colors/add','ColorsController@store');
+$router->post('admin/colors/edit','ColorsController@update');
+$router->get('admin/colors/delete','ColorsController@destroy');
+
+//=====================SIZES====================
+$router->get('admin/sizes','SizesController@index');
+$router->get('admin/sizes/add','SizesController@add');
+$router->post('admin/sizes/add','SizesController@store');
+$router->post('admin/sizes/edit','SizesController@update');
+$router->get('admin/sizes/delete','SizesController@destroy');
 
 // ====================PRODUCTS==================
 $router->get('admin/products','AdminProductsController@index');
@@ -36,7 +49,7 @@ $router->post('admin/mail','AuthController@postMail');
 $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
 
-//$router->get('admin/colors','ColorsController@index');
+
 $router->get('','IndexController@index');
 
 $router->get('*','ErrorController@error');

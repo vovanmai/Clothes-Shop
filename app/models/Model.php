@@ -40,7 +40,7 @@ class Model
 	{	
 		$query=sprintf(
 			'insert into %s(%s) value(%s)',
-			$tbl,
+			static::$table,
 			implode(',',array_keys($parameters)),
 			implode(', ',array_fill(0,count($parameters),'?'))
 			);

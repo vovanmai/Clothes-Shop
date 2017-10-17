@@ -26,7 +26,7 @@ require dirname(__DIR__).'/require/header.view.php';
       <div class="page-content">
 
         <div class="page-header">
-          <h1 style="font-weight: bold">Colors</h1>
+          <h1 style="font-weight: bold">Sizes</h1>
             </div><!-- /.page-header -->
 
             <div class="row">
@@ -34,7 +34,7 @@ require dirname(__DIR__).'/require/header.view.php';
                 <!-- PAGE CONTENT BEGINS -->
                 <div class="row">
                   <div class="col-xs-12">
-                    <a class="btn btn-success fa fa-plus-square fa-lg addcolor" title=""> Add Color</a>
+                    <a class="btn btn-success fa fa-plus-square fa-lg addsize" title=""> Add size</a>
                   </br>
                 </br>
                 <?php 
@@ -58,7 +58,7 @@ require dirname(__DIR__).'/require/header.view.php';
                   Id
                 </th>
                 <th class="text-center">
-                  Name
+                  Size
                 </th>
                 <th class="text-center">
                   Action
@@ -68,25 +68,25 @@ require dirname(__DIR__).'/require/header.view.php';
 
             <tbody id="p_scents">
               <?php 
-              if(!empty($colors))
+              if(!empty($sizes))
               { 
-                foreach($colors as $item){
+                foreach($sizes as $item){
                   $id=$item->id;
-                  $name=$item->name;
+                  $size=$item->size;
                   ?>
                   <tr>
                     <td class="text-center">
                       <?php echo $id;?>
                     </td>
-                    <td class="text-center" id="name-<?php echo $id ?>">
-                      <?php echo $name;?>
+                    <td class="text-center" id="size-<?php echo $id ?>">
+                      <?php echo $size;?>
                     </td>
                     <td class="text-center">
                       <div class="hidden-sm hidden-xs btn-group">
-                              <a class="btn btn-xs btn-info edit_color" id="<?php echo $id;?>">
+                              <a class="btn btn-xs btn-info edit_size" id="<?php echo $id;?>">
                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                               </a>
-                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/colors/delete?id=<?php echo $id; ?>">
+                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/sizes/delete?id=<?php echo $id; ?>">
                                   <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                 </a>
                               </div>
@@ -103,8 +103,8 @@ require dirname(__DIR__).'/require/header.view.php';
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <p>Nhap color name: </p>
-                        <input type='text' name='colorname' id="colorname">
+                        <p>Nhap size name: </p>
+                        <input type='text' name='sizename' id="sizename">
                         <input type='button' id='submitedit' value ='submit'>
                     </div>
                   </div>
