@@ -24,9 +24,6 @@ require dirname(__DIR__).'/require/header.view.php';
       </div>
 
       <div class="page-content">
-        <?php 
-          require dirname(__DIR__).'/require/rightbar.view.php';
-        ?>
 
         <div class="page-header">
           <h1 style="font-weight: bold">
@@ -58,67 +55,6 @@ require dirname(__DIR__).'/require/header.view.php';
                     </strong> 
                   </div>
                   <?php } ?>
-                  
-                  <div class="row text-center">
-                    <div class="col-xs-12">
-                      <!-- PAGE CONTENT BEGINS -->
-                      <form class="form-horizontal" role="form" action="/admin/users/search" method="post">
-                        <?php
-                        $username='';
-                        $fullname='';
-                        $active=-1;
-                        $level=0;
-                        if(isset($search_User))
-                        {
-                          $username=$search_User['username'];
-                          $fullname=$search_User['fullname'];
-                          $active=$search_User['active'];
-                          $level=$search_User['level'];
-                        }
-                        ?>
-                        <div class="row">
-                          <div class="col-xs-3">
-                           <div class="form-group">
-                             <div class="pos-rel">
-                              <input class="typeahead scrollable" name="username" type="text" placeholder="Username" value="<?php echo $username; ?>" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xs-3">
-                         <div class="form-group">
-                           <div class="pos-rel">
-                            <input class="typeahead scrollable" name="fullname" type="text" value="<?php echo $fullname; ?>" placeholder="Fullname" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xs-2">
-                       <div class="form-group">
-                         <select id="active" name="active" class="multiselect">
-                          <option <?php if($active==-1) echo 'selected="selected"';?> value="-1">--Active--</option>
-                          <option <?php if($active==1) echo 'selected="selected"';?> value="1">Active</option>
-                          <option <?php if($active==0) echo 'selected="selected"';?> value="0">Non-Active</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-sm-2">
-                     <div class="form-group">
-                       <select id="level" name="level" class="multiselect" >
-                        <option <?php if($level==0) echo 'selected="selected"';?> value="0">--Level--</option>
-                        <option <?php if($level==1) echo 'selected="selected"';?> value="1">Admin</option>
-                        <option <?php if($level==2) echo 'selected="selected"';?> value="2">Employee</option>
-                        <option <?php if($level==3) echo 'selected="selected"';?> value="3">Customer</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xs-2">
-                    <div class="form-group">
-                      <button class="btn btn-success  fa fa-plus-square fa-lg" type="submit" name="search">Search</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <!-- PAGE CONTENT ENDS -->
-            </div><!-- /.col -->
           </div>
 
           <table id="simple-table" class="table  table-bordered table-hover">
@@ -225,7 +161,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                               </a>
                               <?php
-                              if($level!=3){
+                              if($username!='admin'){
                                 ?>
                                 <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete?id=<?php echo $id; ?>">
                                   <i class="ace-icon fa fa-trash-o bigger-120"></i>

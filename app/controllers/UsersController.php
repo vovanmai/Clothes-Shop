@@ -12,14 +12,14 @@ class UsersController
     }
 	public function index()
 	{
-		$link_full='/admin/users?p={page}';
+		$link_full ='/admin/users?p={page}';
+		$limit = 10;
 		$count=Users::count();
-		$pagination = $this->pagination($count[0]->total_record,$link_full);
-		$paginghtml = $pagination['paginghtml'];
-		$limit = $pagination['config']['limit'];
-		$current_page = $pagination['config']['current_page'];
-		$users=Users::all($current_page,$limit);	
-		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+		$paging = new Pagination();
+		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
+		$users=Users::allPagination($current_page,$limit);	
+		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html()]);
 	}
 	public function add()
 	{
@@ -27,7 +27,8 @@ class UsersController
 		{
 			return view('admin/users/add');
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 	}
@@ -54,7 +55,8 @@ class UsersController
 			if($avatar==''){
 				$new_User['avatar']='';
 				if(Users::insert($new_User)){
-					return redirect('admin/users?msg=Added Successfully!');
+					Session::createSession('msg','Added Successfully!');
+					return redirect('admin/users');
 				}
 			}else{
 				$tmp_name=$_FILES['avatar']['tmp_name'];
@@ -66,7 +68,8 @@ class UsersController
 				if($uploadAction){
 					$new_User['avatar']=$new_file_name;
 					if(Users::insert($new_User)){
-						return redirect('admin/users?msg=Added Successfully !');
+						Session::createSession('msg','Added Successfully!');
+						return redirect('admin/users');
 					}
 				}
 			}
@@ -78,10 +81,11 @@ class UsersController
 		//check phan quyen nge
 		if(Users::auth($id))	
 		{
-			$auser=Users::find($id);
+			$auser=Users::find("id",$id);
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 
@@ -89,7 +93,7 @@ class UsersController
 
 	public function update($id)
 	{	
-		$user=Users::find($id)[0];
+		$user=Users::find("id",$id)[0];
 		
 		if(isset($_POST['submit'])){
 			$password=$_POST['password'];
@@ -102,7 +106,6 @@ class UsersController
 			if($password==''){
 				if($avatar==''){
 					$edited_User=array(
-						'username' => $username, 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 
@@ -160,7 +163,8 @@ class UsersController
 				}
 			}
 			if(Users::update($edited_User,$id)){
-				return redirect('admin/users?msg=Edited Successfully!');
+				Session::createSession('msg','Edited Successfully!');
+				return redirect('admin/users');
 			}
 		}
 	}
@@ -170,7 +174,7 @@ class UsersController
 		if($_SESSION['user'][0]->level==1)
 		{
 			$id=$_GET['id'];
-			$user=Users::find($id);
+			$user=Users::find("id",$id);
 			if($user[0]->active==1){
 				if(Users::updateActive(0,$id)){
 					echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
@@ -181,7 +185,8 @@ class UsersController
 				}
 			}
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 		}
 		
 	}
@@ -192,30 +197,15 @@ class UsersController
 		{
 			$id=$_GET['id'];
 			if(Users::delete($id)){
-				return redirect('admin/users?msg=Deleted Successfully!');
+				Session::createSession('msg','Deleted Successfully!');
+				return redirect('admin/users');
 			} 
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/users');
 
 		}
 	}
-
-		public function pagination($count,$link_full)
-		{
-			$config = array(
-			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
-			    'total_record'  => $count, // Tổng số record
-			 	//  'limit'         => 10,// limit
-			    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
-			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
-			    'range'         => 9, // Số button trang bạn muốn hiển thị 
-			    );
-			$paging = new Pagination();
-			$paging->init($config);
-			$paginghtml = $paging->html();
-			return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
-		} 
-
 
 		public function search()
 		{
@@ -236,13 +226,13 @@ class UsersController
 				$ArrUsers=Users::search($search_User);
 
 				$link_full='/admin/users/search?p={page}&'.$params;
-				$count=count($ArrUsers);
-				$pagination = $this->pagination($count,$link_full);
-				$paginghtml = $pagination['paginghtml'];
-				$limit = $pagination['config']['limit'];
-				$current_page = $pagination['config']['current_page'];
+				$paging = new Pagination();
+				$limit = 10;
+				$count = count($ArrUsers);
+				$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+				$paging->init($current_page, $limit, $link_full, $count);
 				$users=Users::allSearch($current_page,$limit,$search_User);	
-				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
+				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html(),'search_User'=>$search_User]);
 			} else {
 				return redirect('admin/users');
 
@@ -253,7 +243,7 @@ class UsersController
 	public function checkUsername()
 	{
 		$username=$_GET['username'];
-		$user=Users::findByUsername($username);
+		$user=Users::find("username",$username);
 		if($user==null){
 			echo 1;
 		}else{
@@ -264,7 +254,7 @@ class UsersController
 	public function checkAddEmail()
 	{
 		$email=$_GET['email'];
-		$user=Users::findByEmail($email);
+		$user=Users::find("email",$email);
 		if($user==null){
 			echo 1;
 		}else{
@@ -278,11 +268,11 @@ class UsersController
 	{
 		$id=$_GET['id'];	
 		$email=$_GET['email'];
-		$currentEmail=Users::find($id)[0]->email;
+		$currentEmail=Users::find("id",$id)[0]->email;
 		if($email==$currentEmail){
 			echo 1;	
 		}else{
-			$usedEmail=Users::findByEmail($email);
+			$usedEmail=Users::find("email",$email);
 			if($usedEmail==null){
 				echo 1;
 			}else{

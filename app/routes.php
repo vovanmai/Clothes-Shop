@@ -48,6 +48,9 @@ $router->post('admin/mail','AuthController@postMail');
 $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
 
+//$router->get('admin/colors','ColorsController@index');
+$router->get('','IndexController@index');
+
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
 
