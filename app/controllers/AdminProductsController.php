@@ -17,14 +17,14 @@ class AdminProductsController
 	public function index()
 	{	
 		$link_full='/admin/products?p={page}';
+		$limit = 10;
 		$count=Products::count();
-		$pagination = Pagination::pagination($count[0]->total_record,$link_full);
-		$paginghtml = $pagination['paginghtml'];
-		$limit = $pagination['config']['limit'];
-		$current_page = $pagination['config']['current_page'];
-		$products=Products::getAllPagination($current_page,$limit);	
-		$product_info=Products_info::all();
-		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paginghtml]);
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+		$paging = new Pagination();
+		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
+		$products=Products::getAllPagination($current_page,$limit);
+		$product_info=Products_info::all();	
+		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html()]);
 
 	}
 	public function destroy()
@@ -65,11 +65,30 @@ class AdminProductsController
 	public function edit()
 	{
 		$id=$_GET['id'];
-		$product=Products::find($id);
+		$product=Products::find('id',$id);
 		$product_info=Products_info::all();
 		$colors=Colors::all();
 		$size=Size::all();
 		return view('admin/products/edit',['product'=>$product,'product_info'=>$product_info,'colors'=>$colors,'size'=>$size]);
+	}
+
+	public function update()
+	{
+		$id=$_POST['id'];
+		$product_info_id=$_POST['product_info_id_edit'];
+		$color_id=$_POST['product_color'];
+		$size_id=$_POST['product_size'];
+		$quantity=$_POST['quantity'];
+		$product = array(
+			'product_info_id' => $product_info_id,
+			'color_id' => $color_id,
+			'size_id' => $size_id,
+			'quantity' => $quantity
+			 );
+		if(Products::update($product,$id)){
+			Session::createSession('msg','Updated Successfully !');
+			return redirect('admin/products');
+		}
 	}
 	
 }

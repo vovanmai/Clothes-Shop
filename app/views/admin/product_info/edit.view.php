@@ -82,7 +82,7 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Users
+                        Edit Product Info
                     </h1>
                 </div><!-- /.page-header -->
 
@@ -93,7 +93,7 @@ require dirname(__DIR__).'/require/header.view.php';
                             <input type="hidden" value="<?php echo $product_info[0]->id; ?>" name="id">
                             <div class="form-group">
                                 <label style="font-weight:bold;">Name: </label>
-                                <input type="text" class="form-control" value="<?php echo $product_info[0]->name; ?>" id="name" placeholder="Enter name" name="name">
+                                <input type="text" class="form-control" value="<?php echo $product_info[0]->name; ?>" id="product_info_edit_name" placeholder="Enter name" name="name">
                                 <div id="name_warning_msg" style="margin-top: 10px;">           
                                 </div>  
                             </div>
@@ -101,8 +101,8 @@ require dirname(__DIR__).'/require/header.view.php';
                             <div class="form-group">
                                 <label for="form-field-select-3" style="font-weight:bold;">Category :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
-                                    <option value="">Choose Category</option>
+                                <select class="chosen-select form-control" id="product_info_edit_cat" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
+                                    <option value="">---------Choose Category--------</option>
                                     <?php 
                                         foreach ($cats as $key => $item){
                                             $id=$item->id;
@@ -125,18 +125,19 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Image:</label>
-                                <input type="file" name="image">
+                                <input type="file" id="product_info_edit_image" name="image">
+                
                             </div>
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Price:</label>
-                                <input type="text" name="price" class="form-control" value="<?php echo $product_info[0]->price; ?>">
-                                <div id="description_warning_msg" style="margin-top: 10px;">           
+                                <input type="text" name="price" id="product_info_edit_price" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <div id="price_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Description:</label>
                                 <div>
-                                    <textarea name="description" class="description"><?php echo $product_info[0]->preview_text; ?></textarea>
+                                    <textarea name="description" id="product_info_edit_description" class="description"><?php echo $product_info[0]->preview_text; ?></textarea>
                                 </div>
                                 <div id="description_warning_msg" style="margin-top: 10px;">           
                                 </div>
@@ -151,7 +152,7 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
                             
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  id=""  class="btn btn-success">Edit</button>
+                                <button type="submit" name="submit" disabled id="product_info_edit_submit"  class="btn btn-success">Edit</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

@@ -47,6 +47,7 @@ $router->get('admin/products/delete','AdminProductsController@destroy');
 $router->get('admin/products/add','AdminProductsController@add');
 $router->post('admin/products/add','AdminProductsController@store');
 $router->get('admin/products/edit','AdminProductsController@edit');
+$router->post('admin/products/edit','AdminProductsController@update');
 
 
 //======================REGISTER==============

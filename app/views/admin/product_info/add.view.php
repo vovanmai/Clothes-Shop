@@ -91,16 +91,16 @@ require dirname(__DIR__).'/require/header.view.php';
                         <!-- PAGE CONTENT BEGINS -->
                         <form  action="/admin/product_info/add" method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label style="font-weight:bold;">Name: </label>
+                                <label style="font-weight:bold;">Name(*) : </label>
                                 <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
                                 <div id="name_warning_msg" style="margin-top: 10px;">           
                                 </div>  
                             </div>
 
                             <div class="form-group">
-                                <label for="form-field-select-3" style="font-weight:bold;">Category :</label>
+                                <label for="form-field-select-3" style="font-weight:bold;">Category(*) :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
+                                <select class="chosen-select form-control" id="category" name="category" id="form-field-select-3" data-placeholder="Choose a State...">
                                     <option value="0">-------Choose Category----------</option>
                                     <?php 
                                         foreach ($cat as $key => $item){
@@ -109,22 +109,26 @@ require dirname(__DIR__).'/require/header.view.php';
                                     ?>
                                     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                     <?php } ?>  
-                            </select>
+                                </select>
+                                <div id="category_warning_msg" style="margin-top: 10px;">           
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Image:</label>
-                                <input type="file" name="image">
+                                <label style="font-weight:bold;" for="pwd">Image(*) :</label>
+                                <input type="file" name="image" id="image">
+                                <div id="image_warning_msg" style="margin-top: 10px;">           
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Price:</label>
-                                <input type="text" name="price" class="form-control" placeholder="Enter price" name="email">
+                                <label style="font-weight:bold;" for="pwd">Price(*) :</label>
+                                <input type="text" name="price" id="price" class="form-control" placeholder="Enter price" name="email">
                                 <div id="price_warning_msg" style="margin-top: 10px;">          
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Description:</label>
+                                <label style="font-weight:bold;" for="pwd">Description(*) :</label>
                                 <div>
-                                    <textarea name="description" class="description"></textarea>
+                                    <textarea name="description" id="description" class="description"></textarea>
                                 </div>
                                 <div id="description_warning_msg" style="margin-top: 10px;">           
                                 </div>
@@ -139,7 +143,7 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
                             
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  id="add-submit"  class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  disabled id="product_info_add_submit"  class="btn btn-success">Add</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

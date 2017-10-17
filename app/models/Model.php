@@ -36,6 +36,7 @@ class Model
 		return App::get('database')->query_fetch_params($query,array($column => $value));
 	}
 
+
 	public static function insert($parameters)
 	{	
 		$query=sprintf(
@@ -47,7 +48,7 @@ class Model
 		return App::get('database')->query_excute_params($query,$parameters);
 
 	}
-
+	
 	public static function update($parameters,$id)
 	{
 		$string="";
@@ -65,6 +66,7 @@ class Model
 		$query="DELETE FROM ".static::$table." WHERE id=?";
 		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
+
 
 }
 ?>
