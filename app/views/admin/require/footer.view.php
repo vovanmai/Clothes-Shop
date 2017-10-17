@@ -3,8 +3,8 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2017
+							<span class="blue bolder">Clothes</span>
+							Shop &copy; 2017
 						</span>
 
 						&nbsp; &nbsp;
@@ -56,6 +56,7 @@
 		<script src="/public/admin/assets/js/bootstrap-multiselect.min.js"></script>
 		<script src="/public/admin/assets/js/select2.min.js"></script>
 		<script src="/public/admin/assets/js/jquery-typeahead.js"></script>
+		
 
 		
 		<script type="text/javascript">

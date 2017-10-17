@@ -46,10 +46,34 @@
 
 					
 
-					<li class="">
-						<a href="widgets.html">
+					<li class="active">
+						<a href="/admin/product_info">
 							<i class="menu-icon fa fa-product-hunt"></i>
-							<span class="menu-text" style="font-weight: bold;"> Products </span>
+							<span class="menu-text" style="font-weight: bold;"> Product Info</span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="active">
+						<a href="/admin/products">
+							<i class="menu-icon fa fa-product-hunt"></i>
+							<span class="menu-text" style="font-weight: bold;"> Products</span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="/admin/colors">
+							<i class="menu-icon fa fa-product-hunt"></i>
+							<span class="menu-text" style="font-weight: bold;"> Colors </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="/admin/sizes">
+							<i class="menu-icon fa fa-product-hunt"></i>
+							<span class="menu-text" style="font-weight: bold;"> Sizes </span>
 						</a>
 
 						<b class="arrow"></b>

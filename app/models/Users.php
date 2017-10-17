@@ -47,7 +47,7 @@ class Users extends Model
 		$params['limit']=$limit;
 		return App::get('database')->query_fetch_params($query,$params);
 	}
-
+  
 	public static function findByUsername($username)
 	{
 		$query="select username from users where username=?";
@@ -58,7 +58,7 @@ class Users extends Model
 		$query="select email from users where email=?";
 		return App::get('database')->query_fetch($query,array('email'=>$email));
 	}
-
+  
 	public static function updateActive($active,$id)
 	{
 		$query="UPDATE users SET active=? WHERE id=?";

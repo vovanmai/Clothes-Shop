@@ -18,12 +18,12 @@ class AuthController
     return view('admin/auth/login');
     }
 
-  public function getLogout()
-  {
-    Session::unsetSession('user');
-    return redirect('admin/login');
+    public function getLogout()
+    {
+        Session::unsetSession('user');
+        return redirect('admin/login');
 
-  }
+    }
 
 
   public function postLogin()
@@ -36,7 +36,6 @@ class AuthController
       $user = Users::checkLogin($userName,$password);
       if ($user == null) {
         return redirect('admin/login?msg=1');
-        die();
       } else {
         if (isset($_POST['cbRemember'])) {
           if (!isset($_COOKIE['"'.$userName.'"'])) {   
@@ -115,7 +114,7 @@ class AuthController
                     if ( $newPass !=  $passwordAgain ) {
 
                         return redirect('admin/newpass?msg=2');
-                        die();
+                         die();
 
                     } else {
                         //Thong tin nguoi get Pass
@@ -207,9 +206,9 @@ class AuthController
                         $mail->Password = "phamdinhhung03072311";
                         $mail->Port = "465";
                         $mail->isHTML(true);
-                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
+                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Mailer');
                         $mail->addAddress($email, 'Shop'); 
-                        $mail->Subject = 'Get Password';
+                        $mail->Subject = '<b> Get Password </b>';
                         $mail->Body    = 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
 
                         $mail->send();
