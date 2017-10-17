@@ -11,7 +11,7 @@ $router->get('admin/users/add/check_add_email','UsersController@checkAddEmail');
 $router->get('admin/users/add/check_edit_email','UsersController@checkEditEmail');
 $router->get('admin/users/edit/{id}','UsersController@edit');
 $router->post('admin/users/edit/{id}','UsersController@update');
-$router->get('admin/users/delete','UsersController@destroy');
+$router->get('admin/users/delete/{id}','UsersController@destroy');
 $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/active','UsersController@changeActive');
 $router->post('admin/users/search','UsersController@search');
@@ -63,11 +63,22 @@ $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
 
 
+//orders page
+$router->get('admin/orders','OrdersController@index');
+$router->get('admin/orders/delete/{id}','OrdersController@destroy');
+$router->post('admin/orders/search','OrdersController@search');
+$router->get('admin/orders/activePaid','OrdersController@changeActivePaid');
+$router->get('admin/orders/activeShipped','OrdersController@changeActiveShipped');
+$router->get('admin/orders/search','OrdersController@search');
+$router->get('admin/orders/updateStatus','OrdersController@updateStatus');
+$router->get('admin/orders/detail/{id}','OrdersController@detail');
+$router->post('admin/orders/destroyAll','OrdersController@destroyAll');
+
+
 $router->get('','IndexController@index');
 
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
-
 
 
 
