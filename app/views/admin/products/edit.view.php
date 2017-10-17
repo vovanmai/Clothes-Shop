@@ -94,7 +94,7 @@ require dirname(__DIR__).'/require/header.view.php';
                             <div class="form-group">
                                 <label for="form-field-select-3" style="font-weight:bold;">Product Info :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="categoy" id="form-field-select-3" data-placeholder="Choose a State...">
+                                <select class="chosen-select form-control" name="product_info" id="form-field-select-3" data-placeholder="Choose a State...">
                                     <option value="">Choose Product Info</option>
                                     <?php 
                                         foreach ($product_info as $key => $item){
@@ -112,21 +112,41 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
                             
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Color :</label>
-                                <input type="text" name="color" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <label for="form-field-select-3" style="font-weight:bold;">Color :</label>
+                                <br />
+                                <select class="chosen-select form-control" name="products_color_add" style="width: 300px;" name="" id="form-field-select-3" data-placeholder="Choose a State...">
+                                    <option value="0">-----Choose Color-----</option>
+                                    <?php foreach ($colors as $key => $item) {
+                                        $id=$item->id;
+                                        $name=$item->name;
+                                    ?>    
+                                    <option  value="<?php echo $id; ?>"><?php echo $name; ?></option> 
+                                    <?php } ?>    
+                              
+                                </select>
                                 <div id="color_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight:bold;" for="pwd">Size :</label>
-                                <input type="text" name="size" class="form-control" value="<?php echo $product_info[0]->price; ?>">
-                                <div id="size_warning_msg" style="margin-top: 10px;">           
+                                <label for="form-field-select-3" style="font-weight:bold;">Size :</label>
+                                <br />
+                                <select class="chosen-select form-control" name="products_size_add" style="width: 300px;" name="" id="form-field-select-3" >
+                                    <option value="0">-----Choose Size-----</option>
+                                    <?php foreach ($size as $key => $item) {
+                                        $id=$item->id;
+                                        $size=$item->size;
+                                    ?>    
+                                    <option  value="<?php echo $id; ?>"><?php echo $size; ?></option> 
+                                    <?php } ?>    
+                              
+                                </select>
+                                <div id="color_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Quantity :</label>
-                                <input type="text" name="quantity" class="form-control" value="<?php echo $product_info[0]->price; ?>">
+                                <input type="text" name="quantity" class="form-control" value="<?php echo $product_info[0]->quantity; ?>">
                                 <div id="quantity_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>            

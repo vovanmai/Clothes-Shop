@@ -67,7 +67,9 @@ class AdminProductsController
 		$id=$_GET['id'];
 		$product=Products::find($id);
 		$product_info=Products_info::all();
-		return view('admin/products/edit',['product'=>$product,'product_info'=>$product_info]);
+		$colors=Colors::all();
+		$size=Size::all();
+		return view('admin/products/edit',['product'=>$product,'product_info'=>$product_info,'colors'=>$colors,'size'=>$size]);
 	}
 	
 }
