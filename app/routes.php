@@ -62,7 +62,6 @@ $router->post('admin/mail','AuthController@postMail');
 $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
 
-
 //orders page
 $router->get('admin/orders','OrdersController@index');
 $router->get('admin/orders/delete/{id}','OrdersController@destroy');
@@ -74,13 +73,10 @@ $router->get('admin/orders/updateStatus','OrdersController@updateStatus');
 $router->get('admin/orders/detail/{id}','OrdersController@detail');
 $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
-
 $router->get('','IndexController@index');
+
 
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
-
-
-
 
 ?>
