@@ -9,7 +9,6 @@ use core\database\Connection;
 
 class Model
 {
-
 	public static $table;
 
 	public static function all()
@@ -24,7 +23,6 @@ class Model
 		$query='select * from '.static::$table.' limit ?, ?';
 		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
-
 
 	public static function count()
 	{
@@ -47,7 +45,8 @@ class Model
 			implode(',',array_keys($parameters)),
 			implode(', ',array_fill(0,count($parameters),'?'))
 			);
-		return App::get('database')->query_excute_params($query,$parameters);	
+		return App::get('database')->query_excute_params($query,$parameters);
+
 	}
 	
 	public static function update($parameters,$id)
