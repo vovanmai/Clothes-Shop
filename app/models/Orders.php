@@ -6,14 +6,14 @@ use core\Session;
 use core\database\QueryBuilder;
 use core\database\Connection;;
 
-class Users
+class Orders extends Model
 {
-	public static $table="users";
-	
-	public static function all($current_page, $limit)
+	public static $table="orders";
+
+	public static function allOrdersPagination($current_page, $limit)
 	{
 		$start = ($current_page - 1) * $limit;
-		$query='select * from users limit ?, ?';
+		$query='select *,orders.id as id_order,users.id as id_user, payment.id as id_payment, orders.id as id_order from '.static::$table.' inner join users on '.static::$table.'.user_id=users.id inner join payment on payment.id='.static::$table.'.payment_id limit ?, ?';
 		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 
@@ -21,33 +21,44 @@ class Users
 	{
 		$start = ($current_page - 1) * $limit;
 
-		$username=$search_User['username'];
 		$fullname=$search_User['fullname'];
-		$active=$search_User['active'];
-		$level=$search_User['level'];
-		$query='select * from users where 1'; 
+		$paid=$search_User['paid'];
+		$shipped=$search_User['shipped'];
+		$status=$search_User['status'];
+		$date_order=$search_User['date_order'];
+		$payment_id=$search_User['payment'];
+		$query='select *,orders.id as id_order, users.id as id_user from '.static::$table.' inner join users on users.id=orders.user_id inner join payment on orders.payment_id=payment.id where 1'; 
 		$params=array();
-		if($username!='')
-		{
-			$query.=' and username like concat("%", ?, "%")';
-			$params['username']=$username;
-		}
 		if($fullname!='')
 		{
 			$query.=' and fullname like concat("%", ?, "%")';
 			$params['fullname']=$fullname;
 		}
-		if($active!=-1)
+		if($paid!=-1)
 		{
-			$query.=' and active = ?';
-			$params['active']=$active;
+			$query.=' and paid =?';
+			$params['paid']=$paid;
 		}
-		if($level!=0)
+		if($shipped!=-1)
 		{
-			$query.=' and level = ?';
-			$params['level']=$level;
+			$query.=' and shipped = ?';
+			$params['shipped']=$shipped;
 		}
-
+		if($status!=-1)
+		{
+			$query.=' and status = ?';
+			$params['status']=$status;
+		}
+		if($payment_id!=-1)
+		{
+			$query.=' and payment_id = ?';
+			$params['payment_id']=$payment_id;
+		}
+		if($date_order!='')
+		{
+			$query.=' and date_order = ?';
+			$params['date_order']=$date_order;
+		}
 		
 		$query.=' limit ?, ?';
 		$params['start']=$start;
@@ -55,157 +66,47 @@ class Users
 		return App::get('database')->query_fetch_params($query,$params);
 	}
 
-
-	public static function count()
+	
+	public static function search($search_Order)
 	{
-		$query='select count(*) as total_record from users';
-		return App::get('database')->query_fetch($query);
-	}
-	public static function find($id)
-	{
-		$query='select * from users where id=?';
-		return App::get('database')->query_fetch_params($query,array('id'=>$id));
-	}
-
-	public static function findByUsername($username)
-	{
-		$query="select username from users where username=?";
-		return App::get('database')->query_fetch_params($query,array('username'=>$username));
-	}
-	public static function findByEmail($email)
-	{
-		$query="select email from users where email=?";
-		return App::get('database')->query_fetch($query,array('email'=>$email));
-	}
-
-	public static function insert($new_User){
-		$username=$new_User['username'];
-		$password=$new_User['password'];
-		$fullname=$new_User['fullname'];
-		$email=$new_User['email'];
-		$phone=$new_User['phone'];
-		$address=$new_User['address'];
-		$level=$new_User['level'];
-		$avatar=$new_User['avatar'];
-		$query="INSERT INTO users(username,password,fullname,email,phone,address,level,avatar)
-		VALUES(?,?,?,?,?,?,?,?)";
-		$params=array(
-			'username'=>$username,
-			'password'=>$password,
-			'fullname'=>$fullname,
-			'email'=>$email,
-			'phone'=>$phone,
-			'address'=>$address,
-			'level'=>$level,
-			'avatar'=>$avatar
-			);
-		return App::get('database')->query_excute_params($query,$params);
-
-	}
-
-	public static function delete($id)
-	{
-		$query="DELETE FROM users WHERE id=?";
-		return App::get('database')->query_excute_params($query,array('id'=>$id));
-	}
-
-	public function deleteById($id)
-	{
-		$query='delete from users where id=?';
-		return App::get('database')->query_excute_params($query,array('id'=>$id));
-	}
-
-	public static function update($edited_User,$id)
-	{
-		
-		$password=$edited_User['password'];
-		$fullname=$edited_User['fullname'];
-		$email=$edited_User['email'];
-		$phone=$edited_User['phone'];
-		$address=$edited_User['address'];
-		$avatar=$edited_User['avatar'];
-
-		$query="UPDATE users SET password= ?, fullname= ?, email= ?, phone= ?, address= ?, avatar= ?	WHERE id= ?";
-		$params=array(
-			
-			'password'=>$password,
-			'fullname'=>$fullname,
-			'email'=>$email,
-			'phone'=>$phone,
-			'address'=>$address,
-			'avatar'=>$avatar,
-			'id'=>$id
-			);						   	
-		return App::get('database')->query_excute_params($query,$params);						   	
-	}
-
-	public static function updateActive($active,$id)
-	{
-		$query="UPDATE users SET active=? WHERE id=?";
-		return App::get('database')->query_excute_params($query,array('active'=>$active,'id'=>$id));	
-	}
-
-	//login
-
-	public static function checkLogin($username,$pass) {
-		$query = "SELECT * FROM users WHERE active =1 AND level !=3 AND username=? AND password =md5(?)";
-
-		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
-	}
-
-	public static function checkEmail($email) {
-		$query = "SELECT * FROM users WHERE active =?  AND email=?";
-		
-		$data = array(
-			1 => (int)1,
-			2 =>$email,
-			
-			);
-		return App::get('database')->query_fetch_params($query,$data);
-	}
- 	//Get password
-
-	public static function getPass($id,$pass) {
-		$query = "UPDATE users SET password =md5(?) WHERE active =?  AND id =?";
-
-		$data = array(
-			1 => $pass,
-			2 =>1,
-			3 =>$id
-			
-			);
-		return App::get('database')->query_excute_params($query,$data);
-	}
-
-	public static function search($search_User)
-	{
-		$username=$search_User['username'];
-		$fullname=$search_User['fullname'];
-		$active=$search_User['active'];
-		$level=$search_User['level'];
-		$query='select * from users where 1'; 
+		$fullname=$search_Order['fullname'];
+		$paid=$search_Order['paid'];
+		$shipped=$search_Order['shipped'];
+		$status=$search_Order['status'];
+		$date_order=$search_Order['date_order'];
+		$payment_id=$search_Order['payment'];
+		$query='select *, orders.id as id_order,users.id as id_user from '.static::$table.' inner join users on users.id=orders.user_id inner join payment on orders.payment_id=payment.id where 1'; 
 		$params=array();
-		if($username!='')
-		{
-			$query.=' and username like concat("%", ?, "%")';
-			$params['username']=$username;
-		}
 		if($fullname!='')
 		{
 			$query.=' and fullname like concat("%", ?, "%")';
 			$params['fullname']=$fullname;
 		}
-		if($active!=-1)
+		if($paid!=-1)
 		{
-			$query.=' and active = ?';
-			$params['active']=$active;
+			$query.=' and paid =?';
+			$params['paid']=$paid;
 		}
-		if($level!=0)
+		if($shipped!=-1)
 		{
-			$query.=' and level = ?';
-			$params['level']=$level;
+			$query.=' and shipped = ?';
+			$params['shipped']=$shipped;
 		}
-
+		if($status!=-1)
+		{
+			$query.=' and status = ?';
+			$params['status']=$status;
+		}
+		if($payment_id!=-1)
+		{
+			$query.=' and payment_id = ?';
+			$params['payment_id']=$payment_id;
+		}
+		if($date_order!='')
+		{
+			$query.=' and date_order = ?';
+			$params['date_order']=date("Y-m-d H:i:s", strtotime($date_order));
+		}
 
 		return App::get('database')->query_fetch_params($query,$params);
 	}
@@ -225,5 +126,36 @@ class Users
 
 	}
 
+	public static function updateActivePaid($paid,$id)
+	{
+		$query="UPDATE ".static::$table." SET paid=? WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('paid'=>$paid,'id'=>$id));	
+	}
+
+	public static function updateActiveShipped($shipped,$id)
+	{
+		$query="UPDATE ".static::$table." SET shipped=? WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('shipped'=>$shipped,'id'=>$id));	
+	}
+
+	public static function updateStatus($status,$id)
+	{
+		$query="UPDATE ".static::$table." SET status=? WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('status'=>$status,'id'=>$id));	
+	}
+
+	public static function deleteOrderDetail($order_id)
+	{
+		$query="DELETE FROM order_details WHERE order_id=?";
+		return App::get('database')->query_excute_params($query,array('order_id'=>$order_id));
+	}
+
+	public static function detail($order_id)
+	{
+		$query="SELECT *, products_info.name as name_product,products.quantity as quantity_product, products.id as id_product, products_info.id as id_product_info, color.id as id_color, size.id as id_size, color.name as name_color, size.size as name_size FROM order_details inner join products on order_details.product_id=products.id inner join products_info on products.product_info_id=products_info.id
+		inner join color on products.color_id=color.id 
+		inner join size on products.size_id=size.id  WHERE order_id=?";
+		return App::get('database')->query_fetch_params($query,array('order_id'=>$order_id));
+	}
 }
 ?>

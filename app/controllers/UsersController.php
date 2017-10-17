@@ -18,7 +18,7 @@ class UsersController
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$users=Users::all($current_page,$limit);	
+		$users=Users::allPagination($current_page,$limit);	
 		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
 	}
 	public function add()
@@ -102,7 +102,6 @@ class UsersController
 			if($password==''){
 				if($avatar==''){
 					$edited_User=array(
-						'username' => $username, 
 						'password' => $user->password, 
 						'fullname' => $fullname, 
 						'email' => $email, 
