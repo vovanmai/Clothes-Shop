@@ -9,13 +9,6 @@ use core\database\Connection;
 
 class Model
 {
-<<<<<<< HEAD
-	protected $tbl;
-	
-	
-	public static function all()
-=======
-
 	public static $table;
 
 	public static function all()
@@ -25,27 +18,22 @@ class Model
 	}
 
 	public static function allPagination($current_page, $limit)
->>>>>>> master
 	{
 		$start = ($current_page - 1) * $limit;
 		$query='select * from '.static::$table.' limit ?, ?';
 		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 
-<<<<<<< HEAD
-	public static function find($id)
-=======
 	public static function count()
->>>>>>> master
 	{
 		$query='select count(*) as total_record from '.static::$table;
 		return App::get('database')->query_fetch($query);
 	}
 
-	public static function find($id)
+	public static function find($column, $value)
 	{
-		$query="SELECT * FROM ".static::$table." WHERE id=?";
-		return App::get('database')->query_fetch_params($query,array('id'=>$id));
+		$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
+		return App::get('database')->query_fetch_params($query,array($column => $value));
 	}
 
 	public static function insert($parameters)
@@ -58,24 +46,6 @@ class Model
 			);
 		return App::get('database')->query_excute_params($query,$parameters);
 
-<<<<<<< HEAD
-	public static function update($id,$parameters)
-	{
-		$string="";
-		$query=sprintf(
-            'UPDATE %s SET %s = ?  WHERE id = ',
-           	$tbl,
-            implode(' = ?,',array_keys($parameters))
-            ). $id;
-		return App::get('database')->query_excute_params($query, $parameters);
-	}
-
-	public static function delete($id)
-    {
-        $query="DELETE FROM $tbl WHERE id=$id";
-		return App::get('database')->query_excute($query);
-    }
-=======
 	}
 
 	public static function update($parameters,$id)
@@ -95,7 +65,6 @@ class Model
 		$query="DELETE FROM ".static::$table." WHERE id=?";
 		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
->>>>>>> master
 
 }
 ?>

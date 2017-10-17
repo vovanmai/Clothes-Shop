@@ -81,7 +81,7 @@ class UsersController
 		//check phan quyen nge
 		if(Users::auth($id))	
 		{
-			$auser=Users::find($id);
+			$auser=Users::find("id",$id);
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
 			Session::createSession('msg','Non-permission');
@@ -93,7 +93,7 @@ class UsersController
 
 	public function update($id)
 	{	
-		$user=Users::find($id)[0];
+		$user=Users::find("id",$id)[0];
 		
 		if(isset($_POST['submit'])){
 			$password=$_POST['password'];
@@ -174,7 +174,7 @@ class UsersController
 		if($_SESSION['user'][0]->level==1)
 		{
 			$id=$_GET['id'];
-			$user=Users::find($id);
+			$user=Users::find("id",$id);
 			if($user[0]->active==1){
 				if(Users::updateActive(0,$id)){
 					echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
@@ -243,7 +243,7 @@ class UsersController
 	public function checkUsername()
 	{
 		$username=$_GET['username'];
-		$user=Users::findByUsername($username);
+		$user=Users::find("username",$username);
 		if($user==null){
 			echo 1;
 		}else{
@@ -254,7 +254,7 @@ class UsersController
 	public function checkAddEmail()
 	{
 		$email=$_GET['email'];
-		$user=Users::findByEmail($email);
+		$user=Users::find("email",$email);
 		if($user==null){
 			echo 1;
 		}else{
@@ -268,11 +268,11 @@ class UsersController
 	{
 		$id=$_GET['id'];	
 		$email=$_GET['email'];
-		$currentEmail=Users::find($id)[0]->email;
+		$currentEmail=Users::find("id",$id)[0]->email;
 		if($email==$currentEmail){
 			echo 1;	
 		}else{
-			$usedEmail=Users::findByEmail($email);
+			$usedEmail=Users::find("email",$email);
 			if($usedEmail==null){
 				echo 1;
 			}else{
