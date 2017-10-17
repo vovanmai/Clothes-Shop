@@ -34,6 +34,7 @@ $router->get('admin/products/delete','AdminProductsController@destroy');
 $router->get('admin/products/add','AdminProductsController@add');
 $router->post('admin/products/add','AdminProductsController@store');
 $router->get('admin/products/edit','AdminProductsController@edit');
+$router->post('admin/products/edit','AdminProductsController@update');
 
 
 //======================REGISTER==============
@@ -47,6 +48,9 @@ $router->post('admin/check','AuthController@postCheck');
 $router->post('admin/mail','AuthController@postMail');
 $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
+
+//$router->get('admin/colors','ColorsController@index');
+$router->get('','IndexController@index');
 
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');

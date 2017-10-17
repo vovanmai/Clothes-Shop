@@ -18,17 +18,26 @@ class Model
 		return App::get('database')->query_fetch($query);
 	}
 
+	public static function allPagination($current_page, $limit)
+	{
+		$start = ($current_page - 1) * $limit;
+		$query='select * from '.static::$table.' limit ?, ?';
+		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
+	}
+
+
 	public static function count()
 	{
-		$query="select count(*) as total_record from ".static::$table;
+		$query='select count(*) as total_record from '.static::$table;
 		return App::get('database')->query_fetch($query);
 	}
 
-	public static function find($id)
+	public static function find($column, $value)
 	{
-		$query="SELECT * FROM ".static::$table." WHERE id=?";
-		return App::get('database')->query_fetch_params($query,array('id'=>$id));
+		$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
+		return App::get('database')->query_fetch_params($query,array($column => $value));
 	}
+
 
 	public static function insert($parameters)
 	{	
@@ -38,12 +47,10 @@ class Model
 			implode(',',array_keys($parameters)),
 			implode(', ',array_fill(0,count($parameters),'?'))
 			);
-		return App::get('database')->query_excute_params($query,$parameters);
-
+		return App::get('database')->query_excute_params($query,$parameters);	
 	}
-
-
-	public static function update($id,$parameters)
+	
+	public static function update($parameters,$id)
 	{
 		$string="";
 		foreach ($parameters as $key => $value) {
@@ -60,6 +67,7 @@ class Model
 		$query="DELETE FROM ".static::$table." WHERE id=?";
 		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
+
 
 }
 ?>

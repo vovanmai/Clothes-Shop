@@ -13,15 +13,15 @@ class AdminProductInfoController
 	 
 	public function index()
 	{	
-		$link_full='/admin/product_info?p={page}';
+		$link_full ='/admin/users?p={page}';
+		$limit = 10;
 		$count=Products_info::count();
-		$pagination = Pagination::pagination($count[0]->total_record,$link_full);
-		$paginghtml = $pagination['paginghtml'];
-		$limit = $pagination['config']['limit'];
-		$current_page = $pagination['config']['current_page'];
-		$products_info=Products_info::getAllPagination($current_page,$limit);	
-		$cats=Category::all();
-		return view('admin/product_info/index',['products_info'=>$products_info,'cats'=>$cats ,'paginghtml'=>$paginghtml]);	
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+		$paging = new Pagination();
+		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
+		$products_info=Products_info::allPagination($current_page,$limit);
+		$cats=Category::all();	
+		return view('admin/product_info/index',['products_info'=>$products_info, 'paginghtml'=>$paging->html(),'cats'=>$cats]);
 	}
 	public function add()
 	{
@@ -71,7 +71,7 @@ class AdminProductInfoController
 	public function edit()
 	{
 		$id=$_GET['id'];
-		$product_info=Products_info::find($id);
+		$product_info=Products_info::find('id',$id);
 		$cats=Category::all();
 		return view('admin/product_info/edit',['product_info'=>$product_info,'cats'=>$cats]);
 	}
@@ -79,7 +79,6 @@ class AdminProductInfoController
 	public function update()
 	{
 		$id=$_POST['id'];
-
 		$name=$_POST['name'];
 		$cat_id=$_POST['categoy'];
 		$image=$_FILES['image']['name'];
@@ -94,12 +93,12 @@ class AdminProductInfoController
 			'detail_text' => $detail_text, 
 			);
 		if($image==''){
-			if(Products_info::update($id,$updated_product_info)){
+			if(Products_info::update($updated_product_info,$id)){
 				Session::createSession('msg','Updated Successfully !');
 				return redirect('admin/product_info');
 			}
 		}else{
-			$product_info=Products_info::find($id);
+			$product_info=Products_info::find('id',$id);
 			$tmp_name=$_FILES['image']['tmp_name'];
 			$tmp=explode('.',$image);
 			$file_end=end($tmp);
@@ -111,7 +110,7 @@ class AdminProductInfoController
 				unlink($_SERVER['DOCUMENT_ROOT'].'/public/upload/product_info/'.$product_info[0]->image);
 			}
 			$updated_product_info['image']=$new_file_name;
-			if(Products_info::update($id,$updated_product_info)){
+			if(Products_info::update($updated_product_info,$id)){
 				Session::createSession('msg','Updated Successfully !');
 				return redirect('admin/product_info');
 			}
@@ -121,7 +120,7 @@ class AdminProductInfoController
 	public function changeProductInfoActive()
 	{
 		$id=$_GET['id'];
-		$product_info=Products_info::find($id)[0];
+		$product_info=Products_info::find('id',$id)[0];
 		if($product_info->active==1){
 			if(Products_info::updateActive($id,0)){
 				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';

@@ -87,13 +87,13 @@ require dirname(__DIR__).'/require/header.view.php';
                 </div><!-- /.page-header -->
 
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-6 col-md-offset-3">
                         <!-- PAGE CONTENT BEGINS -->
                         <form  action="/admin/products/add" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="form-field-select-3" style="font-weight:bold;">Product Info :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="product_info_id_add" id="form-field-select-3" data-placeholder="Choose a State...">
+                                <select class="chosen-select form-control" name="product_info_id_add" id="product_info_id" data-placeholder="Choose a State...">
                                     <option value="0">-----Choose Product Info-----</option>
                                     <?php 
                                         foreach ($product_info as $key => $item){
@@ -102,13 +102,15 @@ require dirname(__DIR__).'/require/header.view.php';
                                     ?>
                                         <option  value="<?php echo $id; ?>"><?php echo $name; ?></option>
                                     <?php } ?>  
-                            </select>
+                                </select>
+                                <div id="product_info_id_warning_msg" style="margin-top: 10px;">           
+                                </div>
                             </div>
                             
                             <div class="form-group">
                                 <label for="form-field-select-3" style="font-weight:bold;">Color :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="products_color_add" style="width: 300px;" name="" id="form-field-select-3" data-placeholder="Choose a State...">
+                                <select class="chosen-select form-control" id="products_color" name="products_color_add"  name="" id="form-field-select-3" data-placeholder="Choose a State...">
                                     <option value="0">-----Choose Color-----</option>
                                     <?php foreach ($colors as $key => $item) {
                                         $id=$item->id;
@@ -118,13 +120,13 @@ require dirname(__DIR__).'/require/header.view.php';
                                     <?php } ?>    
                               
                                 </select>
-                                <div id="color_warning_msg" style="margin-top: 10px;">           
+                                <div id="products_color_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="form-field-select-3" style="font-weight:bold;">Size :</label>
                                 <br />
-                                <select class="chosen-select form-control" name="products_size_add" style="width: 300px;" name="" id="form-field-select-3" >
+                                <select class="chosen-select form-control" name="products_size_add" id="products_size"  name="" id="form-field-select-3" >
                                     <option value="0">-----Choose Size-----</option>
                                     <?php foreach ($size as $key => $item) {
                                         $id=$item->id;
@@ -134,18 +136,18 @@ require dirname(__DIR__).'/require/header.view.php';
                                     <?php } ?>    
                               
                                 </select>
-                                <div id="color_warning_msg" style="margin-top: 10px;">           
+                                <div id="products_size_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label style="font-weight:bold;" for="pwd">Quantity :</label>
-                                <input type="text" name="quantity" class="form-control" >
-                                <div id="quantity_warning_msg" style="margin-top: 10px;">           
+                                <input type="text" name="quantity" id="quantity" class="form-control" >
+                                <div id="products_quantity_warning_msg" style="margin-top: 10px;">           
                                 </div>
                             </div>            
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  id=""  class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  disabled id="products_submit" class="btn btn-success">Add</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

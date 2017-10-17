@@ -11,12 +11,6 @@ class Products_info extends Model
 {
 	public static $table="products_info";
 
-	public static function getAllPagination($current_page, $limit)
-	{
-		$start = ($current_page - 1) * $limit;
-		$query='select * from products_info limit ?, ?';
-		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
-	}
 
 	public static function updateActive($id,$active)
 	{
