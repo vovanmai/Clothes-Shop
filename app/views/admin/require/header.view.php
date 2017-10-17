@@ -38,6 +38,7 @@ if (isset($_SESSION['user'])) {
 	<link rel="stylesheet" href="/public/admin/assets/css/ace-rtl.min.css" />
 	<link rel="stylesheet" href="/public/admin/assets/css/mystyle.css" />		
 	<script src="/public/admin/assets/js/ace-extra.min.js"></script>
+	<script type="text/javascript" src="/public/admin/assets/libraries/ckeditor/ckeditor.js"></script>
 
 	
 </head>

@@ -24,7 +24,7 @@ class QueryBuilder
 			if(is_int($value))
 			{
 				$statement->bindValue($i,$value,PDO::PARAM_INT);
-			} else {
+			}else{
 				$statement->bindValue($i,$value,PDO::PARAM_STR);
 			}
 		}
@@ -47,8 +47,7 @@ class QueryBuilder
 			}
 
 		}
-		$statement->execute();
-		
+		$statement->execute();		
 		return $statement->fetchAll(PDO::FETCH_CLASS);
 	}
 
@@ -59,9 +58,5 @@ class QueryBuilder
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_CLASS);
 	}
-	// $stmt = $conn->prepare('INSERT INTO users (name, email, age) values (:name, :mail, :age)');`
-// //Gán các biến (lúc này chưa mang giá trị) vào các placeholder theo tên của chúng
-// $stmt->bindParam(':name', $name);
-	// $stmt->execute();
 }
 ?>

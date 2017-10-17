@@ -388,4 +388,18 @@ $(document).ready(function() {
             checkConfirm();
         }
     }); 
+$(".product_info_active").click(function() {
+        var id = $(this).attr('id');
+        var idstring = "#" + id;
+        $.ajax({
+            url: "/admin/product_info/active",
+            type: "GET",
+            data: {
+                'id': id
+            },
+            success: function(data) {
+                $(idstring).html(data);
+            }
+        });
+    });
 })       

@@ -16,7 +16,6 @@ class Pagination
         'max'           => 0  // tham số max, min và max là 2 tham số private
         );
     
-    
     function init($current_page, $limit, $link_full, $total_record)
     {
         $this->_config['current_page'] = $current_page;
