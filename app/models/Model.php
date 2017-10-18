@@ -24,24 +24,19 @@ class Model
 		$query='select count(*) as total_record from '.static::$table;
 		return App::get('database')->query_fetch($query);
 	}
-	public static function find($id)
+
+	// public static function find($column, $value)
+	// {
+	// 	$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
+	// 	return App::get('database')->query_fetch_params($query,array($column => $value));
+	// }
+
+
+	public static function find($column, $value)
 	{
-		$query="SELECT * FROM ".static::$table." WHERE id = ?";
-		return App::get('database')->query_fetch_params($query,array('id' => $id));
+		$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
+		return App::get('database')->query_fetch_params($query,array($column => $value));
 	}
-
-	// public static function find($column, $value)
-	// {
-	// 	$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
-	// 	return App::get('database')->query_fetch_params($query,array($column => $value));
-	// }
-
-
-	// public static function find($column, $value)
-	// {
-	// 	$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
-	// 	return App::get('database')->query_fetch_params($query,array($column => $value));
-	// }
 
 	public static function insert($parameters)
 	{	

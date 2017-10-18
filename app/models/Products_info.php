@@ -20,6 +20,12 @@ class Products_info extends Model
 		return App::get('database')->query_excute_params($query,$parameters);
 	}
 
+	public static function getHotProduct()
+	{
+		$query="SELECT * FROM ".static::$table." WHERE view > 100 ORDER BY view DESC";
+		return App::get('database')->query_fetch($query);
+	}
+
 }
 
 
