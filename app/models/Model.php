@@ -42,11 +42,7 @@ class Model
 	// }
 
 
-	// public static function find($column, $value)
-	// {
-	// 	$query="SELECT * FROM ".static::$table." WHERE ". $column. " = ?";
-	// 	return App::get('database')->query_fetch_params($query,array($column => $value));
-	// }
+
 
 	public static function insert($parameters)
 	{	

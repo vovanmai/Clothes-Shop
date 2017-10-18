@@ -13,7 +13,7 @@ class AdminProductInfoController
 	 
 	public function index()
 	{	
-		$link_full ='/admin/users?p={page}';
+		$link_full ='/admin/product_info?p={page}';
 		$limit = 10;
 		$count=Products_info::count();
 		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
@@ -31,7 +31,7 @@ class AdminProductInfoController
 	public function store()
 	{
 		$name=$_POST['name'];
-		$categoy=$_POST['categoy'];
+		$category=$_POST['category'];
 		$image=$_FILES['image']['name'];
 		$price=$_POST['price'];
 		$description=$_POST['description'];
@@ -46,7 +46,7 @@ class AdminProductInfoController
 
 			$products_info= array(
 				'name' => $name, 
-				'cat_id' => $categoy, 
+				'cat_id' => $category, 
 				'image' => $new_file_name, 
 				'price' => $price, 
 				'preview_text' => $description, 

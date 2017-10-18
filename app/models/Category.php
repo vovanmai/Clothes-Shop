@@ -15,5 +15,7 @@ class Category extends Model
 		$query="SELECT * FROM cat INNER JOIN products_info ON cat.id=products_info.cat_id WHERE gender=$id";
 		return App::get('database')->query_fetch($query);
 	}
+
+	
 }
 ?>
