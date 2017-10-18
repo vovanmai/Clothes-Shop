@@ -19,7 +19,24 @@ class Products_info extends Model
 		$query='UPDATE products_info SET active=? WHERE id=?';
 		return App::get('database')->query_excute_params($query,$parameters);
 	}
+	public static function getHotProduct()
+	{
+		$query="SELECT * FROM ".static::$table." WHERE view > 100 ORDER BY view";
+		return App::get('database')->query_fetch($query);
+	}
+	public static function getID_Product($id)
+	{
+		$query="SELECT id FROM products 
+		where product_info_id = ".$id;
+		return App::get('database')->query_fetch($query);
+	}
+	public static function getSizes($id)
+	{
+		$query = "SELECT size FROM size where size.id in (select size_id 
+		from products where product_info_id = ".$id.")";
+		return App::get('database')->query_fetch($query);
 
+	} 
 }
 
 

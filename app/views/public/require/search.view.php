@@ -9,17 +9,22 @@
 	  </select>
 	  <label for="gender">Kinds</label>
 	  <select class="select" name="style">
-		  <option value="t-shirt">T-shirt</option>
-		  <option value="shirt">Shirt</option>
-		  <option value="pants">Pants</option>
-		  <option value="jacket">Jacket</option>
+		  <?php
+		   if(!empty($cats))
+		   { 
+			 foreach($cats as $item){ ?>
+		  	<option value= <?php echo $item->name?>><?php echo $item->name ?></option>
+		  <?php } } ?> 
 	  </select>
 	  <label for="size">Size: </label>
 	  <select class="select" name="size">
-		  <option value="size-s">S</option>
-		  <option value="size-m">M</option>
-		  <option value="size-l">L</option>
-		  <option value="size-xl">XL</option>
+		  <?php
+		   if(!empty($sizes))
+		   { 
+			 foreach($sizes as $item){ ?>
+		  	<option value= <?php echo $item->size?>><?php echo $item->size ?></option>
+		  <?php } } ?>
+	 
 	  </select>
 	  <label>Price from: </label><input class="input-price price-from" type="text" name="">
 	  <label>Price to: </label><input class="input-price price-to" type="text" name="">

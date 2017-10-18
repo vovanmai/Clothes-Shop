@@ -1,5 +1,4 @@
 <?php
-
 require dirname(__DIR__).'/require/header.view.php';
 ?>
 
@@ -155,7 +154,6 @@ require dirname(__DIR__).'/require/header.view.php';
                 </th>
               </tr>
             </thead>
-
             <tbody>
               <?php 
               if(!empty($users))
@@ -227,7 +225,7 @@ require dirname(__DIR__).'/require/header.view.php';
                               <?php
                               if($level!=3){
                                 ?>
-                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete/<?php echo $id; ?>">
+                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete?id=<?php echo $id; ?>">
                                   <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                 </a>
                                 <?php } ?>

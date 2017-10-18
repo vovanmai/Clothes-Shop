@@ -73,9 +73,15 @@ $router->get('admin/orders/updateStatus','OrdersController@updateStatus');
 $router->get('admin/orders/detail/{id}','OrdersController@detail');
 $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
-$router->get('','IndexController@index');
+
+//=====================PUBLIC===================
+$router->get('','PublicController@index');
+$router->get('detail','PublicController@detail');
+$router->get('men','PublicController@getProductInfoByGender');
+$router->get('women','PublicController@getProductInfoByGender');
 
 
+//==================ERROR=======================
 $router->get('*','ErrorController@error');
 $router->post('*','ErrorController@error');
 

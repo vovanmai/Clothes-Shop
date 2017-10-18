@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta content="text/html" charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,7 +18,7 @@
                 <div class="navbar-full hidden-mobile hidden-tablet row">
                     <div class=" col-md-2 col-lg-3">
                         <div class="logo-shop cover">
-                            <a href="index.html"><p>Fashion & <span>Style</span></p></a>
+                            <a href="/"><p>Fashion & <span>Style</span></p></a>
                         </div>
                     </div>
 
