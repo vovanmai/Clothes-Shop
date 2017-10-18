@@ -44,17 +44,17 @@
                                     <div class="products">
                                         <div class="box-title">Featutes</div>
                                         <?php
-										if(!empty($product_infos))
+										if(!empty($products_info))
 										{ 
-											foreach($product_infos as $item)  { ?>
+											foreach($products_info as $item)  { ?>
 										<div class="product">
                                             <div class="cover-img">
                                                 <a href="detail?id=<?php echo $item->id;?>">
-                                                    <img src="/public/assets/img/<?php echo $item->image; ?>" alt="">
+                                                    <img src="/public/upload/product_info/<?php echo $item->image; ?>" alt="">
                                                 </a>
                                                 <div class="cover-btns">
-                                                    <a href="cart.html" title="">
-                                                        <button class="btn-add-cart">Add to Cart</button>
+                                                    <a href="detail?id=<?php echo $item->id;?>" title="">
+                                                        <button class="btn-add-cart">Add to cart</button>
                                                     </a>
                                                     <a href="checkout.html" title="">
                                                         <button class="btn-buy-now">Buy Now</button>
@@ -64,10 +64,28 @@
                                             <span class="name"><?php echo $item->name; ?></span>
                                             <span class="price"><?php echo $item->price; ?></span>
                                         </div>
-											<?php } } ?>		
-                                        </div>
+											<?php } } ?>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="cover-pagination">
+                                                <ul class="pagination">
+                                         <li><a href="/admin/product_info?p=1">First</a></li>
+                                          <li><a href="/admin/product_info?p=1">Prev</a></li>
+                                        <li><a href="/admin/product_info?p=1">1</a></li>
+                                          <li><span>2</span></li>
+                                         <li><a href="/admin/product_info?p=3">3</a></li>
+                                        <li><a href="/admin/product_info?p=3">Next</a></li>
+                                        <li><a href="/admin/product_info?p=3">Last</a></li>
+                                    </ul>
+                                            </div>
+                                                </div>
+                                            </div>
+                                            
+                                            		
+                                    </div>
                                     
 									
+
 									</div>
                                 </div>
                             </div>

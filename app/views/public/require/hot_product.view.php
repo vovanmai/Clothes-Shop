@@ -21,9 +21,9 @@
                                 ?>
                                 <li>
                                     <div class="product">
-                                        <a href="detail?id=<?php echo $id;?>">
+                                        <a href="/detail?id=<?php echo $id;?>">
                                             <div class="cover-img">
-                                                <img src="public/assets/img/<?php echo $image; ?>" alt="">
+                                                <img src="/public/upload/product_info/<?php echo $image; ?>" alt="">
                                             </div>
                                         </a>
                                         <span class="name"><?php echo $name; ?><span>

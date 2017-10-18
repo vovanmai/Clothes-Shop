@@ -10,12 +10,10 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="left" id="images-product">
-							<div class="main-image"><img class="img-product" src="/public/assets/img/men-1.jpg" alt=""></div>
+							<div class="main-image"><img class="img-product" src="/public/upload/product_info/<?php echo $product_info->image ?>" alt=""></div>
 							<div class="wrap-list">
 								<ul id="list-images">
-									<li><img class="small-image" src="/public/assets/img/<?php echo $product_info->image ?>" alt=""></li>
-									<li><img class="small-image" src="/public/assets/img/<?php echo $product_info->image1 ?>" alt=""></li>
-									<li><img class="small-image" src="/public/assets/img/<?php echo $product_info->image2 ?>" alt=""></li>
+									
 									
 								</ul>
 							</div>

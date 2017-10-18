@@ -2679,11 +2679,31 @@ a {
         .wrapper #content #best-sellers .container-full .menu-vertical .btn-search:hover {
           color: #fff;
           background-color: #000; }
+          .wrapper #content #best-sellers .container-full .features .products .cover-pagination{
+            display: block;
+            text-align: center;
+          }
+          .wrapper #content #best-sellers .container-full .features .products .pagination{
+              list-style: none;
+          }
+          .wrapper #content #best-sellers .container-full .features .products .pagination li{
+              float: left ;
+              width: 50px;
+              height: 40px;
+              
+              margin-right: 10px;
+              text-align: center;
+          }
+          .wrapper #content #best-sellers .container-full .features .products .pagination li a{
+            
+            
+          }
     .wrapper #content #best-sellers .container-full .features .products {
       margin-top: 30px;
       position: relative;
       border-top: 1px solid black;
-      padding-top: 20px; }
+      padding-top: 20px;
+       }
       .wrapper #content #best-sellers .container-full .features .products .product {
         width: 25%;
         float: left;
