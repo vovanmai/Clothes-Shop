@@ -30,20 +30,6 @@ class Products_info extends Model
 		where product_info_id = ".$id;
 		return App::get('database')->query_fetch($query);
 	}
-	public static function getSizes($id)
-	{
-		$query = "SELECT size FROM size where size.id in (select size_id 
-		from products where product_info_id = ".$id.")";
-		return App::get('database')->query_fetch($query);
-
-	}
-	public static function getColors($id)
-	{
-		$query = "SELECT name FROM color where color.id in (select color_id
-		from products where product_info_id = ".$id.")";
-		return App::get('database')->query_fetch($query);
-
-	}
 
 	public static function getProductInfoByCat($id)
 	{

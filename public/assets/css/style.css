@@ -2682,9 +2682,12 @@ a {
           .wrapper #content #best-sellers .container-full .features .products .cover-pagination{
             display: block;
             text-align: center;
+
           }
           .wrapper #content #best-sellers .container-full .features .products .pagination{
               list-style: none;
+              margin-top:30px;
+              margin-left:300px;
           }
           .wrapper #content #best-sellers .container-full .features .products .pagination li{
               float: left ;

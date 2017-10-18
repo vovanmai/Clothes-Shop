@@ -4,6 +4,7 @@ $router->get('','PublicController@index');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
 $router->get('cat/{id}','PublicController@cat');
+$router->get('detail/{id}','PublicController@detail');
 // ==============USERS==============
 
 $router->get('admin/users','UsersController@index');
@@ -78,10 +79,25 @@ $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
 
 //=====================PUBLIC===================
-$router->get('','PublicController@index');
-$router->get('detail','PublicController@detail');
+$router->get('home','PublicController@index');
+$router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
+$router->post('detail/PlusNumber','PublicController@PlusNumber');
+$router->post('detail/SubNumber','PublicController@SubNumber');
+$router->post('detail/addCart','PublicController@addCart');
+$router->get('cart','PublicController@cart');
+$router->get('cart/delete/{id}','PublicController@delete');
+$router->post('cart/plusCart','PublicController@plusCart');
+$router->post('cart/subCart','PublicController@subCart');
+
+
+//$router->post('detail/quantity','ShopController@quantity');
+
+
+
+
+
 
 
 //==================ERROR=======================

@@ -29,11 +29,11 @@
                                         ?>
                                         <div class="product">
                                             <div class="cover-img">
-                                                <a href="detail.html">
+                                                <a href="/detail/<?php echo $id; ?>">
                                                     <img src="/public/upload/product_info/<?php echo $image; ?>" alt="">
                                                 </a>
                                                 <div class="cover-btns">
-                                                    <a href="cart.html" title="">
+                                                    <a href="/detail/<?php echo $id; ?>" title="">
                                                         <button class="btn-add-cart">Add to Cart</button>
                                                     </a>
                                                     <a href="checkout.html" title="">
