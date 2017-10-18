@@ -36,6 +36,13 @@ class Products_info extends Model
 		from products where product_info_id = ".$id.")";
 		return App::get('database')->query_fetch($query);
 
+	}
+	public static function getColors($id)
+	{
+		$query = "SELECT name FROM color where color.id in (select color_id
+		from products where product_info_id = ".$id.")";
+		return App::get('database')->query_fetch($query);
+
 	} 
 }
 

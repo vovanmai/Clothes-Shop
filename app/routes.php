@@ -1,8 +1,8 @@
 <?php 
 // ========================PUBLIC SHOP===========
-$router->get('','ShopController@index');
-$router->get('men','ShopController@getProductInfoByGender');
-$router->get('women','ShopController@getProductInfoByGender');
+$router->get('','PublicController@index');
+$router->get('men','PublicController@getProductInfoByGender');
+$router->get('women','PublicController@getProductInfoByGender');
 // ==============USERS==============
 
 $router->get('admin/users','UsersController@index');

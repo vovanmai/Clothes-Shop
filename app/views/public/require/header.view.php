@@ -25,7 +25,7 @@
                     <div class="col-md-5 col-lg-4">
                         <div class="cover menu">
                             <ul>
-                                <li><a class="active" href="index.html">HOME</a></li>
+                                <li><a class="active" href="/">HOME</a></li>
                                 <li>
                                     <a href="men">MEN</a>
                                     <div class="menu-child">

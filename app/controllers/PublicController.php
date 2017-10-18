@@ -22,12 +22,10 @@ class PublicController
 	public function detail() {
 		if(isset($_GET['id'])) {
 			$id = $_GET['id'];
-			echo $id;
 			$product_info = Products_info::find("id",$id)[0];
-			$id_product = Products_info::getID_Product($id)[0]->id;
 			$sizes = Products_info::getSizes($id);
-			return view('public/detail',['product_info' => $product_info,
-			  'id_product' => $id_product, 'sizes' => $sizes]);
+			$colors = Products_info::getColors($id);
+			return view('public/detail',['product_info' => $product_info, 'sizes' => $sizes,'colors'=>$colors]);
 		}
 	}
 	public function getProductInfoByGender(){
