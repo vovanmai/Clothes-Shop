@@ -8,6 +8,9 @@
     <title>Shop</title>
     <link rel="stylesheet" type="text/css" href="/public/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/assets/css/style.css">
+    <script type="text/javascript" src="/public/assets/js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/app.js"></script>
+    <script type="text/javascript" src="/public/assets/js/shop.js"></script>
 </head>
 
 <body>
@@ -97,9 +100,23 @@
                     </div>
                     <div class="col-md-2 col-lg-2 ">
                         <div class="cover account-box">
-                            <a class="bag" href="cart.html">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <span class="indicator">1</span>
+                            <a class="bag" href="/cart">
+                                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                        <span class='showCart'>
+                                        <?php
+
+                                        if (isset($_SESSION['num'])){
+                                            
+                                           if($_SESSION['num'] !=0) {
+                                        ?>
+                                            <span class='indicator'><?php echo $_SESSION['num'] ;?></span>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                        </span>
+                              
+                               
                             </a>
 
                             <button class="account" id="account"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</button>
@@ -109,9 +126,21 @@
                 <div class="hidden-desktop hidden-lage-screen row ">
                     <div class="col-xs-2 col-sm-2">
                         <div class="btn-bag">
-                            <a href="cart.html">
+                            <a href="/cart">
                                 <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <span class="indicator">1</span>
+                                <span class='showCart'>
+                                        <?php
+
+                                        if (isset($_SESSION['num'])){
+                                            
+                                           if($_SESSION['num'] !=0) {
+                                        ?>
+                                            <span class='indicator'><?php echo $_SESSION['num'] ;?></span>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </span>
                             </a>
                         </div>
                     </div>
