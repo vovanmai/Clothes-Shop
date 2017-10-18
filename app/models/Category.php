@@ -16,6 +16,18 @@ class Category extends Model
 		return App::get('database')->query_fetch($query);
 	}
 
+	public static function getCatByGender($gender)
+	{
+		$query="SELECT * FROM cat WHERE gender=$gender and active=1";
+		return App::get('database')->query_fetch($query);
+	}
+
+	public static function getGenderByStyle($id)
+	{
+		$query="SELECT * FROM cat WHERE id=$id";
+		return App::get('database')->query_fetch($query);
+	}
+
 	
 }
 ?>

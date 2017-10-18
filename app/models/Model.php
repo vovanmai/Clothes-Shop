@@ -13,6 +13,13 @@ class Model
 		$query="SELECT * FROM ".static::$table;
 		return App::get('database')->query_fetch($query);
 	}
+
+	public static function allActive()
+	{
+		$query="SELECT * FROM ".static::$table." where active=1";
+		return App::get('database')->query_fetch($query);
+	}
+
 	public static function allLimit($limit)
 	{
 		$query="SELECT * FROM ".static::$table." LIMIT ".$limit;

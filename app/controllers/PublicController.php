@@ -12,7 +12,7 @@ class PublicController
 {
 	public function index(){
 		$product_infos = Products_info::allLimit(12);
-		$cats = Category::all();
+		$cats = Category::allActive();
 		$sizes = Sizes::all();
 		$hot_product = Products_info::getHotProduct();
 		return view('public/index',['product_infos' => $product_infos,
@@ -39,5 +39,30 @@ class PublicController
         $hot_product=Products_info::getHotProduct();
     	return view('public/gender_product_info',['gender_products_info'=>$gender_products_info,'hot_product'=>$hot_product]);
     }
+
+    public function search(){
+        $gender= $_POST['gender'];
+        $style= $_POST['style'];
+        $price= $_POST['price'];
+        $products=Products_info::getProductsSearch($gender,$style,$price);
+        echo json_encode($products);
+        die();
+    }
+    
+    public function getCat(){
+        $gender= $_POST['gender'];
+        $cat=Category::getCatByGender($gender);
+        echo json_encode($cat);
+        die();
+    }
+
+    public function getGender(){
+        $style= $_POST['style'];
+        $gender=Category::getGenderByStyle($style);
+        echo json_encode($gender);
+        die();
+    }
+    
+    
 }
 ?>
