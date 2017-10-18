@@ -2,207 +2,90 @@
 namespace app\controllers;
 use core\App;
 use core\Session;
-use app\models\Users;
+use app\models\Orders;
+use app\models\Payment;
 use core\Pagination;
 
-class UsersController
+class OrdersController
 {
-    function __construct() {
-        checkExist();
-    }
+	function __construct() {
+		checkExist();
+	}
 	public function index()
 	{
-		$link_full='/admin/users?p={page}';
-		$count=Users::count();
+		$payments=Payment::all();
+		$link_full='/admin/orders?p={page}';
+		$count=Orders::count();
 		$pagination = $this->pagination($count[0]->total_record,$link_full);
 		$paginghtml = $pagination['paginghtml'];
 		$limit = $pagination['config']['limit'];
 		$current_page = $pagination['config']['current_page'];
-		$users=Users::all($current_page,$limit);	
-		return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml]);
+		$orders=Orders::allOrdersPagination($current_page,$limit);	
+		return view('admin/orders/index',['orders'=>$orders,'paginghtml'=>$paginghtml,'payments'=>$payments]);
 	}
-	public function add()
-	{
-		if($_SESSION['user'][0]->level==1)
-		{
-			return view('admin/users/add');
-		} else {
-			return redirect('admin/users?msg=Non-permission');
-		}
-		
-	}
+	
 
-	public function store()
-	{
-		if(isset($_POST['submit'])){
-			$username=$_POST['username'];
-			$password=md5($_POST['password']);
-			$fullname=$_POST['fullname'];
-			$email=$_POST['email'];
-			$phone=$_POST['phone'];
-			$address=$_POST['address'];
-			$avatar=$_FILES['avatar']['name'];
-			$new_User = array(
-				'username' =>$username, 
-				'password' =>$password, 
-				'fullname' =>$fullname, 
-				'email' =>$email, 
-				'phone' =>$phone, 
-				'address' =>$address, 
-				'level' =>2
-				);
-			if($avatar==''){
-				$new_User['avatar']='';
-				if(Users::insert($new_User)){
-					return redirect('admin/users?msg=Added Successfully!');
-				}
-			}else{
-				$tmp_name=$_FILES['avatar']['tmp_name'];
-				$tmp=explode('.',$avatar);
-				$file_end=end($tmp);
-				$new_file_name='avatar-'.$username.'-'.time().'.'.$file_end;
-				$pathUpload=$_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$new_file_name;
-				$uploadAction=move_uploaded_file($tmp_name, $pathUpload);
-				if($uploadAction){
-					$new_User['avatar']=$new_file_name;
-					if(Users::insert($new_User)){
-						return redirect('admin/users?msg=Added Successfully !');
-					}
-				}
-			}
-		}
-	}
-
-	public function edit($id)
-	{
-		//check phan quyen nge
-		if(Users::auth($id))	
-		{
-			$auser=Users::find($id);
-			return view('admin/users/edit',['auser'=>$auser]);
-		} else {
-			return redirect('admin/users?msg=Non-permission');
-		}
-		
-
-	}
-
-	public function update($id)
+	public function updateStatus()
 	{	
-		$user=Users::find($id)[0];
-		
-		if(isset($_POST['submit'])){
-			$password=$_POST['password'];
-			$fullname=$_POST['fullname'];
-			$email=$_POST['email'];
-			$phone=$_POST['phone'];
-			$address=$_POST['address'];
-			$avatar=$_FILES['avatar']['name'];
-			
-			if($password==''){
-				if($avatar==''){
-					$edited_User=array(
-						'username' => $username, 
-						'password' => $user->password, 
-						'fullname' => $fullname, 
-						'email' => $email, 
-						'phone' => $phone, 
-						'address' => $address,  
-						'avatar' => $user->avatar
-						);
-				}else{
-					if($user->avatar!=''){
-						unlink($_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$user->avatar);
-					}
-					$tmp_name=$_FILES['avatar']['tmp_name'];
-					$tmp=explode('.',$avatar);
-					$file_end=end($tmp);
-					$new_file_name='avatar-'.$username.'-'.time().'.'.$file_end;
-					$pathUpload=$_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$new_file_name;
-					$uploadAction=move_uploaded_file($tmp_name, $pathUpload);
-					$edited_User=array( 
-						'password' => $user->password, 
-						'fullname' => $fullname, 
-						'email' => $email, 
-						'phone' => $phone, 
-						'address' => $address,  
-						'avatar' => $new_file_name
-					  );
-				}	
-			}else{
-				if($avatar==''){
-					$edited_User=array( 
-						'password' => md5($password), 
-						'fullname' => $fullname, 
-						'email' => $email, 
-						'phone' => $phone, 
-						'address' => $address, 
-						'avatar' => $user->avatar
-						);
-				}else{
-					if($user->avatar!=''){
-						unlink($_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$user->avatar);
-					}
-					$tmp_name=$_FILES['avatar']['tmp_name'];
-					$tmp=explode('.',$avatar);
-					$file_end=end($tmp);
-					$new_file_name='avatar-'.$username.'-'.time().'.'.$file_end;
-					$pathUpload=$_SERVER['DOCUMENT_ROOT'].'/public/upload/avatar/'.$new_file_name;
-					$uploadAction=move_uploaded_file($tmp_name, $pathUpload);
-					$edited_User=array(
-						'password' => md5($password), 
-						'fullname' => $fullname, 
-						'email' => $email, 
-						'phone' => $phone, 
-						'address' => $address, 
-						'avatar' => $new_file_name
-						);
-				}
-			}
-			if(Users::update($edited_User,$id)){
-				return redirect('admin/users?msg=Edited Successfully!');
-			}
-		}
+		$id=$_GET['id'];
+		$status=$_GET['status'];
+		$order=Orders::updateStatus($status,$id);
+		echo 'success';
 	}
 
-	public function changeActive()
+	public function changeActivePaid()
 	{
-		if($_SESSION['user'][0]->level==1)
-		{
-			$id=$_GET['id'];
-			$user=Users::find($id);
-			if($user[0]->active==1){
-				if(Users::updateActive(0,$id)){
-					echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
-				}
-			}else{
-				if(Users::updateActive(1,$id)){
-					echo '<img src="/public/admin/assets/images/active.gif" alt="">';
-				}
+		$id=$_GET['id'];
+		$order=Orders::find($id);
+		if($order[0]->paid==1){
+			if(Orders::updateActivePaid(0,$id)){
+				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
 			}
-		} else {
-			return redirect('admin/users?msg=Non-permission');
+		}else{
+			if(Orders::updateActivePaid(1,$id)){
+				echo '<img src="/public/admin/assets/images/active.gif" alt="">';
+			}
 		}
 		
 	}
 
-	public function destroy()
+	public function changeActiveShipped()
+	{
+		$id=$_GET['id'];
+		$order=Orders::find($id);
+		if($order[0]->shipped==1){
+			if(Orders::updateActiveShipped(0,$id)){
+				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
+			}
+		}else{
+			if(Orders::updateActiveShipped(1,$id)){
+				echo '<img src="/public/admin/assets/images/active.gif" alt="">';
+			}
+		}
+		
+	}
+
+	public function destroy($id)
 	{	
 		if($_SESSION['user'][0]->level==1)
 		{
-			$id=$_GET['id'];
-			if(Users::delete($id)){
-				return redirect('admin/users?msg=Deleted Successfully!');
+			if(Orders::delete($id)){
+				if(Orders::deleteOrderDetail($id))
+				{
+					Session::createSession('msg','Deleted Successfully!');
+					return redirect('admin/orders');
+				}
 			} 
 		} else {
-			return redirect('admin/users?msg=Non-permission');
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/orders');
 
 		}
 	}
 
-		public function pagination($count,$link_full)
-		{
-			$config = array(
+	public function pagination($count,$link_full)
+	{
+		$config = array(
 			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
 			    'total_record'  => $count, // Tổng số record
 			 	//  'limit'         => 10,// limit
@@ -210,88 +93,76 @@ class UsersController
 			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
 			    'range'         => 9, // Số button trang bạn muốn hiển thị 
 			    );
-			$paging = new Pagination();
-			$paging->init($config);
-			$paginghtml = $paging->html();
-			return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
-		} 
+		$paging = new Pagination();
+		$paging->init($config);
+		$paginghtml = $paging->html();
+		return  array('config' => $paging->_config, 'paginghtml' => $paginghtml, );
+	} 
 
 
-		public function search()
+	public function search()
+	{
+		if(isset($_REQUEST['search'])||isset($_REQUEST['fullname']))
 		{
-			if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
-			{
-				$username=$_REQUEST['username'];
-				$fullname=$_REQUEST['fullname'];
-				$active=$_REQUEST['active'];
-				$level=$_REQUEST['level'];
-				$search_User = array(
-					'username' =>$username, 
-					'fullname' =>$fullname, 
-					'active' =>$active, 
-					'level' =>$level
-					);
-				$params=http_build_query($search_User);
+			$payments=Payment::all();
+			$fullname=$_REQUEST['fullname'];
+			$paid=$_REQUEST['paid'];
+			$shipped=$_REQUEST['shipped'];
+			$status=$_REQUEST['status'];
+			$payment=$_REQUEST['payment'];
+			$date_order=$_REQUEST['date_order'];
+			$search_Order = array(
+				'fullname' =>$fullname, 
+				'paid' =>$paid, 
+				'shipped' =>$shipped,
+				'status' =>$status, 
+				'payment' =>$payment, 
+				'date_order' =>$date_order
+				);
+			$params=http_build_query($search_Order);
 
-				$ArrUsers=Users::search($search_User);
+			$ArrOrders=Orders::search($search_Order);
 
-				$link_full='/admin/users/search?p={page}&'.$params;
-				$count=count($ArrUsers);
-				$pagination = $this->pagination($count,$link_full);
-				$paginghtml = $pagination['paginghtml'];
-				$limit = $pagination['config']['limit'];
-				$current_page = $pagination['config']['current_page'];
-				$users=Users::allSearch($current_page,$limit,$search_User);	
-				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paginghtml,'search_User'=>$search_User]);
-			} else {
-				return redirect('admin/users');
+			$link_full='/admin/orders/search?p={page}&'.$params;
+			$count=count($ArrOrders);
+			$pagination = $this->pagination($count,$link_full);
+			$paginghtml = $pagination['paginghtml'];
+			$limit = $pagination['config']['limit'];
+			$current_page = $pagination['config']['current_page'];
+			$orders=Orders::allSearch($current_page,$limit,$search_Order);	
+			return view('admin/orders/index',['orders'=>$orders, 'paginghtml'=>$paginghtml,'search_Order'=>$search_Order,'payments'=>$payments]);
+		} else {
+			return redirect('admin/orders');
 
-			}
-				
 		}
-
-	public function checkUsername()
-	{
-		$username=$_GET['username'];
-		$user=Users::findByUsername($username);
-		if($user==null){
-			echo 1;
-		}else{
-			echo 0;
-		}
-	}
-	//function check a added email existence.
-	public function checkAddEmail()
-	{
-		$email=$_GET['email'];
-		$user=Users::findByEmail($email);
-		if($user==null){
-			echo 1;
-		}else{
-			echo 0;
-		}
+		
 	}
 
+	public function detail($id)
+	{	
+		$order_details=Orders::detail($id);
+		return view('admin/orders/detail',['order_details'=>$order_details]);
+	}
 
-	//function check a edited email existence.
-	public function checkEditEmail()
-	{
-		$id=$_GET['id'];	
-		$email=$_GET['email'];
-		$currentEmail=Users::find($id)[0]->email;
-		if($email==$currentEmail){
-			echo 1;	
-		}else{
-			$usedEmail=Users::findByEmail($email);
-			if($usedEmail==null){
-				echo 1;
-			}else{
-				echo 0;
+	public function destroyAll()
+	{	
+		
+		if($_SESSION['user'][0]->level==1)
+		{
+			$del=$_POST['dels'];
+			foreach ($del as $key => $value) {
+				Orders::delete($value);
+				Orders::deleteOrderDetail($value);
 			}
+			Session::createSession('msg','Deleted Successfully!');
+			return redirect('admin/orders');
+		} else {
+			Session::createSession('msg','Non-permission');
+			return redirect('admin/orders');
 		}
 	}
 
 }
 
 
-	?>
+?>

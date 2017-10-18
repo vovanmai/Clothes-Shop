@@ -43,17 +43,26 @@ class Router
 				$routeParams 	= explode('/', $url);
 				$requestParams 	= explode('/', $uri);
 
-				if( count($routeParams) !== count($requestParams) ){
+				if( count($routeParams) != count($requestParams) ){
 					continue;
 				}
-
+				$urlMain='';
 				foreach( $routeParams as $k => $rp ){
 					if( preg_match('/^{\w+}$/',$rp) ){
 						$params[] = $requestParams[$k];
+					} else {
+						$urlMain.=$rp.'/';
 					}
 				}
 
-				$checkRoute = true;
+				if(strpos($uri, trim($urlMain,'/')) !== FALSE)
+				{
+					$checkRoute = true;
+				} else {
+					continue;
+				}
+
+				
 			}
 
 			if( $checkRoute === true ){

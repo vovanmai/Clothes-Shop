@@ -4,21 +4,21 @@ require dirname(__DIR__).'/require/header.view.php';
 ?>
 
 <div class="main-container ace-save-state" id="main-container">
-    <script type="text/javascript">
-        try{ace.settings.loadState('main-container')}catch(e){}
-    </script>
-    <?php 
-    require dirname(__DIR__).'/require/leftbar.view.php';
-    ?>
-    <div class="main-content">
-        <div class="main-content-inner">
-            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="">Home</a>
-                    </li>
-                <li class="active">Dashboard</li>
+  <script type="text/javascript">
+    try{ace.settings.loadState('main-container')}catch(e){}
+  </script>
+  <?php 
+  require dirname(__DIR__).'/require/leftbar.view.php';
+  ?>
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="">Home</a>
+          </li>
+          <li class="active">Dashboard</li>
         </ul><!-- /.breadcrumb -->
 
       </div>
@@ -55,7 +55,7 @@ require dirname(__DIR__).'/require/header.view.php';
             </div><!-- /.pull-left -->
 
             <div class="pull-left width-50">
-              
+
               <div class="ace-settings-item">
                 <div class="pull-left">
                   <select id="skin-colorpicker" class="hide">
@@ -82,86 +82,126 @@ require dirname(__DIR__).'/require/header.view.php';
 
         <div class="page-header">
           <h1 style="font-weight: bold">
-            Users
-                <!-- <small>
-                  <i class="ace-icon fa fa-angle-double-right"></i>
-                  Static &amp; Dynamic Tables
-                </small> -->
-              </h1>
-            </div><!-- /.page-header -->
+            Orders
+          </h1>
+        </div><!-- /.page-header -->
 
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
             <div class="row">
               <div class="col-xs-12">
-                <!-- PAGE CONTENT BEGINS -->
-                <div class="row">
-                  <div class="col-xs-12">
-                    <a href="/admin/users/add" class="btn btn-success fa fa-plus-square fa-lg" title=""> Add User</a>
-                  </br>
-                </br>
                 <?php 
-                if(isset($_GET['msg'])){
+                if(isset($_SESSION['msg'])){
                   ?>
                   <div class="alert alert-success" role="alert">
                     <strong>
-                      <?php
-                      echo $_GET['msg'];
-                      ?>
+                      <?php 
+                      echo $_SESSION['msg']; 
+                      unset($_SESSION['msg']);
+                      ?>        
                     </strong> 
                   </div>
                   <?php } ?>
-                  
+
                   <div class="row text-center">
                     <div class="col-xs-12">
                       <!-- PAGE CONTENT BEGINS -->
-                      <form class="form-horizontal" role="form" action="/admin/users/search" method="post">
+                      <form class="form-horizontal" role="form" action="/admin/orders/search" method="post">
                         <?php
-                        $username='';
                         $fullname='';
-                        $active=-1;
-                        $level=0;
-                        if(isset($search_User))
+                        $paid=-1;
+                        $shipped=-1;
+                        $payment=-1;
+                        $date_order='';
+                        $status=-1;
+                        if(isset($search_Order))
                         {
-                          $username=$search_User['username'];
-                          $fullname=$search_User['fullname'];
-                          $active=$search_User['active'];
-                          $level=$search_User['level'];
+                          $fullname=$search_Order['fullname'];
+                          $paid=$search_Order['paid'];
+                          $shipped=$search_Order['shipped'];
+                          $payment=$search_Order['payment'];
+                          $date_order=$search_Order['date_order'];
+                          $status=$search_Order['status'];
                         }
                         ?>
                         <div class="row">
-                          <div class="col-xs-3">
+                          <div class="col-xs-2">
+                          </div>
+                          <div class="col-xs-2" style="margin-left: 30px">
+                          </div>
+                          <div class="col-sm-1" style="margin-left: 30px">
+                            Status
+                          </div>
+                          <div class="col-xs-1" style="margin-left: 30px">
+                            Paid
+                          </div>
+                          <div class="col-xs-1" style="margin-left: 20px">
+                            Shipped
+                          </div>
+                          <div class="col-sm-1" style="margin-left: 40px">
+                            Payment
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-xs-2">
                            <div class="form-group">
                              <div class="pos-rel">
-                              <input class="typeahead scrollable" name="username" type="text" placeholder="Username" value="<?php echo $username; ?>" />
+                              <input class="typeahead scrollable" name="fullname" type="text" value="<?php echo $fullname; ?>" placeholder="Fullname" />
                             </div>
                           </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2" style="margin-left: 40px">
                          <div class="form-group">
                            <div class="pos-rel">
-                            <input class="typeahead scrollable" name="fullname" type="text" value="<?php echo $fullname; ?>" placeholder="Fullname" />
-                          </div>
+                             <input name="date_order" type="date" value="<?php if($date_order!='') echo date("Y-d-m", strtotime($date_order)); ?>" id="date_order"/>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="col-xs-1" style="margin-left: 40px">
+                         <div class="form-group">
+                           <select id="status" name="status" class="multiselect">
+                             <option <?php if($status==-1) echo 'selected="selected"';?> value="-1">--Status--</option>
+                             <option <?php if($status==0) echo 'selected="selected"';?> value="0">Confirmed</option>
+                             <option <?php if($status==1) echo 'selected="selected"';?> value="1">Pending</option>
+                             <option <?php if($status==2) echo 'selected="selected"';?> value="2">Cancel</option>
+                           </select>
+                         </div>
+                       </div>
+                       <div class="col-xs-1" style="margin-left: 30px">
+                         <div class="form-group">
+                           <select id="paid" name="paid" class="multiselect">
+                            <option <?php if($paid==-1) echo 'selected="selected"';?> value="-1">--paid--</option>
+                            <option <?php if($paid==1) echo 'selected="selected"';?> value="1">Yes</option>
+                            <option <?php if($paid==0) echo 'selected="selected"';?> value="0">No</option>
+                          </select>
                         </div>
                       </div>
-                      <div class="col-xs-2">
+                      <div class="col-sm-1" style="margin-left: 20px">
                        <div class="form-group">
-                         <select id="active" name="active" class="multiselect">
-                          <option <?php if($active==-1) echo 'selected="selected"';?> value="-1">--Active--</option>
-                          <option <?php if($active==1) echo 'selected="selected"';?> value="1">Active</option>
-                          <option <?php if($active==0) echo 'selected="selected"';?> value="0">Non-Active</option>
+                         <select id="shipped" name="shipped" class="multiselect" >
+                          <option <?php if($shipped==-1) echo 'selected="selected"';?> value="-1">--shipped--</option>
+                          <option <?php if($shipped==1) echo 'selected="selected"';?> value="1">Yes</option>
+                          <option <?php if($shipped==0) echo 'selected="selected"';?> value="0">No</option>
                         </select>
                       </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-1" style="margin-left: 40px">
                      <div class="form-group">
-                       <select id="level" name="level" class="multiselect" >
-                        <option <?php if($level==0) echo 'selected="selected"';?> value="0">--Level--</option>
-                        <option <?php if($level==1) echo 'selected="selected"';?> value="1">Admin</option>
-                        <option <?php if($level==2) echo 'selected="selected"';?> value="2">Employee</option>
-                        <option <?php if($level==3) echo 'selected="selected"';?> value="3">Customer</option>
+                       <select id="payment" name="payment" class="multiselect" >
+                        <option <?php if($payment==-1) echo 'selected="selected"';?> value="-1">--payment--</option>
+                        <?php
+                        foreach ($payments as $item) {
+                          ?>
+                          <option <?php if($payment==$item->id) echo 'selected="selected"';?> value="<?php echo $item->id;?>"><?php echo $item->name;?></option>
+                          <?php
+                        }
+                        ?>
                       </select>
                     </div>
                   </div>
-                  <div class="col-xs-2">
+                  <div class="col-xs-2" style="margin-left: 10px">
                     <div class="form-group">
                       <button class="btn btn-success  fa fa-plus-square fa-lg" type="submit" name="search">Search</button>
                     </div>
@@ -171,148 +211,197 @@ require dirname(__DIR__).'/require/header.view.php';
               <!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->
           </div>
+          <form action="/admin/orders/destroyAll" method="post">
+            <table id="simple-table" class="table  table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center">
+                    Id
+                  </th>
+                  <th class="text-center">
+                    Username
+                  </th>
+                  <th class="text-center">
+                    Fullname
+                  </th>
+                  <th class="text-center">
+                    Address
+                  </th>
+                  <th class="text-center">
+                    Order date
+                  </th>
+                  <th class="text-center">
+                    Status
+                  </th>
+                  <th class="text-center">
+                    Paid
+                  </th>
+                  <th class="text-center">
+                    Shipped
+                  </th>
+                  <th class="text-center">
+                    Payment
+                  </th>
+                  <th class="text-center">
+                    Note
+                  </th>
+                  <th class="text-center">
+                    Detail
+                  </th>
+                  <th class="text-center">
+                    Action
+                  </th>
+                  <th class="text-center">
+                    Delete all
+                    <input type="checkbox" name="checkall" id="checkall" value="" />
+                    <button class="btn btn-success  fa fa-plus-square fa-lg" type="submit" name="delete" id="delAll">Delete</button>
+                  </th>
+                </tr>
+              </thead>
 
-          <table id="simple-table" class="table  table-bordered table-hover">
-            <thead>
-              <tr>
-                <th class="text-center">
-                  Id
-                </th>
-                <th class="text-center">
-                  Image
-                </th>
-                <th class="text-center">
-                  Username
-                </th>
-                <th class="text-center">
-                  Fullname
-                </th>
-                <th class="text-center">
-                  Phone
-                </th>
-                <th class="text-center">
-                  Address
-                </th>
-                <th class="text-center">
-                  Level
-                </th>
-                <?php if($_SESSION['user'][0]->level==1){?>
-                <th class="text-center">
-                  Active
-                </th>
-                <?php } ?>
-                <th class="text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <?php 
-              if(!empty($users))
-              { 
-                foreach($users as $item){
-                  $id=$item->id;
-                  $username=$item->username;
-                  $fullname=$item->fullname;
-                  $phone=$item->phone;
-                  $address=$item->address;
-                  $level=$item->level;
-                  $avatar=$item->avatar;
-                  $active=$item->active;
-                  ?>
-                  <tr>
-                    <td class="text-center">
-                      <?php echo $id;?>
-                    </td>
-                    <td class="text-center">
-                      <img class="avatar-index" src="/public/upload/avatar/<?php if($avatar==''){echo "default.png";}else{echo $avatar;}?>" alt="">
-                    </td>
-                    <td class="text-center">
-                      <?php echo $username;?>
-                    </td>
-                    <td class="text-center">
-                      <?php echo $fullname;?>
-                    </td>
-                    <td class="text-center">
-                      <?php echo $phone;?>
-                    </td>
-
-                    <td class="text-center">
-                      <?php echo $address;?>
-                    </td>
-
-                    <td class="text-center">
-                      <?php
-                      if($level==1){
-                        echo "admin";
-                      }else if($level==2){
-                        echo "employee";
-                      }else{
-                        echo "customer";
+              <tbody>
+                <?php 
+                if(!empty($orders))
+                { 
+                  foreach($orders as $item){
+                    $id=$item->id_order;
+                    $username=$item->username;
+                    $fullname=$item->fullname;
+                    $address=$item->address;
+                    $date_order=$item->date_order;
+                    $status=$item->status;
+                    $paid=$item->paid;
+                    $shipped=$item->shipped;
+                    $payment=$item->name;
+                    $note=$item->note;
+                    ?>
+                    <tr>
+                      <td class="text-center">
+                        <?php echo $id;?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $username;?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $fullname;?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $address;?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo date("d/m/Y H:i:s", strtotime($date_order));?>
+                      </td>
+                      <td class="text-center">
+                       <select id="status-<?php echo $id ?>" <?php if($_SESSION['user'][0]->level!=1) echo "disabled";?> name="status" class="multiselect status">
+                         <option <?php if($status==0) echo 'selected="selected"';?> value="0">Confirmed</option>
+                         <option <?php if($status==1) echo 'selected="selected"';?> value="1">Pending</option>
+                         <option <?php if($status==2) echo 'selected="selected"';?> value="2">Cancel</option>
+                       </select>
+                     </td>
+                     <td class="text-center">
+                       <?php 
+                       if($_SESSION['user'][0]->level!=1){
+                        ?>
+                        <img src="/public/admin/assets/images/<?php 
+                        if($paid==1){
+                          echo "active.gif";
+                        }else{
+                          echo "deactive.gif";
+                        }
+                        ?>" alt="">
+                        <?php
+                      } else {
+                        ?>
+                        <a href="javascript:void(0)"  class="edit_paid_active" id="paid-<?php echo $id; ?>">
+                          <img src="/public/admin/assets/images/<?php 
+                          if($paid==1){
+                            echo "active.gif";
+                          }else{
+                            echo "deactive.gif";
+                          }
+                          ?>" alt="">
+                        </a>
+                        <?php
                       }
                       ?>
                     </td>
-                    <?php if($_SESSION['user'][0]->level==1){?>
                     <td class="text-center">
-                      <a href="javascript:void(0)"  class="edit_active" id="<?php echo $id; ?>">
+                     <?php 
+                     if($_SESSION['user'][0]->level!=1){
+                      ?>
+                      <img src="/public/admin/assets/images/<?php 
+                      if($shipped==1){
+                        echo "active.gif";
+                      }else{
+                        echo "deactive.gif";
+                      }
+                      ?>" alt="">
+                      <?php
+                    } else {
+                      ?>
+                      <a href="javascript:void(0)"  class="edit_shipped_active" id="shipped-<?php echo $id; ?>">
                         <img src="/public/admin/assets/images/<?php 
-                        if($active==1){
+                        if($shipped==1){
                           echo "active.gif";
                         }else{
                           echo "deactive.gif";
                         }
                         ?>" alt="">
                       </a>
-                    </td>
-                    <?php } ?>
-                    <td class="text-center">
-                      <div class="hidden-sm hidden-xs btn-group">
-                              <!-- <button class="btn btn-xs btn-success">
-                                <i class="ace-icon fa fa-check bigger-120"></i>
-                              </button> -->
+                      <?php
+                    }
+                    ?>
+                  </td>
+                  <td class="text-center">
+                   <?php echo $payment?>
+                 </td>
+                 <td class="text-center">
+                  <?php echo $note;?>
+                </td>
+                <td class="text-center">
+                  <a href="/admin/orders/detail/<?php echo $id;?>" alt="">Details</a>
+                </td>
+                
+                <td class="text-center">
+                  <div class="hidden-sm hidden-xs btn-group">
+                    <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/orders/delete/<?php echo $id; ?>">
+                      <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                    </a>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <input type="checkbox" name="dels[]" value="<?php echo $id;?>" />
+                </td>
+              </tr>
+              <?php 
+            }
+          }else{
+            ?>
+            <tr>
+              <td class="text-center" colspan="13">No data</td>
+            </tr>
+            <?php 
+          }
+          ?>                      
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div><!-- /.row -->
 
-                              <a class="btn btn-xs btn-info" href="/admin/users/edit/<?php echo $id; ?>">
-                                <i class="ace-icon fa fa-pencil bigger-120"></i>
-                              </a>
-                              <?php
-                              if($username!='admin'){
-                                ?>
-                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete?id=<?php echo $id; ?>">
-                                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                </a>
-                                <?php } ?>
-                              </div>
-                            </td>
-                          </tr>
-                          <?php 
-                        }
-                      }else{
-                        ?>
-                        <tr>
-                          <td class="text-center" colspan="8">No data</td>
-                        </tr>
+<div class="row text-center">
+  <?php 
+  echo $paginghtml;
+  ?>
+</div>
+<!-- PAGE CONTENT ENDS -->
 
-                        <?php 
-                      }
-                      ?>                      
-                    </tbody>
-                  </table>
-                </div><!-- /.span -->
-              </div><!-- /.row -->
-
-              <div class="row text-center">
-                <?php 
-                  echo $paginghtml;
-                ?>
-              </div>
-              <!-- PAGE CONTENT ENDS -->
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.page-content -->
-      </div>
-    </div><!-- /.main-content -->
-
-    <?php 
-    require dirname(__DIR__).'/require/footer.view.php';
-    ?>
+</div><!-- /.row -->
+</div><!-- /.page-content -->
+</div>
+</div><!-- /.main-content -->
+</div>
+</div>
+<?php 
+require dirname(__DIR__).'/require/footer.view.php';
+?>
