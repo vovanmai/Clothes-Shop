@@ -40,13 +40,13 @@ class Products extends Model
 
 	  public static function getProduct($product_info_id,$size_id,$color_id)
 	  {
-	        $query = "SELECT * from products WHERE product_info_id = ? AND size_id=? AND color_id= ?";
+	        $query = "SELECT * from products WHERE product_info_id = ? AND size_id=? AND color_id= ? AND quantity !=0";
 	        return App::get('database')->query_fetch_params($query,array('product_info_id'=>$product_info_id,'size_id'=>$size_id,'color_id'=>$color_id));
 
 	  }
 
 	  public static function getAllCart($id) {
-	    $query ="SELECT products_info.name as namesp,products_info.price as price ,color.name as color,size.size  as size ,products_info.image as image FROM products INNER JOIN products_info ON products.product_info_id = products_info.id INNER JOIN color ON products.color_id = color.id INNER JOIN size ON products.size_id = size.id WHERE products.id=? ";
+	    $query ="SELECT products_info.name as namesp,products_info.price as price ,color.name as color,size.size  as size ,products_info.image as image,products.quantity as quantity FROM products INNER JOIN products_info ON products.product_info_id = products_info.id INNER JOIN color ON products.color_id = color.id INNER JOIN size ON products.size_id = size.id WHERE products.id=? ";
 
 	     return App::get('database')->query_fetch_params($query,array('products.id'=>$id));
 	  }

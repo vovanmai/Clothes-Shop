@@ -63,37 +63,79 @@ $(document).ready(function() {
        
     });
 
-      $(".subCart").click(function() {
+     $('#buyproduct').click(function(){
+        
+      var obj = {};
 
-            var idProduct= $(this).next("input[type=text]").attr('id');
-            var currentNum= $(this).next("input[type=text]").attr('value');
-         
-            if ( currentNum ==1) {
-                 $("#sub").attr('disabled', true);
-            } else {
+      var para= $(".numProd");
+            para.each(function (index) {
+            var num = $(this).val();
 
-                  $.ajax({
-                    url: '/cart/subCart',
-                    type: 'POST',
-                    dataType : 'text',
-                    data: {
-                       
-                        aNumber: currentNum,
-                        aID :idProduct
-                    },
-                    success: function(result) {
-                                    
-                        $('#number').html(result);
-                    },
+            var id = $(this).attr('id').substr(4);
 
-                    error: function(request, errorType, errorMessage) {
-                        alert(' Error : ' + errorType + ' with message ' + errorMessage);
-                    }
-                });
+            obj[id] = num;
+           
+       });
+
+        var json= JSON.stringify(obj);
+
+        
+       $.ajax({
+            url: '/cart/updateCart',
+            type: 'GET',
+            dataType : 'json',
+            data: {
+               
+                aJson: json,
+            },
+            success: function(result) {
+
+                  var check;
+                  var result1 ={};
+                  var number; 
+                  
+                 
+                  var totalAll=0;              
+                  $.each(result, function(key,val) {
+
+                        if(key=='quantity') {
+                            number = val;
+                        }else {
+                             var price =$('#price-'+key).text();
+                            var totalPrice = price*val;
+                            $('#totalPrice-'+key).html(totalPrice);
+                           totalAll +=totalPrice;
+                        }
+
+                  })
+
+                 
+                       html ="<span class='indicator'>";
+                        html +=number;
+                        html +="</span>";
+                        $('.showCart').html(html);
+
+                        // $.each(result, function(key,val) {
+
+                        //     var price =$('#price-'+key).val();
+                        //     var totalPrice = price*val;
+                        //     $('#totalPrice-'+key).html(totalPrice);
+                        //    totalAll +=totalPrice;
+                        // })
+
+
+                          $('#priceCart').text(totalAll);
+            },
+
+            error: function(request, errorType, errorMessage) {
+                alert(' Error : ' + errorType + ' with message ' + errorMessage);
             }
 
 
-    });
+        });
+
+    
+     });
 
 
 
