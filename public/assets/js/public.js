@@ -1,53 +1,53 @@
 $(document).ready(function() {
 //======================search==================
-$("#search_public").click(function() {
-    var gender = $("select[name='gender']").val();
-    var style = $("select[name='style']").val();
-    var price = $("select[name='price']").val();
+// $("#search_public").click(function() {
+//     var gender = $("select[name='gender']").val();
+//     var style = $("select[name='style']").val();
+//     var price = $("select[name='price']").val();
 
-    $.ajax({
-        url: 'search',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            'gender': gender,
-            'style': style,
-            'price': price,
-        },
-        success: function(result) {
-            var html='<div class="box-title">Featutes</div>';
-            if(result.length>0){
-                $.each(result, function(key,item) {
-                   html+='<div class="product">'+
-                   '<div class="cover-img">'+
-                   '<a href="detail?id='+item.id_products_info+'">'+
-                   '<img src="/public/assets/img/'+item.image+'" alt="">'+
-                   '</a>'+
-                   '<div class="cover-btns">'+
-                   '<a href="cart.html" title="">'+
-                   '<button class="btn-add-cart">Add to Cart</button>'+
-                   '</a>'+
-                   '<a href="checkout.html" title="">'+
-                   '<button class="btn-buy-now">Buy Now</button>'+
-                   '</a>'+
-                   '</div>'+
-                   '</div>'+
-                   '<span class="name">'+item.name_product+'</span>'+
-                   '<span class="price">'+item.price+'</span>'+
-                   '</div>';
-               })
-            } else {
-                html+='<div style="font-weight:bold;text-align:center">No product</div>';
-            }
+//     $.ajax({
+//         url: 'search',
+//         type: 'POST',
+//         dataType: 'json',
+//         data: {
+//             'gender': gender,
+//             'style': style,
+//             'price': price,
+//         },
+//         success: function(result) {
+//             var html='<div class="box-title">Featutes</div>';
+//             if(result.length>0){
+//                 $.each(result, function(key,item) {
+//                    html+='<div class="product">'+
+//                    '<div class="cover-img">'+
+//                    '<a href="detail?id='+item.id_products_info+'">'+
+//                    '<img src="/public/assets/img/'+item.image+'" alt="">'+
+//                    '</a>'+
+//                    '<div class="cover-btns">'+
+//                    '<a href="cart.html" title="">'+
+//                    '<button class="btn-add-cart">Add to Cart</button>'+
+//                    '</a>'+
+//                    '<a href="checkout.html" title="">'+
+//                    '<button class="btn-buy-now">Buy Now</button>'+
+//                    '</a>'+
+//                    '</div>'+
+//                    '</div>'+
+//                    '<span class="name">'+item.name_product+'</span>'+
+//                    '<span class="price">'+item.price+'</span>'+
+//                    '</div>';
+//                })
+//             } else {
+//                 html+='<div style="font-weight:bold;text-align:center">No product</div>';
+//             }
             
-            $('#search_products').html(html);
-        },
+//             $('#search_products').html(html);
+//         },
 
-        error: function(request, errorType, errorMessage) {
-            alert(' Error : ' + errorType + ' with message ' + errorMessage);
-        }
-    });
-});
+//         error: function(request, errorType, errorMessage) {
+//             alert(' Error : ' + errorType + ' with message ' + errorMessage);
+//         }
+//     });
+// });
 //===========================validate gender to style==============
 $("#gender").click(function() {
     var gender = $(this).val();
