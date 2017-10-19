@@ -113,11 +113,9 @@ class PublicController
         $products_info_id = isset($_POST['aProduct_info_id']) ? $_POST['aProduct_info_id'] : 0 ;
         $num = isset($_POST['aNum']) ? $_POST['aNum'] : 0 ;
         $products = Products::getProduct($products_info_id,$size,$color);
-        
         if (empty($products)) {
             die(json_encode($check));
         }else{
-           
             $arr = array();
             $nameCart = Products::getRealIPAddress();
             if( Session::getSession($nameCart) ==null) {
@@ -126,11 +124,11 @@ class PublicController
 	                $arr["quantity"] =$products[0]->quantity;
 	                die(json_encode($arr));
                 }else{
-                        $_SESSION[$nameCart] =array($products[0]->id =>$num);
-                        $arr["quantity"] =$num;
-                        $arr["check"] =1;
-                        Session::createSession('num',$num);
-                        die(json_encode($arr));
+                    $_SESSION[$nameCart] =array($products[0]->id =>$num);
+                    $arr["quantity"] =$num;
+                    $arr["check"] =1;
+                    Session::createSession('num',$num);
+                    die(json_encode($arr));
                 }
             }else{
                 $cart=Session::getSession($nameCart);
