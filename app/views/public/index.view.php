@@ -51,6 +51,7 @@
                                                     <a href="detail/<?php echo $item->id;?>">
                                                         <img src="/public/upload/product_info/<?php echo $item->image; ?>" alt="">
                                                     </a>
+                                            
                                                 </div>
                                                 <span class="name"><?php echo $item->name; ?></span>
                                                 <span class="price"><?php echo $item->price; ?></span>

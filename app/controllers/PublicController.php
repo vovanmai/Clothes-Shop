@@ -58,45 +58,19 @@ class PublicController
     public function cart()
     {   
         $nameCart = Products::getRealIPAddress();
-        $gender_men_cats=Category::find('gender',1);
-        $gender_women_cats=Category::find('gender',0);
         $arrStore= array();
         $arrStore1= array();
-        if (Session::getSession($nameCart) !=null) {
+        if ( Session::getSession($nameCart) !=null) {
 	        foreach (Session::getSession($nameCart) as $key => $value) {
 	           $arrStore[$key]= Products::getAllCart($key);
 	            foreach ($arrStore[$key] as $k => $val) {
 	                $arrStore1[$key] = $val;                           
 	            }
 	        }
-            return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
+            return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart]);
 
         }else{
             return view('public/cart');
-        }
-    }
-
-    public function updateCart()
-    {
-        $nameCart = Products::getRealIPAddress();
-        if ( Session::getSession($nameCart) !=null) {
-            $arrCart = Session::getSession($nameCart);
-            $cout =0;
-            $arr1 = isset($_GET['aJson']) ? json_decode($_GET['aJson']) : ' ' ;
-            foreach ($arr1 as $key => $value) {
-            $products = Products::find('id',$key);
-            $quantity = $products[0]->quantity;
-                if( $value<=$quantity) {
-                     $arrCart[$key] =$value;
-                }
-            }
-            Session::createSession($nameCart,$arrCart);
-            foreach($arrCart as $key => $value){
-                $cout +=$value;
-            }
-              $arrCart['quantity'] = $cout;
-              Session::createSession('num',$cout);
-              die(json_encode($arrCart));
         }
     }
 
@@ -164,9 +138,9 @@ class PublicController
                 foreach ($_SESSION[$nameCart] as $key => $value) {
                     if($key == $id) {
                         $checkID = true;
-
                     }
                 }
+
                 if ($checkID) {
                     $currentNum =Session::getSession($nameCart)[$id];
                     $newNum = $currentNum + $num;
