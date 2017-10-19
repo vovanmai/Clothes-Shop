@@ -21,7 +21,7 @@ class Products_info extends Model
 	}
 	public static function getHotProduct()
 	{
-		$query="SELECT * FROM ".static::$table." WHERE view > 100 ORDER BY view";
+		$query="SELECT * FROM ".static::$table." WHERE active=1 AND view > 100 ORDER BY view";
 		return App::get('database')->query_fetch($query);
 	}
 	public static function getID_Product($id)
@@ -30,19 +30,11 @@ class Products_info extends Model
 		where product_info_id = ".$id;
 		return App::get('database')->query_fetch($query);
 	}
-	public static function getSizes($id)
-	{
-		$query = "SELECT size FROM size where size.id in (select size_id 
-		from products where product_info_id = ".$id.")";
-		return App::get('database')->query_fetch($query);
 
-	}
-	public static function getColors($id)
+	public static function getProductInfoByCat($id)
 	{
-		$query = "SELECT name FROM color where color.id in (select color_id
-		from products where product_info_id = ".$id.")";
+		$query="SELECT * FROM cat INNER JOIN products_info ON cat.id=products_info.cat_id WHERE cat.active=1 AND products_info.cat_id=$id";
 		return App::get('database')->query_fetch($query);
-
 	} 
 
 	public static function getProductsSearch($gender,$style,$price)

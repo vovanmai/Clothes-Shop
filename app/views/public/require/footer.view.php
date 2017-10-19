@@ -73,9 +73,7 @@
 </footer>
 </div>
 </body>
-<script type="text/javascript" src="/public/assets/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/public/assets/js/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="/public/assets/js/app.js"></script>
+
 <script type="text/javascript" src="/public/assets/js/public.js"></script>
 
 </html>
