@@ -93,9 +93,7 @@ $router->post('detail/SubNumber','PublicController@SubNumber');
 $router->post('detail/addCart','PublicController@addCart');
 $router->get('cart','PublicController@cart');
 $router->get('cart/delete/{id}','PublicController@delete');
-$router->post('cart/plusCart','PublicController@plusCart');
-$router->post('cart/subCart','PublicController@subCart');
-
+$router->get('cart/updateCart','PublicController@updateCart');
 
 //$router->post('detail/quantity','ShopController@quantity');
 

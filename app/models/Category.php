@@ -29,6 +29,5 @@ class Category extends Model
 		return App::get('database')->query_fetch($query);
 	}
 	
-	
 }
 ?>
