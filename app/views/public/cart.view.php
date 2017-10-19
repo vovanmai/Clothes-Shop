@@ -69,8 +69,12 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                     <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Product Name</div>
                                                     <div class="details-product value-box">
                                                         <?php echo $value->namesp?>
+                                                        <div class="value-box">
+                                                        <span class="size">Size: <?php echo $value->size?></span>
+                                                        <span class="color">Color: <?php echo $value->color?></span>
                                                     </div>
-
+                                                    </div>
+                                                    
 
                                                 </div>
 
