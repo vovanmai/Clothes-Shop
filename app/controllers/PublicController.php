@@ -60,6 +60,8 @@ class PublicController
         $nameCart = Products::getRealIPAddress();
         $arrStore= array();
         $arrStore1= array();
+        $gender_men_cats=Category::find('gender',1);
+        $gender_women_cats=Category::find('gender',0);
         if ( Session::getSession($nameCart) !=null) {
 	        foreach (Session::getSession($nameCart) as $key => $value) {
 	           $arrStore[$key]= Products::getAllCart($key);
@@ -67,7 +69,7 @@ class PublicController
 	                $arrStore1[$key] = $val;                           
 	            }
 	        }
-            return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart]);
+            return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
 
         }else{
             return view('public/cart');
