@@ -52,25 +52,25 @@ class Products extends Model
 	  }
 	   
 	//get dia chi ip 
-	  public static function getRealIPAddress(){  
-	      if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+	public static function getRealIPAddress(){  
+	    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 	        //check ip from share internet
-	          $ip = $_SERVER['HTTP_CLIENT_IP'];
-	      }else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+	        $ip = $_SERVER['HTTP_CLIENT_IP'];
+	    }else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
 	        //to check ip is pass from proxy
 	        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	      }else{
+	    }else{
 	        $ip = $_SERVER['REMOTE_ADDR'];
-	      }
+	    }
 	     
-	      $tmp = explode(".",$ip);
-	      $cart = "cart-";
-	      foreach($tmp as $val){
-	         $cart.=$val;
-	      }
-	      return $cart;
+	    $tmp = explode(".",$ip);
+	    $cart = "cart-";
+	    foreach($tmp as $val){
+	        $cart.=$val;
+	    }
+	    return $cart;
 	      
-	 }
+	}
 }
 
 

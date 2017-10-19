@@ -3,6 +3,7 @@ namespace app\controllers;
 use core\App;
 use core\Session;
 use app\models\Categories;
+use app\models\Colors;
 use core\Pagination;
 
 class ColorsController
