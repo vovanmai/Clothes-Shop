@@ -84,6 +84,7 @@ $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
 $router->post('search','PublicController@search');
+$router->get('search','PublicController@search');
 $router->post('getCat','PublicController@getCat');
 $router->post('getGender','PublicController@getGender');
 

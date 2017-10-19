@@ -11,6 +11,7 @@
     <script type="text/javascript" src="/public/assets/js/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="/public/assets/js/app.js"></script>
     <script type="text/javascript" src="/public/assets/js/shop.js"></script>
+    <script type="text/javascript" src="/public/assets/js/public.js"></script>
 </head>
 
 <body>
