@@ -74,4 +74,6 @@
 </div>
 </body>
 
+<script type="text/javascript" src="/public/assets/js/public.js"></script>
+
 </html>

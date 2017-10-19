@@ -74,6 +74,31 @@ class PublicController
         }
     }
 
+    public function search(){
+        $gender= $_POST['gender'];
+        $style= $_POST['style'];
+        $price= $_POST['price'];
+        $products=Products_info::getProductsSearch($gender,$style,$price);
+        echo json_encode($products);
+        die();
+    }
+    
+    public function getCat(){
+        $gender= $_POST['gender'];
+        $cat=Category::getCatByGender($gender);
+        echo json_encode($cat);
+        die();
+    }
+
+    public function getGender(){
+        $style= $_POST['style'];
+        $gender=Category::getGenderByStyle($style);
+        echo json_encode($gender);
+        die();
+    }
+    
+    
+}
 
         public function updateCart()
         {

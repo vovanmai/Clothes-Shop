@@ -36,6 +36,36 @@ class Products_info extends Model
 		$query="SELECT * FROM cat INNER JOIN products_info ON cat.id=products_info.cat_id WHERE cat.active=1 AND products_info.cat_id=$id";
 		return App::get('database')->query_fetch($query);
 	} 
+
+	public static function getProductsSearch($gender,$style,$price)
+	{
+		$query = "SELECT *, products_info.id as id_products_info, products_info.name as name_product FROM products_info inner join cat on products_info.cat_id=cat.id where cat.gender= ? and cat_id=? and products_info.active=1 ";
+		switch ($price) {
+			case 0:
+				$query.=' and price between 0 and 200000';
+				break;
+			case 1:
+				$query.=' and price between 200000 and 350000';
+				break;
+			case 2:
+				$query.=' and price between 350000 and 500000';
+				break;
+			case 3:
+				$query.=' and price between 500000 and 700000';
+				break;
+			case 4:
+				$query.=' and price between 700000 and 1000000';
+				break;
+		}
+		 $arr=array(
+        	'gender'=>$gender,
+        	'style'=>$style,
+        );
+		
+		return App::get('database')->query_fetch_params($query,$arr);
+
+	}
+
 }
 
 

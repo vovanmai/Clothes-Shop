@@ -40,7 +40,7 @@
                             <div class="features">
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                                        <div class="products">
+                                        <div class="products" id="search_products">
                                             <div class="box-title">Featutes</div>
                                             <?php
     										if(!empty($products_info))
@@ -73,20 +73,20 @@
                                             </div>
                                         </div>
     								</div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </section>
-            <section id="hot-products">
-                <?php
-                require dirname(__DIR__).'/public/require/hot_product.view.php';
-            ?>
-            </section>
-            <?php
-                require dirname(__DIR__).'/public/require/login-register.view.php';
-            ?>
+
             </div>
-            <?php
-            require dirname(__DIR__).'/public/require/footer.view.php';
-            ?>
+        </div>
+    </div>
+</section>
+<section id="hot-products">
+   <?php
+   require dirname(__DIR__).'/public/require/hot_product.view.php';
+   ?>
+</section>
+<?php
+require dirname(__DIR__).'/public/require/login-register.view.php';
+?>
+</div>
+<?php
+require dirname(__DIR__).'/public/require/footer.view.php';
+?>

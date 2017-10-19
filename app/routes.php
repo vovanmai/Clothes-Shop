@@ -66,7 +66,7 @@ $router->post('admin/mail','AuthController@postMail');
 $router->get('admin/newPass','AuthController@getNewPass');
 $router->post('admin/newPass','AuthController@postNewPass');
 
-//orders page
+//=====================ORDERS===================
 $router->get('admin/orders','OrdersController@index');
 $router->get('admin/orders/delete/{id}','OrdersController@destroy');
 $router->post('admin/orders/search','OrdersController@search');
@@ -83,6 +83,10 @@ $router->get('home','PublicController@index');
 $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
+$router->post('search','PublicController@search');
+$router->post('getCat','PublicController@getCat');
+$router->post('getGender','PublicController@getGender');
+
 $router->post('detail/PlusNumber','PublicController@PlusNumber');
 $router->post('detail/SubNumber','PublicController@SubNumber');
 $router->post('detail/addCart','PublicController@addCart');
