@@ -16,25 +16,30 @@ $("#search_public").click(function() {
         },
         success: function(result) {
             var html='<div class="box-title">Featutes</div>';
-            $.each(result, function(key,item) {
-             html+='<div class="product">'+
-             '<div class="cover-img">'+
-             '<a href="detail?id='+item.id_products_info+'">'+
-             '<img src="/public/assets/img/'+item.image+'" alt="">'+
-             '</a>'+
-             '<div class="cover-btns">'+
-             '<a href="cart.html" title="">'+
-             '<button class="btn-add-cart">Add to Cart</button>'+
-             '</a>'+
-             '<a href="checkout.html" title="">'+
-             '<button class="btn-buy-now">Buy Now</button>'+
-             '</a>'+
-             '</div>'+
-             '</div>'+
-             '<span class="name">'+item.name_product+'</span>'+
-             '<span class="price">'+item.price+'</span>'+
-             '</div>';
-         })
+            if(result.length>0){
+                $.each(result, function(key,item) {
+                   html+='<div class="product">'+
+                   '<div class="cover-img">'+
+                   '<a href="detail?id='+item.id_products_info+'">'+
+                   '<img src="/public/assets/img/'+item.image+'" alt="">'+
+                   '</a>'+
+                   '<div class="cover-btns">'+
+                   '<a href="cart.html" title="">'+
+                   '<button class="btn-add-cart">Add to Cart</button>'+
+                   '</a>'+
+                   '<a href="checkout.html" title="">'+
+                   '<button class="btn-buy-now">Buy Now</button>'+
+                   '</a>'+
+                   '</div>'+
+                   '</div>'+
+                   '<span class="name">'+item.name_product+'</span>'+
+                   '<span class="price">'+item.price+'</span>'+
+                   '</div>';
+               })
+            } else {
+                html+='<div style="font-weight:bold;text-align:center">No product</div>';
+            }
+            
             $('#search_products').html(html);
         },
 
