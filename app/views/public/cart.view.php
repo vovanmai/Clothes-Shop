@@ -45,10 +45,12 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                 <ul class="list-products col-sm-12 col-xs-12 col-md-12 col-lg-12">
                                     <?php
                                     $numCart;
+                                    $totalPrice=0;
                                         foreach ($arrStore as $key => $value) {
                                            foreach ($_SESSION[$nameCart] as $k => $val) {
                                                         if ($k ==$key) {
                                                            $numCart =$val;
+                                                           $totalPrice += $val* $value->price;
                                                         }
                                                     }
                                        
@@ -79,7 +81,8 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                         
 
                                                       
-                                                         <input type="number" name="quantity" min='1' id="<?php echo $key?>"  value="<?php echo $numCart?>"  >
+                                                         <input type="number" min='1' max="<?php echo $value->quantity?>" id="num-<?php echo $key?>"  class="numProd" 
+                                                         value="<?php echo $numCart?>"  >
                                                         
                                                       
                                                     </div>
@@ -87,11 +90,14 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                 </div>
                                                 <div class="col-sm-12 col-xs-1 col-md-1 col-lg-1">
                                                     <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Price</div>
-                                                    <div class="price  value-box"><?php echo $value->price?></div>
+                                                    <div class="price  value-box" id='price-<?php echo $key?>'><?php echo $value->price?></div>
                                                 </div>
                                                 <div class="hidden-mobile col-xs-2 col-md-1 col-lg-1">
-                                                    <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Total</div>
-                                                    <div class="total  value-box"><?php echo  ($value->price*$numCart)?></div>
+                                                    <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen"
+                                                     >Total</div>
+                                                  
+                                                    <div class="total  value-box" id='totalPrice-<?php echo $key?>'><?php echo  ($value->price*$numCart)?></div>
+                                                  
                                                 </div>
                                                 <div class="col-sm-12 col-xs-1 col-md-1 col-lg-1">
                                                     <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Delete</div>
@@ -100,7 +106,9 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                     </div>
 
                                                 </div>
+                                                
                                             </div>
+
                                         </li>
 
                                     <?php
@@ -114,13 +122,13 @@ require dirname(__DIR__).'/public/require/header.view.php';
 
                             <div class="box-total row">
                                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                                    <div class="total-cost">Total $900,0</div>
+                                   <div class="total-cost">  Total :<span  id='priceCart'> <?php echo $totalPrice;?></span></div>
                                 </div>
                             </div>
                             <div class="box-checkout row">
                                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                                    <a href="checkout.html"><button class="btn-checkout">Checkout</button></a>
-                                    <a href="index.html"><button class="btn-continues">Continues Shopping</button></a>
+                                    <a href="#"><button class="btn-checkout" >Buy</button></a>
+                                    <a href="" onclick="return false;"><button class="btn-continues buyproduct" id='buyproduct'>Update</button></a>
 
                                 </div>
                             </div>

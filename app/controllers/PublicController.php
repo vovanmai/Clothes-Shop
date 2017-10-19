@@ -74,6 +74,46 @@ class PublicController
         }
     }
 
+
+        public function updateCart()
+        {
+            $nameCart = Products::getRealIPAddress();
+
+           
+
+            if ( Session::getSession($nameCart) !=null) {
+
+                $arrCart = Session::getSession($nameCart);
+               
+               
+                $cout =0;
+                 $arr1 = isset($_GET['aJson']) ? json_decode($_GET['aJson']) : ' ' ;
+
+                  foreach ($arr1 as $key => $value) {
+                    
+                    $products = Products::find('id',$key);
+                    $quantity = $products[0]->quantity;
+
+                    if( $value<=$quantity) {
+
+                         $arrCart[$key] =$value;
+                    }
+
+                  }
+                  Session::createSession($nameCart,$arrCart);
+                  foreach ($arrCart as $key => $value) {
+                     $cout +=$value;
+                  }
+                  $arrCart['quantity'] = $cout;
+                  Session::createSession('num',$cout);
+                  die(json_encode($arrCart));
+        
+            }
+                    
+        }
+
+
+
     public function cat($id)
     {
     	$cat_products_info=Products_info::getProductInfoByCat($id);
@@ -138,6 +178,7 @@ class PublicController
                 foreach ($_SESSION[$nameCart] as $key => $value) {
                     if($key == $id) {
                         $checkID = true;
+
                     }
                 }
 
