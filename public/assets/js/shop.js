@@ -70,9 +70,7 @@ $(document).ready(function() {
       var para= $(".numProd");
             para.each(function (index) {
             var num = $(this).val();
-
             var id = $(this).attr('id').substr(4);
-
             obj[id] = num;
            
        });
@@ -85,16 +83,10 @@ $(document).ready(function() {
             type: 'GET',
             dataType : 'json',
             data: {
-               
                 aJson: json,
             },
             success: function(result) {
-
-                  var check;
-                  var result1 ={};
                   var number; 
-                  
-                 
                   var totalAll=0;              
                   $.each(result, function(key,val) {
 
@@ -160,7 +152,7 @@ $(document).ready(function() {
                     var number ;
                     var html='';
                     if(result==0) {
-                        $('#notify').html('San pham het hang !');
+                        $('#notify').html('Product is out of stock!');
                     } else {
                          $.each(result, function(key,val) {
                             if(key=='check') {
@@ -173,9 +165,9 @@ $(document).ready(function() {
                           })
 
                          if (check==2) {
-                            html = "Con ";
+                            html = "Only ";
                             html += number;
-                            html += " san pham.Vui long kiem tra lai";
+                            html += " products in stock.Please check again!";
                              $('#notify').html(html);
                              
                          } else {
@@ -185,7 +177,7 @@ $(document).ready(function() {
                                     html +=number;
                                     html +="</span>";
                                     $('.showCart').html(html);
-                                    $('#notify').html("Them thanh cong !");
+                                    $('#notify').html("Added to cart successfully !");
                                     
                                 }
                          }

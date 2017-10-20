@@ -31,14 +31,6 @@
                                                 <a href="/detail/<?php echo $id; ?>">
                                                     <img src="/public/upload/product_info/<?php echo $image; ?>" alt="">
                                                 </a>
-                                                <div class="cover-btns">
-                                                    <a href="/detail/<?php echo $id; ?>" title="">
-                                                        <button class="btn-add-cart">Add to Cart</button>
-                                                    </a>
-                                                    <a href="checkout.html" title="">
-                                                        <button class="btn-buy-now">Buy Now</button>
-                                                    </a>
-                                                </div>
                                             </div>
                                             <span class="name"><?php echo $name; ?></span>
                                             <span class="price"><?php echo $price; ?></span>
