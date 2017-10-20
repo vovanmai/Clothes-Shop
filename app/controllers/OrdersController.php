@@ -38,8 +38,8 @@ class OrdersController
 		$id=$_GET['id'];
 		$order=Orders::find($id);
 		if($order[0]->paid==1){
-			if(Orders::updateActivePaid(0,$id)){
-				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
+ 		if(Orders::updateActivePaid(0,$id)){
+		     echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
 			}
 		}else{
 			if(Orders::updateActivePaid(1,$id)){

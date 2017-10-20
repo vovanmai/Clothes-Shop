@@ -8,17 +8,16 @@ use app\models\Sizes;
 use app\models\Category;
 use core\Pagination;
 
-
 class PublicController
 {
 	public function index(){
-		$product_infos = Products_info::allLimit(12);
-		$cats = Category::all();
-		$sizes = Sizes::all();
-		$hot_product = Products_info::getHotProduct();
-		return view('public/index',['product_infos' => $product_infos,
-		'cats' => $cats, 'sizes' => $sizes, 
-		'hot_product' => $hot_product ]); 
+	   $product_infos = Products_info::allLimit(12);
+	   $cats = Category::all();
+    	   $sizes = Sizes::all();
+    	   $hot_product = Products_info::getHotProduct();
+    	   return view('public/index',['product_infos' => $product_infos,
+    	   'cats' => $cats, 'sizes' => $sizes, 
+    	   'hot_product' => $hot_product ]); 
 	}
 	
 
@@ -43,7 +42,7 @@ class PublicController
          public function SubNumber()
         {
             $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
-            
+             
                 $newNumber = $currentNumber-1;
                 echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
                     
@@ -92,22 +91,22 @@ class PublicController
         {   
              $nameCart = Products::getRealIPAddress();
             $arrStore= array();
-             $arrStore1= array();
+             // $arrStore1= array();
            
              if ( Session::getSession($nameCart) !=null) {
 
                     foreach (Session::getSession($nameCart) as $key => $value) {
 
-                       $arrStore[$key]= Products::getAllCart($key);
-                       
-                        foreach ($arrStore[$key] as $k => $val) {
+                       $arrStore[$key]= Products::getAllCart($key)[0];
+                     
+                        // foreach ($arrStore[$key] as $k => $val) {
                       
-                            $arrStore1[$key] = $val;                           
+                        //     $arrStore1[$key] = $val;                           
                        
-                        }
+                        // }
                     }
 
-                    return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart]);
+                    return view('public/cart',['arrStore'=>$arrStore,'nameCart'=>$nameCart]);
 
               } else {
                  return view('public/cart');
@@ -188,15 +187,21 @@ class PublicController
                             $coutCart =0;
                             $id =$products[0]->id;
 
-
-                              foreach ($_SESSION[$nameCart] as $key => $value) {
+                            /* 
+                            foreach ($cart as $key => $value) {
 
                                 if($key == $id) {
                                     $checkID = true;
-                                }
-
+                                    break;
                             }
 
+                            }
+                              */
+                            if (isset($cart[$id])) {
+                                 $checkID = true;
+                               
+                            }
+                          
                             if ($checkID) {
 
                                 $currentNum =Session::getSession($nameCart)[$id];
