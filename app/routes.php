@@ -79,6 +79,7 @@ $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
 
 //=====================PUBLIC===================
+
 $router->get('home','PublicController@index');
 $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
@@ -87,7 +88,6 @@ $router->post('search','PublicController@search');
 $router->get('search','PublicController@search');
 $router->post('getCat','PublicController@getCat');
 $router->post('getGender','PublicController@getGender');
-
 $router->post('detail/PlusNumber','PublicController@PlusNumber');
 $router->post('detail/SubNumber','PublicController@SubNumber');
 $router->post('detail/addCart','PublicController@addCart');
