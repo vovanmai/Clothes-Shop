@@ -142,15 +142,15 @@ class PublicController
             $products = Products::getProduct($products_info_id,$size,$color);           
             if (empty($products)) {
                 die(json_encode($check));
-            } else {             
-                        $arr = array();                             
-                       
-                        if ( Session::getSession('cart') ==null) {  
+            } else { 
 
-                            if ($num<1) {
-                                 $arr["check"] =0;
-                                die(json_encode($arr));
-                            } else {
+                         if ($num<1) {
+                             $arr["check"] =0;
+                             die(json_encode($arr));
+                        } else {
+                            $arr = array();                             
+                       
+                            if ( Session::getSession('cart') ==null) {  
                                 if ($products[0]->quantity<$num) {
                                      $arr["check"] =2;
                                      $arr["quantity"] =$products[0]->quantity;
@@ -163,10 +163,7 @@ class PublicController
                                         Session::createSession('num',$num);                           
                                         die(json_encode($arr));                                                          
                                 }
-                            }                  
-                            
-
-                        } else {                          
+                            } else {                          
                                 $cart=Session::getSession('cart');
                                 $checkID = false;  //kiem tra id da co chua
                                 $coutCart =0;
@@ -179,51 +176,39 @@ class PublicController
                                 if ($checkID) {
                                     $currentNum =Session::getSession('cart')[$id];
                                     $newNum = $currentNum + $num;
-
-                                    if ($num<1) {
-                                             $arr["check"] =0;
-                                             die(json_encode($arr));
+                                 
+                                    if ($products[0]->quantity < $newNum ) {
+                                       $arr["check"] =2;
+                                       $order=$products[0]->quantity-$currentNum;
+                                       $arr["quantity"] =$order;
+                                        die(json_encode($arr));                                      
                                     } else {
-                                         if ($products[0]->quantity < $newNum ) {
-                                           $arr["check"] =2;
-                                           $order=$products[0]->quantity-$currentNum;
-                                           $arr["quantity"] =$order;
-                                            die(json_encode($arr));                                      
-                                        } else {
-                                                 $cart[$id] = $newNum;
-                                                 Session::createSession('cart',$cart);
-                                        }
+                                             $cart[$id] = $newNum;
+                                             Session::createSession('cart',$cart);
                                     }
-                                   
-
                                 } else {
-                                          if ($num<1) {
-                                             $arr["check"] =0;
-                                             die(json_encode($arr));
-                                          } else {
-                                             if ($products[0]->quantity < $num) {                          
-                                                $arr["check"] =2;
-                                                $arr["quantity"] =$products[0]->quantity;
-                                                die(json_encode($arr));
-                                             } else {
-                                                $cart[$id]=$num;
-                                                  Session::createSession('cart',$cart);
-                                             } 
-                                         }                                   
-                                }
+                                       if ($products[0]->quantity < $num) {                          
+                                            $arr["check"] =2;
+                                            $arr["quantity"] =$products[0]->quantity;
+                                            die(json_encode($arr));
+                                       } else {
+                                            $cart[$id]=$num;
+                                            Session::createSession('cart',$cart);
+                                       } 
+                                }                                   
 
                                 foreach ( $cart as $key => $value) {
                                     $coutCart += $value;
                                 }
                                Session::createSession('num',$coutCart);
-                                   $arr["check"] =1;
-                                   $arr["quantity"] =$coutCart;
-                                die(json_encode($arr));
-                        }
+                               $arr["check"] =1;
+                               $arr["quantity"] =$coutCart;
+                               die(json_encode($arr));
+                         }
+                    }
+                }    
             
             }
-            
-        }
 
         public function buy()
         {
