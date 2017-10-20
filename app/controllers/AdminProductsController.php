@@ -20,7 +20,7 @@ class AdminProductsController
 		$limit = 10;
 		$count=Products::count();
 		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-		$paging = new Pagination();
+   		$paging = new Pagination();
 		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
 		$products=Products::getAllPagination($current_page,$limit);
 		$product_info=Products_info::all();	

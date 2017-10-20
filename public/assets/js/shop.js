@@ -144,7 +144,6 @@ $(document).ready(function() {
         var color = $('#colors').val();
         var product_info_id = $('#product_info').val();
         var num = $('#num').val();
-       
             $.ajax({
                 url: '/detail/addCart',
                 type: 'POST',
@@ -164,7 +163,6 @@ $(document).ready(function() {
                         $('#notify').html('San pham het hang !');
                     } else {
                          $.each(result, function(key,val) {
-
                             if(key=='check') {
                                 check = val;
                             } 
@@ -172,8 +170,6 @@ $(document).ready(function() {
                             if(key == 'quantity') {
                                 number = val ;
                             }
-
-
                           })
 
                          if (check==2) {

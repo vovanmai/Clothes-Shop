@@ -28,41 +28,51 @@
             </div>
         </section>
         <?php
-                require dirname(__DIR__).'/public/require/branch.view.php';
-            ?>
+            require dirname(__DIR__).'/public/require/branch.view.php';
+        ?>
             <section id="best-sellers">
                 <div class="container-full">
                     <div class="row">
                         <?php
-            require dirname(__DIR__).'/public/require/search.view.php';
-        ?>
-                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-                                <div class="features">
-
-                                    <div class="row">
-                                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                                            <div class="products">
-                                                <div class="box-title">Featutes</div>
-                                                    <?php
-                                                        if(!empty($product_infos))
-                                                        { 
-                                                            foreach($product_infos as $item)  { ?>
-                                                    <div class="product">
-                                                        <div class="cover-img">
-                                                            <a href="detail/<?php echo $item->id;?>">
-                                                    <img src="/public/assets/img/<?php echo $item->image; ?>" alt="">
-                                                </a>
-                                                            
-                                                        </div>
-                                                        <span class="name"><?php echo $item->name; ?></span>
-                                                        <span class="price"><?php echo $item->price; ?></span>
+                            require dirname(__DIR__).'/public/require/search.view.php';
+                        ?>
+                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                            <div class="features">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                                        <div class="products">
+                                            <div class="box-title">Featutes</div>
+                                            <?php
+    										if(!empty($products_info))
+    										{ 
+    											foreach($products_info as $item)  { ?>
+    										<div class="product">
+                                                <div class="cover-img">
+                                                    <a href="detail/<?php echo $item->id;?>">
+                                                        <img src="/public/upload/product_info/<?php echo $item->image; ?>" alt="">
+                                                    </a>
+                                                    <div class="cover-btns">
+                                                        <a href="detail/<?php echo $item->id;?>" title="">
+                                                            <button class="btn-add-cart">Add to cart</button>
+                                                        </a>
+                                                        <a href="checkout.html" title="">
+                                                            <button class="btn-buy-now">Buy Now</button>
+                                                        </a>
                                                     </div>
-                                                    <?php } } ?>
+                                                </div>
+                                                <span class="name"><?php echo $item->name; ?></span>
+                                                <span class="price"><?php echo $item->price; ?></span>
                                             </div>
-
-
+    											<?php } }?>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="cover-pagination">
+                                                        <?php echo $paginghtml; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+    								</div>
                                 </div>
                             </div>
                     </div>
@@ -76,7 +86,7 @@
             <?php
                 require dirname(__DIR__).'/public/require/login-register.view.php';
             ?>
-    </div>
-    <?php
+            </div>
+            <?php
             require dirname(__DIR__).'/public/require/footer.view.php';
-        ?>
+            ?>

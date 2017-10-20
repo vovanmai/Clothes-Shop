@@ -3,6 +3,8 @@
 $router->get('','PublicController@index');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
+$router->get('cat/{id}','PublicController@cat');
+$router->get('detail/{id}','PublicController@detail');
 // ==============USERS==============
 
 $router->get('admin/users','UsersController@index');
@@ -77,6 +79,7 @@ $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
 
 //=====================PUBLIC===================
+
 $router->get('home','PublicController@index');
 $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');

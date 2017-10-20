@@ -24,34 +24,26 @@
                             <a href="/"><p>Fashion & <span>Style</span></p></a>
                         </div>
                     </div>
-
+                    <?php 
+                    $url=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
+                    ?>
                     <div class="col-md-5 col-lg-4">
                         <div class="cover menu">
                             <ul>
-                                <li><a class="active" href="/">HOME</a></li>
+                                <li><a class="<?php if($url==''){echo 'active';}?>"  href="/">HOME</a></li>
                                 <li>
-                                    <a href="men">MEN</a>
+                                    <a href="/men" class="<?php if($url=='men'){echo 'active';}?>" >MEN</a>
                                     <div class="menu-child">
                                         <ul>
+                                            <?php
+                                                foreach ($gender_men_cats as $key => $item) {
+                                                    $id=$item->id;
+                                                    $name=$item->name;
+                                            ?>
                                             <li>
-                                                <a href="">T-Shirt</a>
+                                                <a href="/cat/<?php echo $id; ?>"><?php echo $name; ?></a>
                                             </li>
-                                            <li>
-                                                <a href="">Shirt</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Trousers</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="">Jacket</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Jean</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Khaki</a>
-                                            </li>
+                                            <?php } ?>
                                         </ul>
                                         <div class="box-img">
                                             <img src="/public/assets/img/men-logo.jpeg" alt="">
@@ -60,28 +52,18 @@
 
                                 </li>
                                 <li>
-                                    <a href="women">WOMEN</a>
+                                    <a href="/women" class="<?php if($url=='women'){echo 'active';}?>">WOMEN</a>
                                     <div class="menu-child">
                                         <ul>
+                                            <?php
+                                                foreach ($gender_women_cats as $key => $item) {
+                                                    $id=$item->id;
+                                                    $name=$item->name;
+                                            ?>
                                             <li>
-                                                <a href="">T-Shirt</a>
+                                                <a href="/cat/<?php echo $id; ?>"><?php echo $name; ?></a>
                                             </li>
-                                            <li>
-                                                <a href="">Shirt</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Trousers</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="">Jacket</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Jean</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Khaki</a>
-                                            </li>
+                                            <?php } ?>
                                         </ul>
                                         <div class="box-img">
                                             <img src="/public/assets/img/women-logo.jpg" alt="">
