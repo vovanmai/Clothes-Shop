@@ -53,32 +53,25 @@ $(document).ready(function() {
         }
     });
 
-     $(".plusCart").click(function() {
+    $(".plusCart").click(function() {
         $(".subCart").removeAttr("disabled");
-     
-         var idProduct= $(this).prev("input[type=text]").attr('id');
-         var currentNum= $(this).prev("input[type=text]").attr('value');
-         
-
-       
+        var idProduct= $(this).prev("input[type=text]").attr('id');
+        var currentNum= $(this).prev("input[type=text]").attr('value');
     });
 
-     $('#buyproduct').click(function(){
+    $('#buyproduct').click(function(){
         
-      var obj = {};
-
-      var para= $(".numProd");
-            para.each(function (index) {
+        var obj = {};
+        var para= $(".numProd");
+            para.each(function (){
             var num = $(this).val();
             var id = $(this).attr('id').substr(4);
             obj[id] = num;
-           
-       });
-
+        });
+        console.log(obj);    
         var json= JSON.stringify(obj);
 
-        
-       $.ajax({
+        $.ajax({
             url: '/cart/updateCart',
             type: 'GET',
             dataType : 'json',
@@ -151,42 +144,34 @@ $(document).ready(function() {
                     var check;
                     var number ;
                     var html='';
-                    if(result==0) {
+                    if(result==0){
                         $('#notify').html('Product is out of stock!');
                     } else {
-                         $.each(result, function(key,val) {
+                        $.each(result, function(key,val) {
                             if(key=='check') {
                                 check = val;
                             } 
-
                             if(key == 'quantity') {
                                 number = val ;
                             }
-                          })
+                        })
 
-                         if (check==2) {
+                        if (check==2) {
                             html = "Only ";
                             html += number;
                             html += " products in stock.Please check again!";
-                             $('#notify').html(html);
-                             
-                         } else {
-
-                                if (check == 1 ) {
-                                    html ="<span class='indicator'>";
-                                    html +=number;
-                                    html +="</span>";
-                                    $('.showCart').html(html);
-                                    $('#notify').html("Added to cart successfully !");
-                                    
-                                }
-                         }
-
-
+                            $('#notify').html(html);
+                        }else{
+                            if (check == 1 ) {
+                                html ="<span class='indicator'>";
+                                html +=number;
+                                html +="</span>";
+                                $('.showCart').html(html);
+                                $('#notify').html("Added to cart successfully !");
+                            }
+                        }
                     }         
-                    
                 },
-
                 error: function(request, errorType, errorMessage) {
                     alert(' Error : ' + errorType + ' with message ' + errorMessage);
                 }

@@ -82,7 +82,7 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Add Products
+                        Edit Products
                     </h1>
                 </div><!-- /.page-header -->
 

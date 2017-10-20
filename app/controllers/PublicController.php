@@ -66,13 +66,13 @@ class PublicController
 	        foreach (Session::getSession($nameCart) as $key => $value) {
 	           $arrStore[$key]= Products::getAllCart($key);
 	            foreach ($arrStore[$key] as $k => $val) {
-	                $arrStore1[$key] = $val;                           
+	                $arrStore1[$key] = $val;                          
 	            }
 	        }
             return view('public/cart',['arrStore'=>$arrStore1,'nameCart'=>$nameCart,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
 
         }else{
-            return view('public/cart');
+            return view('public/cart',['gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
         }
     }
 
