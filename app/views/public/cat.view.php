@@ -18,18 +18,17 @@
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
                                     <div class="products">
-                                        <div class="box-title">Featutes</div>
+                                        <div class="box-title"><?php echo $cat[0]->name; ?></div>
                                         <?php 
-                                            foreach ($gender_products_info as $key => $item) {
+                                            foreach ($cat_products_info as $key => $item) {
                                                 $id=$item->id;
                                                 $image=$item->image;
                                                 $name=$item->name;
-                                                $price=$item->price;
-                                            
+                                                $price=$item->price;  
                                         ?>
                                         <div class="product">
                                             <div class="cover-img">
-                                                <a href="/detail/<?php echo $id; ?> ">
+                                                <a href="/detail/<?php echo $id; ?>">
                                                     <img src="/public/upload/product_info/<?php echo $image; ?>" alt="">
                                                 </a>
                                             </div>

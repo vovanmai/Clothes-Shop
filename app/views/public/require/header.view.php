@@ -8,6 +8,10 @@
     <title>Shop</title>
     <link rel="stylesheet" type="text/css" href="/public/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/assets/css/style.css">
+    <script type="text/javascript" src="/public/assets/js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="/public/assets/js/app.js"></script>
+    <script type="text/javascript" src="/public/assets/js/shop.js"></script>
+    <script type="text/javascript" src="/public/assets/js/public.js"></script>
 </head>
 
 <body>
@@ -21,34 +25,26 @@
                             <a href="/"><p>Fashion & <span>Style</span></p></a>
                         </div>
                     </div>
-
+                    <?php 
+                    $url=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
+                    ?>
                     <div class="col-md-5 col-lg-4">
                         <div class="cover menu">
                             <ul>
-                                <li><a class="active" href="index.html">HOME</a></li>
+                                <li><a class="<?php if($url==''){echo 'active';}?>"  href="/">HOME</a></li>
                                 <li>
-                                    <a href="men">MEN</a>
+                                    <a href="/men" class="<?php if($url=='men'){echo 'active';}?>" >MEN</a>
                                     <div class="menu-child">
                                         <ul>
+                                            <?php
+                                                foreach ($gender_men_cats as $key => $item) {
+                                                    $id=$item->id;
+                                                    $name=$item->name;
+                                            ?>
                                             <li>
-                                                <a href="">T-Shirt</a>
+                                                <a href="/cat/<?php echo $id; ?>"><?php echo $name; ?></a>
                                             </li>
-                                            <li>
-                                                <a href="">Shirt</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Trousers</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="">Jacket</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Jean</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Khaki</a>
-                                            </li>
+                                            <?php } ?>
                                         </ul>
                                         <div class="box-img">
                                             <img src="/public/assets/img/men-logo.jpeg" alt="">
@@ -57,28 +53,18 @@
 
                                 </li>
                                 <li>
-                                    <a href="women">WOMEN</a>
+                                    <a href="/women" class="<?php if($url=='women'){echo 'active';}?>">WOMEN</a>
                                     <div class="menu-child">
                                         <ul>
+                                            <?php
+                                                foreach ($gender_women_cats as $key => $item) {
+                                                    $id=$item->id;
+                                                    $name=$item->name;
+                                            ?>
                                             <li>
-                                                <a href="">T-Shirt</a>
+                                                <a href="/cat/<?php echo $id; ?>"><?php echo $name; ?></a>
                                             </li>
-                                            <li>
-                                                <a href="">Shirt</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Trousers</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="">Jacket</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Jean</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Khaki</a>
-                                            </li>
+                                            <?php } ?>
                                         </ul>
                                         <div class="box-img">
                                             <img src="/public/assets/img/women-logo.jpg" alt="">
@@ -97,9 +83,23 @@
                     </div>
                     <div class="col-md-2 col-lg-2 ">
                         <div class="cover account-box">
-                            <a class="bag" href="cart.html">
-                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <span class="indicator">1</span>
+                            <a class="bag" href="/cart">
+                                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                        <span class='showCart'>
+                                        <?php
+
+                                        if (isset($_SESSION['num'])){
+                                            
+                                           if($_SESSION['num'] !=0) {
+                                        ?>
+                                            <span class='indicator'><?php echo $_SESSION['num'] ;?></span>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                        </span>
+                              
+                               
                             </a>
 
                             <button class="account" id="account"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</button>
@@ -109,9 +109,21 @@
                 <div class="hidden-desktop hidden-lage-screen row ">
                     <div class="col-xs-2 col-sm-2">
                         <div class="btn-bag">
-                            <a href="cart.html">
+                            <a href="/cart">
                                 <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                                <span class="indicator">1</span>
+                                <span class='showCart'>
+                                        <?php
+
+                                        if (isset($_SESSION['num'])){
+                                            
+                                           if($_SESSION['num'] !=0) {
+                                        ?>
+                                            <span class='indicator'><?php echo $_SESSION['num'] ;?></span>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </span>
                             </a>
                         </div>
                     </div>

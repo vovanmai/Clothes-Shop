@@ -2,6 +2,10 @@
 namespace app\controllers;
 use core\App;
 use core\Session;
+<<<<<<< HEAD
+=======
+use app\models\Categories;
+>>>>>>> cdf828e824e290664ae8b2be93e0fd49a4d0a048
 use app\models\Colors;
 use core\Pagination;
 
