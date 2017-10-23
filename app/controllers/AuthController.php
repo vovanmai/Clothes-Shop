@@ -98,7 +98,7 @@ class AuthController
                  $passwordAgain = trim($_POST['passwordAgain']);
 
                  //bieu thuc chinh quy
-                $pattern = ' /^[a-zA-Z0-7@_]{6,}$/';
+                $pattern = ' /^[a-zA-Z0-9@_]{6,}$/';
                 if (!preg_match($pattern, $newPass,$match) || !preg_match($pattern, $passwordAgain,$match)){
                      return redirect('admin/newpass?msg=0');
                      die();

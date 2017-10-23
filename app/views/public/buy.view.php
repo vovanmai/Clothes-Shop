@@ -15,19 +15,54 @@ require dirname(__DIR__).'/public/require/header.view.php';
                         <div class="box-content">
 
                             <div class="row">
-                                <div class="col-sm-12 col-xs-4 col-md-4 col-lg-4">
-                                    <div class="billing-info">
-                                        <div class="title-box-info">Info of Client</div>
-                                        <form id="form-info-client" name='buy' method="POST" action="/buy/check">
+                                <?php
 
-                                            <input type="text" name="name" placeholder="Full name">
-                                            <input type="text" name="phone" placeholder="Phone Number">
-                                            <input type="email" name="email" placeholder="Email">
-                                            <textarea name="address" placeholder="Address"></textarea>
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-xs-4 col-md-4 col-lg-4">
+                                    if (isset($_SESSION['login'])) {
+                                        $user = $_SESSION['login'];
+                                    ?>
+                                        <div class="col-sm-12 col-xs-4 col-md-4 col-lg-4">
+                                            <div class="billing-info">
+                                                <div class="title-box-info">Info of Client</div>
+                                                <form id="form-info-client" name='buy' method="POST" action="/buy/check">
+
+                                                    <input type="text" name="name" value="<?php echo $user[0]->username;?>" required >
+                                                    <input type="text" name="phone" value="<?php echo $user[0]->phone;?>" required >
+                                                    <input type="email" name="email" value="<?php echo $user[0]->email;?>" required >
+                                                    <textarea name="address" placeholder="Address" required ><?php echo $user[0]->address;?></textarea>
+                                               
+                                            </div>
+                                        </div>
+                                    <?php
+                                    } else {
+                                    ?>
+                                         <div class="col-sm-12 col-xs-4 col-md-4 col-lg-4">
+                                            <div class="billing-info">
+                                                <div class="title-box-info">Info of Client</div>
+                                                <form id="form-info-client" name='buy' method="POST" action="/buy/check">
+
+                                                    <input type="text" name="name" value="abc" required >
+                                                    <input type="number" name="phone" value="123" required >
+                                                    <input type="email" name="email" value ="Email" required >
+                                                    <textarea name="address" placeholder="Address" required ></textarea>
+                                               
+                                            </div>
+                                            <span style="color: red">
+                                            <?php
+                                                if (isset($_SESSION['msg'])) {
+                                                    echo $_SESSION['msg'];
+                                                    unset($_SESSION['msg']);
+                                                }
+                                            ?>                                               
+                                            </span>
+                                        </div>
+
+                                    <?php
+                                    }
+                                    ?>
+                               
+
+
+                                <div class="col-sm-12 col-xs-2 col-md-2 col-lg-2">
                                     <div class="payments">
                                         <div class="title-box-payments">Payments</div>
                                         <div class="visa">
@@ -46,46 +81,75 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-xs-4 col-md-4 col-lg-4">
+                                <div class="col-sm-12 col-xs-6 col-md-6 col-lg-6">
                                     <div class="summary-order">
                                         <div class="title-box-summary">Summary</div>
                                         <div class="content-summary">
                                             <ul>
                                                 <li>
                                                     <div class="row">
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
+                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
                                                             Product Name
                                                         </div>
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
+                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                            Size
+                                                        </div>
+                                                         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                           Color
+                                                        </div>
+                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
                                                             Quantity
                                                         </div>
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
+                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
                                                             Price
                                                         </div>
                                                     </div>
                                                 </li>
                                               
-                                            
-                                                <li>
-                                                    <div class=" row">
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-                                                            product name
-                                                        </div>
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-                                                            2
-                                                        </div>
-                                                        <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-                                                            $200,0/1 item
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                            <?php
+                                                if (isset($arrStore)) {
+                                                    $totalPrice =0;
+                                                    foreach ($arrStore as $key => $value) {
+
+                                                        foreach ($_SESSION['cart'] as $k => $val) {
+                                                            if ($k ==$key) {
+                                                               $numCart =$val;
+                                                               $totalPrice += $val* $value->price;
+                                                            }
+                                                        }
+                                                     
+                                            ?>
+                                                        <li>
+                                                            <div class=" row">
+                                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                                    <?php echo $value->namesp?>
+                                                                </div>
+                                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                                    <?php echo $value->size?>
+                                                                </div>
+                                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                                    <?php echo $value->color?>
+                                                                </div>
+                                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                                    <?php echo $numCart?>
+                                                                </div>
+                                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                                    <?php echo ($numCart * $value->price)?>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                            <?php
+                                                    }
+                                                }
+                                            ?>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8">
                                                             Totals :
                                                         </div>
                                                         <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-                                                            <div class="total-cost">$900,0</div>
+                                                            <div class="total-cost"><?php echo $totalPrice?></div>
                                                         </div>
                                                     </div>
                                                 </li>

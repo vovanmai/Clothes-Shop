@@ -44,15 +44,15 @@ require dirname(__DIR__).'/public/require/header.view.php';
                             
                                 <ul class="list-products col-sm-12 col-xs-12 col-md-12 col-lg-12">
                                     <?php
-                                    $numCart;
+                                 
                                     $totalPrice=0;
                                         foreach ($arrStore as $key => $value) {
                                            foreach ($_SESSION['cart'] as $k => $val) {
-                                                        if ($k ==$key) {
-                                                           $numCart =$val;
-                                                           $totalPrice += $val* $value->price;
-                                                        }
-                                                    }
+                                                if ($k ==$key) {
+                                                   $numCart =$val;
+                                                   $totalPrice += $val* $value->price;
+                                                }
+                                            }
                                        
 
                                     ?>

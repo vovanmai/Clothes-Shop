@@ -170,10 +170,6 @@ class PublicController
                                 $id =$products[0]->id;
 
                                 if (isset($cart[$id])) {
-                                     $checkID = true;                                 
-                                }
-                              
-                                if ($checkID) {
                                     $currentNum =Session::getSession('cart')[$id];
                                     $newNum = $currentNum + $num;
                                  
@@ -185,7 +181,7 @@ class PublicController
                                     } else {
                                              $cart[$id] = $newNum;
                                              Session::createSession('cart',$cart);
-                                    }
+                                    }                                 
                                 } else {
                                        if ($products[0]->quantity < $num) {                          
                                             $arr["check"] =2;
@@ -233,26 +229,39 @@ class PublicController
 
                 if (isset($_POST['payments'])) {
 
-                    $fullname = $_POST['name'];
-                    $phone = $_POST['phone'];
-                    $email = $_POST['email'];
-                    $address = $_POST['address'];
-
+                    $fullname = trim($_POST['name']);
+                    $phone = trim($_POST['phone']);
+                    $email = trim($_POST['email']);
+                    $address = trim($_POST['address']);
+                    $payment = $_POST['payments'];
+                    
+                    //empty
                     if ($fullname =='' || $phone =='' ||  $email =='' ||  $address=='') {
-                        echo 'roong';
-                        die();
+                          Session::createSession('msg','Please complete all information !') ;
+                          redirect('buy');
+                          die();
                     } else {
+                            //valid
+                          $checkEmail = ' /^[a-zA-Z0-9@_]{6,}$/';
+                          $checkPhone =  ' /^[0-9]{10,11}$/';
 
+                          if (!preg_match($checkPhone, $phone,$match) || !preg_match($checkEmail, $phone,$match)) {
+
+                             Session::createSession('msg','please enter a valid email or phone !') ;
+                             redirect('buy');
+                             die();
+                          } else {
+
+                            //add san pham
+
+                          }
                     }
 
                 } else {
-                    echo 'not payments';
-                    die();
+                      Session::createSession('msg','Please choose payment !') ;
+                      redirect('buy');
+                      die();
                 }
-               
-               
-
-                
             }
         }
 
