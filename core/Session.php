@@ -25,5 +25,7 @@ class Session
 			unset($_SESSION[$msgKey]);
 		} 
 	}
+
+
 }
 ?>
