@@ -33,26 +33,11 @@
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
-                                if (isset($_GET['msg'])) {
-                                
-                                    switch ($_GET['msg']) {
-
-                                        case 0:
-                                            echo "Password do not valid" ;
-                                            break;
-                                        case 1:
-                                            echo "Please receive the code in Email" ;
-                                            break;
-                                         case 2:
-                                            echo "Please receive the code in Email" ;
-                                            break;
-                                         case 3:
-                                            echo "Password do not match" ;
-                                            break;
-                                        
-                                    }
-                                  
-                                }
+                              
+                                 if (isset($_SESSION['msg'])) {                              
+                                    echo  $_SESSION['msg'];
+                                    unset($_SESSION['msg'])  ;             
+                                 }
                             ?>
                             </h4>
                         </div>
