@@ -91,6 +91,7 @@ $router->post('getGender','PublicController@getGender');
 $router->post('detail/PlusNumber','PublicController@PlusNumber');
 $router->post('detail/SubNumber','PublicController@SubNumber');
 $router->post('detail/addCart','PublicController@addCart');
+$router->get('detail/related/{cat}/{product}','PublicController@relatedProducts');
 $router->get('cart','PublicController@cart');
 $router->get('cart/delete/{id}','PublicController@delete');
 $router->get('cart/updateCart','PublicController@updateCart');

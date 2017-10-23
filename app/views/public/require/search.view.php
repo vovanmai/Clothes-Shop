@@ -12,7 +12,7 @@
 			$price= $search_public['price']; 
 		}
 		?>
-		<form action="search" method="post">
+		<form action="/search" method="post">
 			<label for="gender">Men or Women</label>
 			<select class="select" name="gender" id="gender">
 				<option <?php if($gender==1) echo 'selected="selected"';?> value="1">Men</option>
