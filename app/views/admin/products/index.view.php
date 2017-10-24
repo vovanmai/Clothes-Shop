@@ -157,11 +157,27 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
                                             
                                             <td class="text-center">
-                                                <?php echo $color_id; ?>
+                                                <?php 
+                                                    foreach ($colors as $key => $item) {
+                                                        $name=$item->name;
+                                                        if($item->id==$color_id){
+                                                            echo $name;
+                                                        }
+                                                    }
+                                            
+                                                ?>
                                             </td>
 
                                             <td class="text-center">
-                                                <?php echo $size_id; ?>
+                                                <?php 
+                                                    foreach ($sizes as $key => $item) {
+                                                        $name=$item->size;
+                                                        if($item->id==$size_id){
+                                                            echo $name;
+                                                        }
+                                                    }
+                                            
+                                                ?>
                                             </td>
                                             <td class="text-center">
                                                 <?php echo $quantity; ?>

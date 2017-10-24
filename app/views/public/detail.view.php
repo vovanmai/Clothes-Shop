@@ -61,8 +61,8 @@
                             <div class="fb-comments" data-href="http://localhost:8000/detail/<?php echo $productInfo[0]->id; ?>" data-numposts="10"></div>
                         </div>
                     </div>
-
                 </div>
+
             </section>
             <?php
                 } else {
@@ -84,3 +84,4 @@
 <?php
     require dirname(__DIR__).'/public/require/footer.view.php';
 ?>
+

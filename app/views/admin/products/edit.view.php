@@ -82,7 +82,7 @@ require dirname(__DIR__).'/require/header.view.php';
 
                 <div class="page-header">
                     <h1 style="font-weight: bold">
-                        Add Products
+                        Edit Products
                     </h1>
                 </div><!-- /.page-header -->
 
@@ -142,11 +142,12 @@ require dirname(__DIR__).'/require/header.view.php';
                                     <?php foreach ($size as $key => $item) {
                                         $id=$item->id;
                                         $size=$item->size;
-                                        if($product[0]->color_id==$id){
+                                        if($product[0]->size_id==$id){
                                             $selected="selected";
                                         }else{
                                             $selected="";
-                                        }   
+                                        }
+                        
                                     ?>    
                                     <option <?php echo $selected; ?>  value="<?php echo $id; ?>"><?php echo $size; ?></option> 
                                     <?php } ?>    

@@ -1,3 +1,5 @@
+
+// ===========================================================================
 function paging(controller,page) {
     $.ajax({
         url: '/admin/'+controller,
@@ -14,6 +16,7 @@ function paging(controller,page) {
         }
     });
 }
+
 $(document).ready(function() {
     //change active users
     $(document).on('click', '.edit_color', function(){
@@ -530,6 +533,7 @@ $(document).ready(function() {
         });
     });
 
+
     //change active shipped order
     $(".edit_shipped_active").click(function() {
        var data=$(this).attr('id');
@@ -913,3 +917,4 @@ $("#quantity").blur(function() {
     }
 });
 })
+

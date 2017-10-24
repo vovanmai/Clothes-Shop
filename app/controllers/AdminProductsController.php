@@ -7,6 +7,7 @@ use app\models\Products_info;
 use app\models\Products;
 use app\models\Colors;
 use app\models\Size;
+use app\models\Sizes;
 use app\models\Category;
 use core\Pagination;
 
@@ -17,22 +18,22 @@ class AdminProductsController
 	public function index()
 	{	
 		$product_info=Products_info::all();
+		$colors=Colors::all();
+		$sizes=Sizes::all();
 		$paging = new Pagination();
 		$count=Products::count();
 		$limit = 10;
 		if(!isset($_GET['page'])) {
 			$current_page = 1;
-
 			$paging->init("products",$current_page, $limit, $count[0]->total_record);
 			$products=Products::getAllPagination($current_page,$limit);
-			return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html()]);
+			return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html(),'colors'=>$colors,'sizes'=>$sizes]);
 		} else {
 			$current_page = $_GET['page'];
-			
 			$paging->init("products",$current_page, $limit, $count[0]->total_record);
 			$products=Products::getAllPagination($current_page,$limit);
 			$tbody = '';
-			  foreach ($products as $item) {
+			foreach ($products as $item) {
 					$id=$item->id;
 					$product_info_id=$item->product_info_id;
 					$color_id=$item->color_id;
@@ -50,8 +51,23 @@ class AdminProductsController
 						}
 					}
 					$tbody .= '</td>
-			<td class="text-center">'.$color_id.'</td>
-			<td class="text-center">'.$size_id.'</td>
+			<td class="text-center">';
+				foreach ($colors as $key => $item) {
+                    $name=$item->name;
+                    if($item->id==$color_id){
+                        $tbody.=$name;
+                    }
+                }
+            $tbody.='</td>
+			<td class="text-center">';
+				foreach ($sizes as $key => $item) {
+                    $name=$item->size;
+                    if($item->id==$size_id){
+                        $tbody.=$name;
+                        break;
+                    }
+                }
+			$tbody.='</td>
 			<td class="text-center">'.$quantity.'</td>
 			<td class="text-center">
 				<div class="hidden-sm hidden-xs btn-group">
@@ -68,7 +84,7 @@ class AdminProductsController
 		 }
 		 $paging_html =  $paging->html();
 		 echo json_encode(array(
-			 "tbody" => $tbody, 
+			"tbody" => $tbody, 
 			"paging" => $paging_html));
 		}
 	}
@@ -111,6 +127,9 @@ class AdminProductsController
 	{
 		$id=$_GET['id'];
 		$product=Products::find('id',$id);
+		if($product==null){
+			return redirect('admin/products');
+		}
 		$product_info=Products_info::all();
 		$colors=Colors::all();
 		$size=Size::all();

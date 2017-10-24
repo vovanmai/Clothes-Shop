@@ -59,7 +59,7 @@ class AdminProductInfoController
 				'.number_format($price).' VNĐ
 			</td>
 			<td class="text-center">
-				<a href="javascript:void(0)"  class="product_info_active" id="'.$id.'">
+				<a href="javascript:void(0)" onclick="chageActiveProductInfo('.$id.')" class="product_info_active" id="'.$id.'">
 					<img src="/public/admin/assets/images/'; 
 					if($active==1){
 						$tbody .= 'active.gif';
@@ -134,6 +134,9 @@ class AdminProductInfoController
 	{
 		$id=$_GET['id'];
 		$product_info=Products_info::find('id',$id);
+		if($product_info==null){
+			return redirect('admin/product_info');
+		}
 		$cats=Category::all();
 		return view('admin/product_info/edit',['product_info'=>$product_info,'cats'=>$cats]);
 	}

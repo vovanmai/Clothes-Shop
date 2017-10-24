@@ -18,11 +18,6 @@ class Products extends Model
 		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 	
-	public static function count()
-	{
-		$query='select count(*) as total_record from products_info';
-		return App::get('database')->query_fetch($query);
-	}
 
 	public static function getColor($product_info_id)
 	  {
