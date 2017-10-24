@@ -34,7 +34,7 @@
 					<?php }?>
 				</select>
 				<button class="btn-search" type="button" name="search_public" id="search_public"
-				onclick="searchFilter(1);">Search</button>
+				onclick="paging('searchFilter',1);">Search</button>
 				<!-- <a href="javascript:void(0);" onclick="searchFilter(1);">Search</a> -->
 			</form>
 		</div>

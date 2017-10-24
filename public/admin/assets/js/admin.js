@@ -1,3 +1,19 @@
+function paging(controller,page) {
+        $.ajax({
+            url: '/admin/'+controller,
+            type: 'GET',
+            dataType: 'json',
+            data:'page='+page,            
+            success: function(result) {
+                $('tbody').html(result.tbody);
+                $('#paging').html(result.paging);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+              }
+        });
+    }
 $(document).ready(function() {
     //change active users
     $(document).on('click', '.edit_color', function(){

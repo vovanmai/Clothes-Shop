@@ -16,7 +16,7 @@ class Pagination
         );
     
 
-    function init($func, $current_page, $limit, $total_record)
+    function init($func,$current_page, $limit, $total_record)
     {
         $this->_config['current_page'] = $current_page;
         $this->_config['limit'] = $limit;
@@ -95,9 +95,9 @@ class Pagination
             if ($this->_config['current_page'] > 1)
             {
                 $p .= '<li><a href="javascript:void(0);" 
-                onclick="'.$this->_config['func'].'(1)">First</a></li>';
+                onclick="paging(\''.$this->_config['func'].'\',1)">First</a></li>';
                 $p .= '<li><a href="javascript:void(0);" 
-                onclick="'.$this->_config['func'].'('.($this->_config['current_page'] - 1).')">Prev</a></li>';
+                onclick="paging(\''.$this->_config['func'].'\','.($this->_config['current_page'] - 1).')">Prev</a></li>';
             }
             
             for ($i = $this->_config['min']; $i <= $this->_config['max']; $i++)
@@ -107,16 +107,16 @@ class Pagination
                 }
                 else{
                     $p .= '<li><a href="javascript:void(0);" 
-                    onclick="'.$this->_config['func'].'('.$i.')">'.$i.'</a></li>';
+                    onclick="paging(\''.$this->_config['func'].'\','.$i.')">'.$i.'</a></li>';
                 }
             }
             
             if ($this->_config['current_page'] < $this->_config['total_page'])
             {
                 $p .= '<li><a href="javascript:void(0);" 
-                onclick="'.$this->_config['func'].'('.($this->_config['current_page'] + 1).')">Next</a></li>';
+                onclick="paging(\''.$this->_config['func'].'\','.($this->_config['current_page'] + 1).')">Next</a></li>';
                 $p .= '<li><a href="javascript:void(0);"
-                onclick="'.$this->_config['func'].'('.$this->_config['total_page'].')">Last</a></li>';
+                onclick="paging(\''.$this->_config['func'].'\','.$this->_config['total_page'].')">Last</a></li>';
             }
             
             $p .= '</ul>';

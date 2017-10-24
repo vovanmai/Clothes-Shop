@@ -6,7 +6,7 @@ $router->get('women','PublicController@getProductInfoByGender');
 $router->get('cat/{id}','PublicController@cat');
 $router->get('detail/{id}','PublicController@detail');
 // ==============USERS==============
-
+$router->get('admin','AdminProductInfoController@index');
 $router->get('admin/users','UsersController@index');
 $router->get('admin/users/add','UsersController@add');
 $router->post('admin/users/add','UsersController@store');
