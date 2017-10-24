@@ -6,8 +6,11 @@ use app\models\Products_info;
 use app\models\Products;
 use app\models\Sizes;
 use app\models\Category;
+use app\models\Payment;
+use app\models\Order_details;
+use app\models\Users;
+use app\models\Orders;
 use core\Pagination;
-use core\Orders;
 
 class PublicController
 {
@@ -70,33 +73,33 @@ class PublicController
                 $quantity = $products[0]->quantity;
 
                 if( $value<=$quantity AND $value >0) {
-                   $arrCart[$key] =$value;
-               }
+                 $arrCart[$key] =$value;
+             }
 
-           }
-           Session::createSession('cart',$arrCart);
-           foreach ($arrCart as $key => $value) {
-               $cout +=$value;
-           }
-           $arrCart['quantity'] = $cout;
-           Session::createSession('num',$cout);
-           die(json_encode($arrCart));    
-       }                
-   }
+         }
+         Session::createSession('cart',$arrCart);
+         foreach ($arrCart as $key => $value) {
+             $cout +=$value;
+         }
+         $arrCart['quantity'] = $cout;
+         Session::createSession('num',$cout);
+         die(json_encode($arrCart));    
+     }                
+ }
 
-   public function cart()
-   {         
+ public function cart()
+ {         
     $arrStore= array();
     $gender_men_cats=Category::find('gender',1);
     $gender_women_cats=Category::find('gender',0);
 
     if ( Session::getSession('cart') !=null) {
         foreach (Session::getSession('cart') as $key => $value) {
-         $arrStore[$key]= Products::getAllCart($key)[0];              
-     }
-     return view('public/cart',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
+           $arrStore[$key]= Products::getAllCart($key)[0];              
+       }
+       return view('public/cart',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
 
- }else{
+   }else{
     return view('public/cart',['gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
 }
 }
@@ -139,7 +142,7 @@ public function addCart()
     $color = isset($_POST['aColor']) ? $_POST['aColor'] : 0 ;
     $products_info_id = isset($_POST['aProduct_info_id']) ? $_POST['aProduct_info_id'] : 0 ;
     $num = isset($_POST['aNum']) ? $_POST['aNum'] : 0 ;
-
+    
     $products = Products::getProduct($products_info_id,$size,$color);           
     if (empty($products)) {
         die(json_encode($check));
@@ -150,7 +153,7 @@ public function addCart()
            die(json_encode($arr));
        } else {
         $arr = array();                             
-
+        
         if ( Session::getSession('cart') ==null) {  
             if ($products[0]->quantity<$num) {
                $arr["check"] =2;
@@ -171,89 +174,144 @@ public function addCart()
                                 $id =$products[0]->id;
 
                                 if (isset($cart[$id])) {
-                                   $checkID = true;                                 
-                               }
+                                    $currentNum =Session::getSession('cart')[$id];
+                                    $newNum = $currentNum + $num;
+                                    
+                                    if ($products[0]->quantity < $newNum ) {
+                                     $arr["check"] =2;
+                                     $order=$products[0]->quantity-$currentNum;
+                                     $arr["quantity"] =$order;
+                                     die(json_encode($arr));                                      
+                                 } else {
+                                   $cart[$id] = $newNum;
+                                   Session::createSession('cart',$cart);
+                               }                                 
+                           } else {
+                             if ($products[0]->quantity < $num) {                          
+                                $arr["check"] =2;
+                                $arr["quantity"] =$products[0]->quantity;
+                                die(json_encode($arr));
+                            } else {
+                                $cart[$id]=$num;
+                                Session::createSession('cart',$cart);
+                            } 
+                        }                                   
 
-                               if ($checkID) {
-                                $currentNum =Session::getSession('cart')[$id];
-                                $newNum = $currentNum + $num;
-
-                                if ($products[0]->quantity < $newNum ) {
-                                 $arr["check"] =2;
-                                 $order=$products[0]->quantity-$currentNum;
-                                 $arr["quantity"] =$order;
-                                 die(json_encode($arr));                                      
-                             } else {
-                               $cart[$id] = $newNum;
-                               Session::createSession('cart',$cart);
-                           }
-                       } else {
-                         if ($products[0]->quantity < $num) {                          
-                            $arr["check"] =2;
-                            $arr["quantity"] =$products[0]->quantity;
-                            die(json_encode($arr));
-                        } else {
-                            $cart[$id]=$num;
-                            Session::createSession('cart',$cart);
-                        } 
-                    }                                   
-
-                    foreach ( $cart as $key => $value) {
-                        $coutCart += $value;
+                        foreach ( $cart as $key => $value) {
+                            $coutCart += $value;
+                        }
+                        Session::createSession('num',$coutCart);
+                        $arr["check"] =1;
+                        $arr["quantity"] =$coutCart;
+                        die(json_encode($arr));
                     }
-                    Session::createSession('num',$coutCart);
-                    $arr["check"] =1;
-                    $arr["quantity"] =$coutCart;
-                    die(json_encode($arr));
                 }
-            }
-        }    
+            }    
+            
+        }
 
-    }
+        public function buy()
+        {
+            $arrPayments = Payment::all(); 
+            $arrStore= array();
+            $gender_men_cats=Category::find('gender',1);
+            $gender_women_cats=Category::find('gender',0);
 
-    public function buy()
-    {
+            if ( Session::getSession('cart') !=null) {
+                foreach (Session::getSession('cart') as $key => $value) {
+                 $arrStore[$key]= Products::getAllCart($key)[0];              
+             }
+             return view('public/buy',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'arrPayments'=>$arrPayments]);
 
-        $arrStore= array();
-        $gender_men_cats=Category::find('gender',1);
-        $gender_women_cats=Category::find('gender',0);
-
-        if ( Session::getSession('cart') !=null) {
-            foreach (Session::getSession('cart') as $key => $value) {
-             $arrStore[$key]= Products::getAllCart($key)[0];              
-         }
-         return view('public/buy',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
-
-     }else{
-        return redirect('home');
-    }
-}
-public function check()
-{
-    if (isset($_POST['smBuy'])) {
-
-        if (isset($_POST['payments'])) {
-
-            $fullname = $_POST['name'];
-            $phone = $_POST['phone'];
-            $email = $_POST['email'];
-            $address = $_POST['address'];
-
-            if ($fullname =='' || $phone =='' ||  $email =='' ||  $address=='') {
-                echo 'roong';
-                die();
-            } else {
-                        //add to order
-
-            }
-
-        } else {
-            echo 'not payments';
-            die();
+         }else{
+            return redirect('home');
         }
     }
-}
+    public function check() {
+        if (isset($_POST['smBuy'])) {
 
+            if (isset($_POST['payments'])) {
+                $fullname = trim($_POST['name']);
+                $phone = trim($_POST['phone']);
+                $email = trim($_POST['email']);
+                $address = trim($_POST['address']);
+                $payment = $_POST['payments'];
+                $note = $_POST['note'];
+                $idUser = 0;
+                if (isset($_SESSION['login'])) {
+                   $idUser = $_SESSION['login']->id;
+               } else {
+                    //empty
+                   if ($fullname =='' || $phone =='' ||  $email =='' ||  $address=='') {
+                      Session::createSession('msg','Please complete all information !') ;
+                      redirect('buy');
+                      die();
+                  } else {
+                            //valid
+                      $checkEmail = ' /^[a-zA-Z0-9@_]{6,}$/';
+                      $checkPhone =  ' /^[0-9]{10,11}$/';
+
+                      if (!preg_match($checkPhone, $phone,$match) || !preg_match($checkEmail, $phone,$match)) {
+
+                       Session::createSession('msg','please enter a valid email or phone !') ;
+                       redirect('buy');
+                       die();
+                   } else {
+                            //add san pham
+                    $arrInfoClient=array(
+                        'username' => '',
+                        'password' => '',
+                        'fullname' => $fullname,
+                        'phone' => $phone,
+                        'email' => $email,
+                        'address' => $address,
+                        'level' => 3,
+                        );
+                    if (Users::insert($arrInfoClient)) {
+                        $UserNew=Users::getIdLast();
+                        $idUser=$UserNew[0]->id;
+                    }
+                }
+            }
+        }
+
+        $arrOrder = array(
+            'user_id' =>$idUser,
+            'date_order' => date('Y-m-d H:m:s',time()),
+            'payment_id' => $payment,
+            'note' => $note,
+            'paid' => ($payment==3) ? 0 : 1,
+            );
+        if (Orders::insert($arrOrder)) {
+            $OrderNew=Orders::getIdLast();
+            $idOrder=$OrderNew[0]->id;
+            foreach (Session::getSession('cart') as $key => $value) {
+                $arrDetail=array(
+                    'order_id' => $idOrder,
+                    'product_id' => $key,
+                    'quantity' => $value,
+                    );     
+                if (Order_details::insert($arrDetail)) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+
+            unset($_SESSION['cart']);
+            unset($_SESSION['num']);
+            Session::createSession('msg','Order successfully !') ;
+            redirect('buy');
+            die();
+
+        } else {
+          Session::createSession('msg','Please choose payment !') ;
+          redirect('buy');
+          die();
+      }
+  }
+}
+}
 public function getProductInfoByGender()
 {
     $string_gender=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
@@ -284,3 +342,21 @@ public function relatedProducts($id_cat,$id_products_info) {
 }
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,9 +7,9 @@ use core\Pagination;
 
 class UsersController
 {
-    function __construct() {
-        checkExist();
-    }
+	function __construct() {
+		checkExist();
+	}
 	public function index()
 	{
 		$link_full ='/admin/users?p={page}';
@@ -130,7 +130,7 @@ class UsersController
 						'phone' => $phone, 
 						'address' => $address,  
 						'avatar' => $new_file_name
-					  );
+						);
 				}	
 			}else{
 				if($avatar==''){
@@ -207,38 +207,38 @@ class UsersController
 		}
 	}
 
-		public function search()
+	public function search()
+	{
+		if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
 		{
-			if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
-			{
-				$username=$_REQUEST['username'];
-				$fullname=$_REQUEST['fullname'];
-				$active=$_REQUEST['active'];
-				$level=$_REQUEST['level'];
-				$search_User = array(
-					'username' =>$username, 
-					'fullname' =>$fullname, 
-					'active' =>$active, 
-					'level' =>$level
-					);
-				$params=http_build_query($search_User);
+			$username=$_REQUEST['username'];
+			$fullname=$_REQUEST['fullname'];
+			$active=$_REQUEST['active'];
+			$level=$_REQUEST['level'];
+			$search_User = array(
+				'username' =>$username, 
+				'fullname' =>$fullname, 
+				'active' =>$active, 
+				'level' =>$level
+				);
+			$params=http_build_query($search_User);
 
-				$ArrUsers=Users::search($search_User);
+			$ArrUsers=Users::search($search_User);
 
-				$link_full='/admin/users/search?p={page}&'.$params;
-				$paging = new Pagination();
-				$limit = 10;
-				$count = count($ArrUsers);
-				$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-				$paging->init($current_page, $limit, $link_full, $count);
-				$users=Users::allSearch($current_page,$limit,$search_User);	
-				return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html(),'search_User'=>$search_User]);
-			} else {
-				return redirect('admin/users');
+			$link_full='/admin/users/search?p={page}&'.$params;
+			$paging = new Pagination();
+			$limit = 10;
+			$count = count($ArrUsers);
+			$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+			$paging->init($current_page, $limit, $link_full, $count);
+			$users=Users::allSearch($current_page,$limit,$search_User);	
+			return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html(),'search_User'=>$search_User]);
+		} else {
+			return redirect('admin/users');
 
-			}
-				
 		}
+
+	}
 
 	public function checkUsername()
 	{
@@ -264,8 +264,7 @@ class UsersController
 
 
 	//function check a edited email existence.
-	public function checkEditEmail()
-	{
+	public function checkEditEmail() {
 		$id=$_GET['id'];	
 		$email=$_GET['email'];
 		$currentEmail=Users::find("id",$id)[0]->email;
@@ -280,8 +279,7 @@ class UsersController
 			}
 		}
 	}
-
 }
 
 
-	?>
+?>

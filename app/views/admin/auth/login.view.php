@@ -33,20 +33,12 @@
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
-
-                                if (isset($_GET['msg'])) {
+                                        
+                                 if (isset($_SESSION['msg'])) {
                                 
-                                    switch ($_GET['msg']) {
-
-                                        case 0:
-                                            echo "Please do not empty" ;
-                                            break;
-                        
-                                         case 1:
-                                            echo "Account do not valid" ;
-                                            break;                                                                              
-                                    }                                 
-                                }
+                                    echo  $_SESSION['msg'];
+                                    unset($_SESSION['msg'])  ;             
+                                 }
 
                             ?>
                             </h4>

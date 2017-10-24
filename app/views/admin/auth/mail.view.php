@@ -34,19 +34,12 @@
                             <h4 class="red" id="id-company-text">
                             <?php
 
-                                if (isset($_GET['msg'])) {
-                                
-                                    switch ($_GET['msg']) {
+                                if (isset($_SESSION['msg'])) {                              
+                                    echo  $_SESSION['msg'];
+                                    unset($_SESSION['msg'])  ;             
+                                 }
 
-                                        case 0:
-                                            echo "Email do not empty" ;
-                                            break;
 
-                                        case 1:
-                                            echo "Email do not valid" ;
-                                            break;                                                                                                                
-                                    }                                 
-                                }
                             ?>
                             </h4>
                         </div>

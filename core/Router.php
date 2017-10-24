@@ -27,8 +27,9 @@ class Router
 
 	public function direct($uri,$requestType)
 	{
-		$params = array();
+		
 		foreach( $this->routes[$requestType] as $url=>$controller ){
+			$params = array();
 			if( $url === '*' ){
 				$checkRoute = true;
 			}elseif( strpos($url, '{') === FALSE ){
@@ -59,9 +60,9 @@ class Router
 				{
 					$checkRoute = true;
 				} else {
-					foreach ($params as $key => $value) {
-						array_pop($params); 
-					}
+					// foreach ($params as $key => $value) {
+					// 	array_pop($params); 
+					// }
 					continue;
 				}
 			}

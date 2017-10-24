@@ -48,7 +48,7 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                      foreach($products_info as $item)  { ?>
                                      <div class="product">
                                         <div class="cover-img">
-                                            <a href="detail/<?php echo $item->id;?>">
+                                            <a href="/detail/<?php echo $item->id;?>">
                                                 <img src="/public/upload/product_info/<?php echo $item->image; ?>" alt="">
                                             </a>
                                             
