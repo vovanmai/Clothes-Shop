@@ -250,8 +250,10 @@ require dirname(__DIR__).'/require/header.view.php';
 
               <div class="row text-center">
                 <?php 
-                  echo $paginghtml;
-                ?>
+                  if(isset($paginghtml)) {
+                    echo $paginghtml;
+                  }
+                  ?>
               </div>
               <!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->

@@ -104,8 +104,8 @@ class Orders extends Model
 		}
 		if($date_order!='')
 		{
-			$query.=' and date_order = ?';
-			$params['date_order']=date("Y-m-d H:i:s", strtotime($date_order));
+			$query.=' and date(date_order) = ?';
+			$params['date_order'] = $date_order;
 		}
 
 		return App::get('database')->query_fetch_params($query,$params);

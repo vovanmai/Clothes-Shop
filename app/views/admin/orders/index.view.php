@@ -391,7 +391,9 @@ require dirname(__DIR__).'/require/header.view.php';
 
 <div class="row text-center" id="paging">
   <?php 
-  echo $paginghtml;
+    if(isset($paginghtml)) {
+      echo $paginghtml;
+    }
   ?>
 </div>
 <!-- PAGE CONTENT ENDS -->
