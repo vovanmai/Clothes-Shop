@@ -59,7 +59,7 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                         <li>
                                             <div class="product-order row">
                                                 <div class="hidden-mobile col-xs-2 col-md-3 col-lg-3">
-                                                    <a href="">
+                                                    <a href="detail/<?php echo $value->id;?>">
                                                         <div class="thumbnail">
                                                             <img src="/public/upload/product_info/<?php echo $value->image?>" alt="">
                                                         </div>
