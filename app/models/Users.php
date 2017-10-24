@@ -73,6 +73,12 @@ class Users extends Model
 		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
 	}
 
+	public static function checkPublicLogin($username,$pass) {
+		$query = "SELECT * FROM users WHERE active =1 AND username=? AND password =md5(?)";
+
+		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
+	}
+
 	public static function checkEmail($email) {
 		$query = "SELECT * FROM users WHERE active =?  AND email=?";
 		

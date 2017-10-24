@@ -4,13 +4,56 @@ use core\App;
 use core\Session;
 use app\models\Products_info;
 use app\models\Products;
+use app\models\Users;
 use app\models\Sizes;
 use app\models\Category;
 use core\Pagination;
 
 
 class PublicController
-{
+{   
+    public function addRegister()
+    {
+        $username=$_POST['username'];
+        $fullname=$_POST['fullname'];
+        $email=$_POST['email'];
+        $password=$_POST['password'];
+        $gender=$_POST['gender'];    
+        
+        $paremeters = array(
+            'username' => $username, 
+            'fullname' => $fullname, 
+            'email' => $email, 
+            'password' => md5($password), 
+            'gender' => $gender,
+            'level' => 3
+            );
+        if(Users::insert($paremeters)){
+            echo 1;
+        }
+
+    }
+    public function postLogin()
+    {
+        $username=$_POST['username'];
+        $password=$_POST['password'];
+        $user=Users::checkPublicLogin($username,$password);
+        if($user!=null){
+            $_SESSION['login'] =$user[0];
+            echo 1;
+        }else{
+            echo 2;
+        }
+
+    }
+    public function postLogout()
+    {
+        if(isset($_SESSION['login'])){
+            unset($_SESSION['login']);
+        }
+        return redirect('');
+
+    }
 	public function index(){
 		$link_full='?p={page}';
 		$limit = 12;
@@ -78,12 +121,12 @@ class PublicController
 
     public function cat($id)
     {
-    	$cat_products_info=Products_info::getProductInfoByCat($id);
+    	$products_info=Products_info::getProductInfoByCat($id);
     	$gender_men_cats=Category::find('gender',1);
 		$gender_women_cats=Category::find('gender',0);
 		$hot_product = Products_info::getHotProduct();
 		$cat=Category::find('id',$id);
-    	return view('public/cat',['cat_products_info'=>$cat_products_info,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'cat'=>$cat,'hot_product'=>$hot_product]);
+    	return view('public/index',['products_info'=>$products_info,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'cat'=>$cat,'hot_product'=>$hot_product]);
     }
 
     public function delete($id)
@@ -180,7 +223,6 @@ class PublicController
         
       
     }
-
        public function getProductInfoByGender(){
             $string_gender=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
             if($string_gender=='men'){
@@ -188,11 +230,11 @@ class PublicController
             }else{
                 $id=0;
             }
-            $gender_products_info=Category::getProductInfoByGender($id);
+            $products_info=Category::getProductInfoByGender($id);
             $hot_product=Products_info::getHotProduct();
             $gender_men_cats=Category::find('gender',1);
 			$gender_women_cats=Category::find('gender',0);
-        	return view('public/gender_product_info',['gender_products_info'=>$gender_products_info,'hot_product'=>$hot_product,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
+        	return view('public/index',['products_info'=>$products_info,'hot_product'=>$hot_product,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
            }
       }
 

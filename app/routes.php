@@ -79,6 +79,9 @@ $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
 
 //=====================PUBLIC===================
+$router->post('register','PublicController@addRegister');
+$router->post('login','PublicController@postLogin');
+$router->get('logout','PublicController@postLogout');
 $router->get('home','PublicController@index');
 $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
@@ -94,6 +97,8 @@ $router->post('detail/addCart','PublicController@addCart');
 $router->get('cart','PublicController@cart');
 $router->get('cart/delete/{id}','PublicController@delete');
 $router->get('cart/updateCart','PublicController@updateCart');
+
+
 
 //$router->post('detail/quantity','ShopController@quantity');
 

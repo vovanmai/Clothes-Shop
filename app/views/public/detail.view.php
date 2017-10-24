@@ -65,7 +65,7 @@
             <?php
     require dirname(__DIR__).'/public/require/login-register.view.php';
             ?>
-                <script type="text/javascript" src="/public/assets/js/appDetail.js"></script>
+                
                 <?php
 	    require dirname(__DIR__).'/public/require/footer.view.php';
 	               ?>

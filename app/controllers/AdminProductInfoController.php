@@ -72,6 +72,9 @@ class AdminProductInfoController
 	{
 		$id=$_GET['id'];
 		$product_info=Products_info::find('id',$id);
+		if($product_info==null){
+			return redirect('admin/product_info');
+		}
 		$cats=Category::all();
 		return view('admin/product_info/edit',['product_info'=>$product_info,'cats'=>$cats]);
 	}

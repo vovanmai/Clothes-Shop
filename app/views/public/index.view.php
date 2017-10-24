@@ -41,7 +41,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
                                         <div class="products">
-                                            <div class="box-title">Featutes</div>
+                                            <div class="box-title"><?php if(isset($cat[0]->name)){echo $cat[0]->name;}else{echo "Features";}?></div>
                                             <?php
     										if(!empty($products_info))
     										{ 
@@ -56,11 +56,20 @@
                                                 <span class="name"><?php echo $item->name; ?></span>
                                                 <span class="price"><?php echo $item->price; ?></span>
                                             </div>
-    											<?php } }?>
+    											<?php } 
+                                            }else{
+                                                echo '<div style="text-align:center;font-weight:bold">No product</div>';
+                                            }
+
+                                                ?>
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="cover-pagination">
-                                                        <?php echo $paginghtml; ?>
+                                                        <?php 
+                                                        if(isset($paginghtml)){
+                                                            echo $paginghtml;
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>

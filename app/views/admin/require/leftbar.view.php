@@ -33,20 +33,22 @@
 						<span class="btn btn-danger"></span>
 					</div>
 				</div><!-- /.sidebar-shortcuts -->
-
+				<?php 
+                    $url=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
+                ?>
 				<ul class="nav nav-list">
-					<li class="active">
+					<!-- <li class="active">
 						<a href="index.html">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> Dashboard </span>
 						</a>
 
 						<b class="arrow"></b>
-					</li>
+					</li> -->
 
 					
 
-					<li class="active">
+					<li class="<?php if(strpos($url,"product_info")==true){echo "active";}?>">
 						<a href="/admin/product_info">
 							<i class="menu-icon fa fa-product-hunt"></i>
 							<span class="menu-text" style="font-weight: bold;"> Product Info</span>
@@ -54,7 +56,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="active">
+					<li class="<?php if(strpos($url,"products")==true){echo "active";}?>">
 						<a href="/admin/products">
 							<i class="menu-icon fa fa-product-hunt"></i>
 							<span class="menu-text" style="font-weight: bold;"> Products</span>
@@ -62,7 +64,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
+					<li class="<?php if(strpos($url,"colors")==true){echo "active";}?>">
 						<a href="/admin/colors">
 							<i class="menu-icon fa fa-product-hunt"></i>
 							<span class="menu-text" style="font-weight: bold;"> Colors </span>
@@ -70,7 +72,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
+					<li class="<?php if(strpos($url,"sizes")==true){echo "active";}?>">
 						<a href="/admin/sizes">
 							<i class="menu-icon fa fa-product-hunt"></i>
 							<span class="menu-text" style="font-weight: bold;"> Sizes </span>
@@ -78,7 +80,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
+					<li class="<?php if(strpos($url,"users")==true){echo "active";}?>">
 						<a href="/admin/users">
 							<i class="menu-icon fa fa-user"></i>
 							<span class="menu-text" style="font-weight: bold;"> Users</span>
@@ -86,7 +88,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
+					<li class="<?php if(strpos($url,"orders")==true){echo "active";}?>">
 						<a href="/admin/orders">
 							<i class="menu-icon fa fa-user"></i>
 							<span class="menu-text" style="font-weight: bold;"> Orders</span>

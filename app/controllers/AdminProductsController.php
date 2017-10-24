@@ -7,6 +7,7 @@ use app\models\Products_info;
 use app\models\Products;
 use app\models\Colors;
 use app\models\Size;
+use app\models\Sizes;
 use app\models\Category;
 use core\Pagination;
 
@@ -23,9 +24,10 @@ class AdminProductsController
    		$paging = new Pagination();
 		$paging->init($current_page, $limit, $link_full, $count[0]->total_record);
 		$products=Products::getAllPagination($current_page,$limit);
-		$product_info=Products_info::all();	
-		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html()]);
-
+		$product_info=Products_info::all();
+		$colors=Colors::all();	
+		$sizes=Sizes::all();	
+		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html(),'colors'=>$colors,'sizes'=>$sizes]);
 	}
 	public function destroy()
 	{
@@ -66,6 +68,9 @@ class AdminProductsController
 	{
 		$id=$_GET['id'];
 		$product=Products::find('id',$id);
+		if($product==null){
+			return redirect('admin/products');
+		}
 		$product_info=Products_info::all();
 		$colors=Colors::all();
 		$size=Size::all();

@@ -2577,7 +2577,7 @@ a {
         cursor: pointer; }
       .wrapper #header #navbar .navbar-full .account-box .bag {
         font-size: 40px;
-        margin-left: 30px;
+        margin-left:-25px;
         position: relative;
         z-index: 100; }
         .wrapper #header #navbar .navbar-full .account-box .bag .indicator {
