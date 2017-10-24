@@ -29,7 +29,21 @@ function chageActiveProductInfo(id){
             $(idstring).html(data);
         }
     });
-}   
+}
+function chageActiveUsers(id){
+    var idstring = "#"+id;
+    $.ajax({
+        url: "/admin/users/active",
+        type: "POST",
+        data: {
+            'id': id
+        },
+        success: function(data) {
+            $(idstring).html(data);
+        }
+    });
+}
+
 $(document).ready(function() {
     //change active users
     $(document).on('click', '.edit_color', function(){
@@ -116,20 +130,7 @@ $(document).ready(function() {
             return false;
         });
     });
-    $(".edit_active").click(function() {
-        var id = $(this).attr('id');
-        var idstring = "#" + id;
-        $.ajax({
-            url: "/admin/users/active",
-            type: "POST",
-            data: {
-                'id': id
-            },
-            success: function(data) {
-                $(idstring).html(data);
-            }
-        });
-    });
+    
     // ==================Validate Add users============
 
     //default value
