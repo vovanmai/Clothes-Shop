@@ -230,18 +230,8 @@ class OrdersController
 				'payment' =>$payment, 
 				'date_order' =>$date_order
 				);
-			$params=http_build_query($search_Order);
-
-			$ArrOrders=Orders::search($search_Order);
-
-			$link_full='/admin/orders/search?p={page}&'.$params;
-			$count=count($ArrOrders);
-			$pagination = $this->pagination($count,$link_full);
-			$paginghtml = $pagination['paginghtml'];
-			$limit = $pagination['config']['limit'];
-			$current_page = $pagination['config']['current_page'];
-			$orders=Orders::allSearch($current_page,$limit,$search_Order);	
-			return view('admin/orders/index',['orders'=>$orders, 'paginghtml'=>$paginghtml,'search_Order'=>$search_Order,'payments'=>$payments]);
+			$orders = Orders::search($search_Order);	
+			return view('admin/orders/index',['orders'=>$orders, 'search_Order'=>$search_Order,'payments'=>$payments]);
 		} else {
 			return redirect('admin/orders');
 
