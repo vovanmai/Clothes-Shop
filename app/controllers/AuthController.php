@@ -198,36 +198,11 @@ class AuthController
                      die();
                 } else {
                     $rand =rand(999,10000);
-
                     Session::createSession('rand',$rand);
                     Session::createSession('forgetPass',$query);
                     $this->sendMail($email,'Get Password', 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>');
-                    /*
-                    $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-                    try {
-                        //Server settings
-
-                        $mail->IsSMTP();
-                        $mail->Host = "smtp.gmail.com";
-                        $mail->SMTPAuth = true;
-                        $mail->SMTPSecure = "ssl";
-                        $mail->Username = "cuoirongngaodu38@gmail.com";
-                        $mail->Password = "phamdinhhung03072311";
-                        $mail->Port = "465";
-                        $mail->isHTML(true);
-                        $mail->setFrom('cuoirongngaodu38@gmail.com', 'Mailer');
-                        $mail->addAddress($email, 'Shop'); 
-                        $mail->Subject = '<b> Get Password </b>';
-                        $mail->Body    = 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
-
-                        $mail->send();
-                        return redirect('admin/check');
-                        die();
-                    } catch (Exception $e) {
-                        echo 'Message could not be sent.';
-                        echo 'Mailer Error: ' . $mail->ErrorInfo;
-                    }
-                    */
+                     return redirect('admin/check');
+                    die();
                 }
             }
         }
@@ -235,7 +210,7 @@ class AuthController
 
     public function sendMail($email,$subject, $body)
     {
-        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        $mail = new PHPMailer(true);   // Passing `true` enables exceptions
         try {
             //Server settings
 
@@ -249,12 +224,9 @@ class AuthController
             $mail->isHTML(true);
             $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
             $mail->addAddress($email, 'Shop'); 
-            $mail->Subject =  $subject;      // '<b> Get Password </b>';
-            $mail->Body    =   $body;     // 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
-
-            $mail->send();
-            return redirect('admin/check');
-            die();
+            $mail->Subject =  $subject;    
+            $mail->Body    =   $body;    
+            $mail->send();          
         } catch (Exception $e) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
