@@ -28,8 +28,8 @@
                         <div class="center">
                             <h1>
                                 <i class="ace-icon fa fa-leaf green"></i>
-                                <span class="red">Ace</span>
-                                <span class="white" id="id-text2">Application</span>
+                                <span class="red">Shop</span>
+                                <span class="white" id="id-text2"></span>
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php

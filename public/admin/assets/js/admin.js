@@ -470,11 +470,10 @@ $(document).ready(function() {
 
     }
 
-     $("#smGetPass").mouseover(function() {
-
+    $("#sendPass").mouseover(function() {
         newPass = ($('#newpass').val()).trim();
         confirmPass = ($('#passwordAgain').val()).trim();
-
+       
         if ( newPass != confirmPass) {
             checkConfirm();
         } else {
