@@ -114,6 +114,11 @@ class PublicController
 
   public function detail($product_info_id)
     {   
+        if (!isset($_COOKIE['view-'.$product_info_id])) {
+            if (Products_info::updateView($product_info_id)) {
+              setcookie('view-'.$product_info_id,$product_info_id,time()+60);
+            }
+          }
         $color = Products::getColor($product_info_id);
         $size = Products::getSize($product_info_id);
         $productInfo = Products_info::find('id',$product_info_id);
