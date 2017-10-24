@@ -13,9 +13,7 @@
     <script type="text/javascript" src="/public/assets/js/shop.js"></script>
     <script type="text/javascript" src="/public/assets/js/public.js"></script>
 </head>
-
 <body>
-
     <div class="wrapper">
         <header id="header">
             <nav class="container" id="navbar">
@@ -75,13 +73,13 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3 ">
+                    <!-- <div class="col-md-3 col-lg-3 ">
                         <div class="cover search-box">
                             <i class="fa fa-search" aria-hidden="true"></i>
                             <input class="search" type="search" placeholder="search">
                         </div>
-                    </div>
-                    <div class="col-md-2 col-lg-2 ">
+                    </div> -->
+                    <div class="col-md-5 col-lg-5" style="text-align: right;">
                         <div class="cover account-box">
                             <a class="bag" href="/cart">
                                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>

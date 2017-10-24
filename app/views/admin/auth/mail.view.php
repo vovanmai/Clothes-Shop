@@ -28,25 +28,18 @@
                         <div class="center">
                             <h1>
                                 <i class="ace-icon fa fa-leaf green"></i>
-                                <span class="red">Ace</span>
-                                <span class="white" id="id-text2">Application</span>
+                                <span class="red">Shop</span>
+                                <span class="white" id="id-text2"></span>
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
 
-                                if (isset($_GET['msg'])) {
-                                
-                                    switch ($_GET['msg']) {
+                                if (isset($_SESSION['msg'])) {                              
+                                    echo  $_SESSION['msg'];
+                                    unset($_SESSION['msg'])  ;             
+                                 }
 
-                                        case 0:
-                                            echo "Email do not empty" ;
-                                            break;
 
-                                        case 1:
-                                            echo "Email do not valid" ;
-                                            break;                                                                                                                
-                                    }                                 
-                                }
                             ?>
                             </h4>
                         </div>

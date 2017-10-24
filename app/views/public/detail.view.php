@@ -51,6 +51,7 @@
                                 <h4><?php echo $productInfo[0]->preview_text;?></h4>
                                 <p>​<?php echo $productInfo[0]->detail_text;?></p>
                             </div>
+                            <div class="fb-comments" data-href="http://localhost:8000/detail/<?php echo $productInfo[0]->id; ?>" data-numposts="10"></div>
                         </div>
                     </div>
 
@@ -61,7 +62,14 @@
                     echo "Có lỗi xảy ra ,Vui lòng truy cấp lại sau !" ;
                 }
             ?>
-            
+            <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=812218178986913';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
             <?php
     require dirname(__DIR__).'/public/require/login-register.view.php';
             ?>

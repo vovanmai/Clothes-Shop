@@ -5,7 +5,7 @@ use core\Session;
 use app\models\Orders;
 use app\models\Payment;
 use core\Pagination;
-
+use app\controllers\AuthController;
 class OrdersController
 {
 	function __construct() {
@@ -30,6 +30,11 @@ class OrdersController
 		$id=$_GET['id'];
 		$status=$_GET['status'];
 		$order=Orders::updateStatus($status,$id);
+		if ($status ==0) {
+			$email = Orders::getEmail($id)[0]->email;
+			$auth = new AuthController;
+			$auth->sendMail($email,'Xac nhan don hang','Don hang cua ban da duoc xac nhan !');
+		}
 		echo 'success';
 	}
 
@@ -38,8 +43,8 @@ class OrdersController
 		$id=$_GET['id'];
 		$order=Orders::find($id);
 		if($order[0]->paid==1){
-			if(Orders::updateActivePaid(0,$id)){
-				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
+ 		if(Orders::updateActivePaid(0,$id)){
+		     echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
 			}
 		}else{
 			if(Orders::updateActivePaid(1,$id)){

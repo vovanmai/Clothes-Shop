@@ -31,11 +31,15 @@ class AuthController
     $userName = trim($_POST['txtName']);
     $password = trim($_POST['password']);
     if ($userName == '' || $password == '') {
-      return redirect('admin/login?msg=0');
+        Session::createSession('msg',"Please do not empty");
+        return redirect('admin/login');
+        die();   
     } else {
       $user = Users::checkLogin($userName,$password);
       if ($user == null) {
-        return redirect('admin/login?msg=1');
+        Session::createSession('msg',"Account do not valid");
+        return redirect('admin/login');
+        die();
       } else {
         if (isset($_POST['cbRemember'])) {
           if (!isset($_COOKIE['"'.$userName.'"'])) {   
@@ -54,7 +58,7 @@ class AuthController
   }
   
 
-    public function ajaxRemember()
+    public function remember()
     {
         $user = isset($_POST['aName']) ? $_POST['aName'] : ' ' ;
         $value = array(
@@ -98,23 +102,24 @@ class AuthController
                  $passwordAgain = trim($_POST['passwordAgain']);
 
                  //bieu thuc chinh quy
-                $pattern = ' /^[a-zA-Z0-7@_]{6,}$/';
-                if (!preg_match($pattern, $newPass,$match) || !preg_match($pattern, $passwordAgain,$match)){
-                     return redirect('admin/newpass?msg=0');
+                $pattern = ' /^[a-zA-Z0-9@_]{6,}$/';
+                if (!preg_match($pattern, $newPass,$match) || !preg_match($pattern, $passwordAgain,$match)){ 
+                     Session::createSession('msg',"Password do not valid");
+                     return redirect('admin/newpass');
                      die();
                 } 
 
                 //chua nhan code
                 if ( Session::getSession('rand') ==null ) {
-
-                    return redirect('admin/newpass?msg=1');
-                    die();
+                    Session::createSession('msg',"Please receive the code in Email");
+                     return redirect('admin/newpass');
+                     die();
                 } else {
                                      
                     if ( $newPass !=  $passwordAgain ) {
-
-                        return redirect('admin/newpass?msg=2');
-                         die();
+                       Session::createSession('msg',"Password do not match");
+                       return redirect('admin/newpass');
+                       die();
 
                     } else {
                         //Thong tin nguoi get Pass
@@ -145,22 +150,23 @@ class AuthController
             
 
             if ( $enterCode == '') {
-                return redirect('admin/check?msg=0');
+                Session::createSession('msg',"Code do not empty");
+                return redirect('admin/check');
                 die();
             }
 
             //chua nhan code
             if ( Session::getSession('rand') == '' ) {
-                
-                return redirect('admin/check?msg=1');
+                Session::createSession('msg',"Please receive the code in Email");
+                return redirect('admin/check');
                 die();
             } else {
 
                 $rand = Session::getSession('rand'); 
 
                 if ( $enterCode != $rand ) {
-
-                    return redirect('admin/check?msg=2');
+                    Session::createSession('msg',"Code do not match");
+                    return redirect('admin/check');
                     die();
                 } else {
                      Session::createSession('confirm','123');
@@ -180,20 +186,23 @@ class AuthController
             $email = $_POST['email'];
             
             if ($email == '') {
-                return redirect('admin/mail?msg=0');
+                Session::createSession('msg',"Email do not empty");
+                return redirect('admin/mail');
                 die();
             } else {
                 $query = Users::checkEmail($email);
 
                 if ($query == null) {
-                    return redirect('admin/mail?msg=1');
-                    die();
+                     Session::createSession('msg',"Email do not valid");
+                     return redirect('admin/mail');
+                     die();
                 } else {
                     $rand =rand(999,10000);
 
                     Session::createSession('rand',$rand);
                     Session::createSession('forgetPass',$query);
-                  
+                    $this->sendMail($email,'Get Password', 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>');
+                    /*
                     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
                     try {
                         //Server settings
@@ -218,8 +227,37 @@ class AuthController
                         echo 'Message could not be sent.';
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
                     }
+                    */
                 }
             }
+        }
+    }
+
+    public function sendMail($email,$subject, $body)
+    {
+        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        try {
+            //Server settings
+
+            $mail->IsSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "ssl";
+            $mail->Username = "cuoirongngaodu38@gmail.com";
+            $mail->Password = "phamdinhhung03072311";
+            $mail->Port = "465";
+            $mail->isHTML(true);
+            $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
+            $mail->addAddress($email, 'Shop'); 
+            $mail->Subject =  $subject;      // '<b> Get Password </b>';
+            $mail->Body    =   $body;     // 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
+
+            $mail->send();
+            return redirect('admin/check');
+            die();
+        } catch (Exception $e) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
         }
     }
 }

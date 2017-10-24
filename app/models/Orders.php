@@ -157,5 +157,11 @@ class Orders extends Model
 		inner join size on products.size_id=size.id  WHERE order_id=?";
 		return App::get('database')->query_fetch_params($query,array('order_id'=>$order_id));
 	}
+
+	public static function getEmail($id)
+	{
+		$query = "SELECT email FROM users INNER JOIN orders ON users.id = orders.user_id WHERE orders.user_id IN (SELECT user_id FROM orders WHERE id =?)  " ;
+		return App::get('database')->query_fetch_params($query,array('id'=>$id));
+	}
 }
 ?>

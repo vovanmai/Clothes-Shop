@@ -6,7 +6,7 @@ $router->get('women','PublicController@getProductInfoByGender');
 $router->get('cat/{id}','PublicController@cat');
 $router->get('detail/{id}','PublicController@detail');
 // ==============USERS==============
-
+$router->get('admin','AdminProductInfoController@index');
 $router->get('admin/users','UsersController@index');
 $router->get('admin/users/add','UsersController@add');
 $router->post('admin/users/add','UsersController@store');
@@ -57,7 +57,7 @@ $router->post('admin/products/edit','AdminProductsController@update');
 //======================REGISTER==============
 $router->get('admin/login','AuthController@getLogin');
 $router->post('admin/login','AuthController@postLogin');
-$router->post('admin/remember','AuthController@ajaxRemember');
+$router->post('admin/remember','AuthController@remember');
 $router->get('admin/logout','AuthController@getLogout');
 $router->get('admin/mail','AuthController@getMail');
 $router->get('admin/check','AuthController@getCheck');
@@ -79,18 +79,19 @@ $router->post('admin/orders/destroyAll','OrdersController@destroyAll');
 
 
 //=====================PUBLIC===================
+
 $router->post('register','PublicController@addRegister');
 $router->post('login','PublicController@postLogin');
 $router->get('logout','PublicController@postLogout');
+
 $router->get('home','PublicController@index');
 $router->get('detail/{id}','PublicController@detail');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
-$router->post('search','PublicController@search');
-$router->get('search','PublicController@search');
+$router->post('search','PublicController@searchProduct');
+$router->get('search','PublicController@searchProduct');
 $router->post('getCat','PublicController@getCat');
 $router->post('getGender','PublicController@getGender');
-
 $router->post('detail/PlusNumber','PublicController@PlusNumber');
 $router->post('detail/SubNumber','PublicController@SubNumber');
 $router->post('detail/addCart','PublicController@addCart');
@@ -98,8 +99,8 @@ $router->get('cart','PublicController@cart');
 $router->get('cart/delete/{id}','PublicController@delete');
 $router->get('cart/updateCart','PublicController@updateCart');
 
-
-
+$router->get('buy','PublicController@buy');
+$router->post('buy/check','PublicController@check');
 //$router->post('detail/quantity','ShopController@quantity');
 
 

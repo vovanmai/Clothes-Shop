@@ -28,31 +28,16 @@
                         <div class="center">
                             <h1>
                                 <i class="ace-icon fa fa-leaf green"></i>
-                                <span class="red">Ace</span>
-                                <span class="white" id="id-text2">Application</span>
+                                <span class="red">Shop</span>
+                                <span class="white" id="id-text2"></span>
                             </h1>
                             <h4 class="red" id="id-company-text">
                             <?php
-                                if (isset($_GET['msg'])) {
-                                
-                                    switch ($_GET['msg']) {
-
-                                        case 0:
-                                            echo "Password do not valid" ;
-                                            break;
-                                        case 1:
-                                            echo "Please receive the code in Email" ;
-                                            break;
-                                         case 2:
-                                            echo "Please receive the code in Email" ;
-                                            break;
-                                         case 3:
-                                            echo "Password do not match" ;
-                                            break;
-                                        
-                                    }
-                                  
-                                }
+                              
+                                 if (isset($_SESSION['msg'])) {                              
+                                    echo  $_SESSION['msg'];
+                                    unset($_SESSION['msg'])  ;             
+                                 }
                             ?>
                             </h4>
                         </div>
@@ -85,8 +70,8 @@
                                                         </span>
                                                     </label>
 
-                                                <div class="clearfix">
-                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger" name='smGetPass' id='smGetPass'>
+                                                <div class="clearfix" id='sendPass'>
+                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger" name='smGetPass' id='smGetPass' >
                                                             <i class="ace-icon fa fa-lightbulb-o"></i>
                                                             <span class="bigger-110">Send !</span>
                                                         </button>
