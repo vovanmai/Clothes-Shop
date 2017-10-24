@@ -88,9 +88,22 @@ class Products_info extends Model
 
 	}
 
-	
+	public static function relatedProducts($id_cat,$id_products_info)
+	{
+		$query="SELECT * FROM products_info WHERE cat_id=? AND id!=? AND active=1";
 
+		$arr=array(
+			'id_cat'=>$id_cat,
+			'id_products_info'=>$id_products_info,
+			);
+		return App::get('database')->query_fetch_params($query,$arr);
+	} 
+
+	public static function updateView($id_products_info)
+	{
+		$query="UPDATE products_info SET view = view+1 WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('id'=>$id_products_info));
+	} 
 }
-
 
 ?>
