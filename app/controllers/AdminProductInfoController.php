@@ -66,7 +66,7 @@ class AdminProductInfoController
 					}else{
 						$tbody .= 'deactive.gif';
 					}
-					$tbody .= 'alt=""></a></td>
+					$tbody .= '" alt=""></a></td>
 			<td class="text-center">
 				<div class="hidden-sm hidden-xs btn-group">
 					<a class="btn btn-xs btn-info" href="/admin/product_info/edit?id='.$id.'">
