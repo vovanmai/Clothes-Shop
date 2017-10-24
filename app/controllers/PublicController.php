@@ -15,6 +15,10 @@ use core\Pagination;
 class PublicController
 {
 	public function index(){
+	if(isset($_SESSION['msg'])) {
+	    echo "<script type='text/javascript'>alert('".$_SESSION['msg']."'); </script>";
+	    unset($_SESSION['msg']);
+	}
         if(!isset($_GET['page'])) {
             $current_page = 1;
             $limit = 12;
