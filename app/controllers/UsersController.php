@@ -7,9 +7,9 @@ use core\Pagination;
 
 class UsersController
 {
-    function __construct() {
-        checkExist();
-    }
+	function __construct() {
+		checkExist();
+	}
 	public function index()
 	{
 		$limit = 10;
@@ -203,7 +203,7 @@ class UsersController
 						'phone' => $phone, 
 						'address' => $address,  
 						'avatar' => $new_file_name
-					  );
+						);
 				}	
 			}else{
 				if($avatar==''){
@@ -280,8 +280,8 @@ class UsersController
 		}
 	}
 
-		public function search()
-		{
+	public function search()
+	{
 			if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
 			{
 				$username=$_REQUEST['username'];
@@ -299,9 +299,9 @@ class UsersController
 			} else {
 				return redirect('admin/users');
 
-			}
-				
 		}
+
+	}
 
 	public function checkUsername()
 	{
@@ -327,8 +327,7 @@ class UsersController
 
 
 	//function check a edited email existence.
-	public function checkEditEmail()
-	{
+	public function checkEditEmail() {
 		$id=$_GET['id'];	
 		$email=$_GET['email'];
 		$currentEmail=Users::find("id",$id)[0]->email;
@@ -343,8 +342,7 @@ class UsersController
 			}
 		}
 	}
-
 }
 
 
-	?>
+?>

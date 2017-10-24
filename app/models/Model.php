@@ -79,5 +79,11 @@ class Model
 		return App::get('database')->query_excute_params($query,array('id'=>$id));
 	}
 
+	public static function getIdLast()
+	{
+		$query="SELECT id FROM ".static::$table." ORDER BY id DESC LIMIT 1";
+		return App::get('database')->query_fetch($query);
+	}
+
 }
 ?>
