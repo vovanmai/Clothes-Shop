@@ -1,7 +1,6 @@
 <?php
-    require dirname(__DIR__).'/public/require/header.view.php';
-?>
-
+            require dirname(__DIR__).'/public/require/header.view.php';
+        ?>
     <div class="content" id="content">
         <section id="head-slide">
             <div class="container-full">
@@ -51,10 +50,9 @@
                                                     <a href="detail/<?php echo $item->id;?>">
                                                         <img src="/public/upload/product_info/<?php echo $item->image; ?>" alt="">
                                                     </a>
-                                            
                                                 </div>
                                                 <span class="name"><?php echo $item->name; ?></span>
-                                                <span class="price"><?php echo $item->price; ?></span>
+                                                <span class="price">$<?php echo $item->price; ?></span>
                                             </div>
     											<?php } }?>
                                             <div class="row">
@@ -71,14 +69,17 @@
                     </div>
                 </div>
             </section>
+            <input type="hidden" id="count" value="<?=$allpage?>" >
             <section id="hot-products">
-                <?php
-                require dirname(__DIR__).'/public/require/hot_product.view.php';
-            ?>
+            <?php
+            require dirname(__DIR__).'/public/require/hot_product.view.php';
+        ?>
             </section>
             <?php
                 require dirname(__DIR__).'/public/require/login-register.view.php';
             ?>
+            
+            
             </div>
             <?php
             require dirname(__DIR__).'/public/require/footer.view.php';

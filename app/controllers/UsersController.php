@@ -222,9 +222,7 @@ class UsersController
 					'level' =>$level
 					);
 				$params=http_build_query($search_User);
-
 				$ArrUsers=Users::search($search_User);
-
 				$link_full='/admin/users/search?p={page}&'.$params;
 				$paging = new Pagination();
 				$limit = 10;
