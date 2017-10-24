@@ -1,9 +1,5 @@
 <?php
 require dirname(__DIR__).'/public/require/header.view.php';
-if(isset($_SESSION['msg'])) {
-    echo "<script type='text/javascript'>alert('".$_SESSION['msg']."'); </script>";
-    unset($_SESSION['msg']);
-}
 ?>
 
 <div class="content" id="content">
@@ -78,12 +74,13 @@ if(isset($_SESSION['msg'])) {
                             </div>
                         </div>
                     </div>
-                </div>
             </section>
+            <input type="hidden" id="count" value="<?=$allpage?>" >
             <section id="hot-products">
-                <?php
-                require dirname(__DIR__).'/public/require/hot_product.view.php';
-                ?>
+
+            <?php
+            require dirname(__DIR__).'/public/require/hot_product.view.php';
+        ?>
             </section>
             <?php
             require dirname(__DIR__).'/public/require/login-register.view.php';

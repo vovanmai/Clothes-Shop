@@ -13,9 +13,7 @@
     <script type="text/javascript" src="/public/assets/js/shop.js"></script>
     <script type="text/javascript" src="/public/assets/js/public.js"></script>
 </head>
-
 <body>
-
     <div class="wrapper">
         <header id="header">
             <nav class="container" id="navbar">

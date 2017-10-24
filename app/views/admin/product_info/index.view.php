@@ -134,7 +134,6 @@ require dirname(__DIR__).'/require/header.view.php';
                                             
                                         </tr>
                                     </thead>
-
                                     <tbody>
                                         <?php 
                                             foreach ($products_info as $item) {
@@ -198,21 +197,17 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
                                         </tr>
                                         <?php } ?>
-                                               
-                                        <tr>
-                                          <td class="text-center" colspan="8">No data</td>
-                                        </tr>
-                         
-                                    </tbody>
+                                        </tbody>
                                 </table>
                             </div>
                         </div><!-- /.row -->
 
-                        <div class="row text-center">
+                        <div class="row text-center" id="paging">
                             <?php 
                               echo $paginghtml;
                             ?>
                         </div>
+                    </div>
                   <!-- PAGE CONTENT ENDS -->
                     
                     </div><!-- /.row -->

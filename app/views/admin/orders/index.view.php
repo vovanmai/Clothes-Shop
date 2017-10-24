@@ -389,7 +389,7 @@ require dirname(__DIR__).'/require/header.view.php';
   </div>
 </div><!-- /.row -->
 
-<div class="row text-center">
+<div class="row text-center" id="paging">
   <?php 
   echo $paginghtml;
   ?>
