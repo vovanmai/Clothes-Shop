@@ -563,7 +563,15 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px 0; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
+        display: block;
+        width: 100%;
+        height: 30px;
+        border: 1px solid black;
+        margin: 10px 0; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
+        height: 80px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -1344,7 +1352,15 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
+        display: block;
+        width: 90%;
+        height: 30px;
+        border: 1px solid black;
+        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
+        height: 80px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -2289,7 +2305,15 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
+        display: block;
+        width: 90%;
+        height: 30px;
+        border: 1px solid black;
+        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
+        height: 80px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -3144,7 +3168,15 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
+        .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
+        display: block;
+        width: 90%;
+        height: 30px;
+        border: 1px solid black;
+        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
+        height: 80px; }
+      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
