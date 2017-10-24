@@ -56,8 +56,8 @@ class Products_info extends Model
 				break;
 		}
 		 $arr=array(
-        	'style'=>$style,
-        );
+		             'style'=>$style,
+		 );
 		$query.=' limit ?, ?';
 		$arr['start']=$start;
 		$arr['limit']=$limit;

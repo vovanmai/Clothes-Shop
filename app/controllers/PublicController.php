@@ -108,9 +108,11 @@ class PublicController
             </div>
         </div>';
         }
-    }
-    
-    public function detail($product_info_id)
+
+  }
+  
+
+  public function detail($product_info_id)
     {   
         $color = Products::getColor($product_info_id);
         $size = Products::getSize($product_info_id);
@@ -120,7 +122,10 @@ class PublicController
         return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
         'gender_men_cats'=>$gender_men_cats,
         'gender_women_cats'=>$gender_women_cats]);
-    }
+
+  }
+
+
   public function PlusNumber()
   {
     $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
@@ -183,13 +188,13 @@ class PublicController
     $num=0;
     $arr = Session::getSession('cart');
     if ( Session::getSession('cart')[$id] !=null) {
-      foreach (Session::getSession('cart') as $key => $value) {
+      foreach ($arr as $key => $value) {
         if($id == $key) {
           unset( $arr[$id]);
         }
       }
       Session::createSession('cart',$arr);
-      foreach ( Session::getSession('cart') as $key => $value) {
+      foreach ( $arr as $key => $value) {
         $num +=$value;
       }
       Session::createSession('num',$num);

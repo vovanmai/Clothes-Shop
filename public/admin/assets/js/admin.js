@@ -16,20 +16,7 @@ function paging(controller,page) {
         }
     });
 }
-// Change active product_info
-function chageActiveProductInfo(id){
-    var idstring = "#"+id;
-    $.ajax({
-        url: "/admin/product_info/active",
-        type: "GET",
-        data: {
-            'id': id
-        },
-        success: function(data) {
-            $(idstring).html(data);
-        }
-    });
-}   
+
 $(document).ready(function() {
     //change active users
     $(document).on('click', '.edit_color', function(){
@@ -531,6 +518,22 @@ $(document).ready(function() {
             }
         });
     });
+     $(".product_info_active").click(function() {
+        var id = $(this).attr('id');
+        var idstring = "#" + id;
+        $.ajax({
+            url: "/admin/product_info/active",
+            type: "GET",
+            data: {
+                'id': id
+            },
+            success: function(data) {
+                $(idstring).html(data);
+            }
+        });
+    });
+
+
     //change active shipped order
     $(".edit_shipped_active").click(function() {
        var data=$(this).attr('id');
@@ -561,7 +564,7 @@ $(document).ready(function() {
                 'id':id
             },
             success: function(data) {
-                alert('Update status successfully!')
+                alert(data);
             }
         });
      });
@@ -914,3 +917,4 @@ $("#quantity").blur(function() {
     }
 });
 })
+

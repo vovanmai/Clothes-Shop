@@ -65,44 +65,72 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                 <div class="col-sm-12 col-xs-2 col-md-2 col-lg-2">
                                     <div class="payments">
                                         <div class="title-box-payments">Payments</div>
-                                        <div class="visa">
-                                            <input id="visa" type="radio" name="payments">
-                                            <label for="visa">Visa</label>
-                                        </div>
 
-                                        <div class="atm">
-                                            <input id="atm" type="radio" name="payments">
-                                            <label for="atm">ATM</label>
-                                        </div>
 
-                                        <div class="received">
-                                            <input id="received" type="radio" name="payments">
-                                            <label for="received">When received product</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-xs-6 col-md-6 col-lg-6">
-                                    <div class="summary-order">
-                                        <div class="title-box-summary">Summary</div>
-                                        <div class="content-summary">
-                                            <ul>
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                            Name
-                                                        </div>
-                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                            Size
-                                                        </div>
-                                                         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                           Color
-                                                        </div>
-                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                            Quantity
-                                                        </div>
-                                                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                            Price
-                                                        </div>
+                                        <?php foreach ($arrPayments as $item) {
+                                           ?>
+                                           <div class="visa">
+                                               <input type="radio" name="payments" value="<?php echo $item->id; ?>">
+                                               <label for="visa"><?php echo $item->name; ?></label>
+                                           </div>
+                                           <?php
+                                       } ?>
+                                   </div>
+                               </div>
+                               <div class="col-sm-12 col-xs-6 col-md-6 col-lg-6">
+                                <div class="summary-order">
+                                    <div class="title-box-summary">Summary</div>
+                                    <div class="content-summary">
+                                        <ul>
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        Name
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        Size
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                       Color
+                                                   </div>
+                                                   <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                    Quantity
+                                                </div>
+                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                    Price
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <?php
+                                        if (isset($arrStore)) {
+                                            $totalPrice =0;
+                                            foreach ($arrStore as $key => $value) {
+
+                                                foreach ($_SESSION['cart'] as $k => $val) {
+                                                    if ($k ==$key) {
+                                                       $numCart =$val;
+                                                       $totalPrice += $val* $value->price;
+                                                   }
+                                               }
+
+                                               ?>
+                                               <li>
+                                                <div class=" row">
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        <?php echo $value->namesp?>
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        <?php echo $value->size?>
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        <?php echo $value->color?>
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        <?php echo $numCart?>
+                                                    </div>
+                                                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
+                                                        <?php echo ($numCart * $value->price)?>
                                                     </div>
                                                 </li>
                                               
