@@ -141,7 +141,13 @@ class OrdersController
 			$auth = new AuthController;
 			$auth->sendMail($email,'Xác nhận đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn đã đưọc xác nhận và gửi đi trong thời gian sớm nhất !');
 		}
-		echo 'success';
+
+		if ($status ==2) {
+			$email = Orders::getEmail($id)[0]->email;
+			$auth = new AuthController;
+			$auth->sendMail($email,'Hủy bỏ đơn hàng ','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, tuy nhiên đã có lỗi trong quá trình đặt hàng ,vui lòng quy lại shop và đặt lại hàng , chúng tôi rất xin lỗi ,xin cảm ơn !');
+		}
+		echo 'Update  status Successfully !';
 	}
 
 	public function changeActivePaid()
@@ -197,12 +203,12 @@ class OrdersController
 	public function pagination($count,$link_full)
 	{
 		$config = array(
-			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
-			    'total_record'  => $count, // Tổng số record
+			'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+			'total_record'  => $count, // Tổng số record
 			 	//  'limit'         => 10,// limit
-			    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
-			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
-			    'range'         => 9, // Số button trang bạn muốn hiển thị 
+			'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+			'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
+			'range'         => 9, // Số button trang bạn muốn hiển thị 
 			    );
 		$paging = new Pagination();
 		$paging->init($config);

@@ -166,7 +166,7 @@ class PublicController
         }
       }
       Session::createSession('cart',$arr);
-      foreach ( Session::getSession('cart') as $key => $value) {
+      foreach ( $arr as $key => $value) {
         $num +=$value;
       }
       Session::createSession('num',$num);
