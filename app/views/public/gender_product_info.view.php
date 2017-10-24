@@ -50,10 +50,10 @@
                     require dirname(__DIR__).'/public/require/hot_product.view.php';
                 ?>
             </section>
-		<?php
-			require dirname(__DIR__).'/public/require/login-register.view.php';
-		?>
+<?php
+	require dirname(__DIR__).'/public/require/login-register.view.php';
+?>
         </div>
-		<?php
-			require dirname(__DIR__).'/public/require/footer.view.php';
-		?>
+<?php
+	require dirname(__DIR__).'/public/require/footer.view.php';
+?>

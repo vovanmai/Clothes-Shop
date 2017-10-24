@@ -63,7 +63,7 @@ $(document).ready(function() {
        
     });
 
-     $('#buyproduct').click(function(){
+     $('#updateProducts').click(function(){
         
       var obj = {};
 
@@ -170,17 +170,22 @@ $(document).ready(function() {
                             html += " products in stock.Please check again!";
                              $('#notify').html(html);
                              
-                         } else {
-
-                                if (check == 1 ) {
-                                    html ="<span class='indicator'>";
-                                    html +=number;
-                                    html +="</span>";
-                                    $('.showCart').html(html);
-                                    $('#notify').html("Added to cart successfully !");
-                                    
-                                }
                          }
+
+                        if (check == 1 ) {
+                            html ="<span class='indicator'>";
+                            html +=number;
+                            html +="</span>";
+                            $('.showCart').html(html);
+                            $('#notify').html("Added to cart successfully !");
+                                    
+                       }
+
+                          if (check == 0 ) {
+                           
+                            $('#notify').html("Add product false .Please check again !");
+                                    
+                       }
 
 
                     }         
