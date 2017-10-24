@@ -62,7 +62,7 @@ class UsersController
 				 if($_SESSION['user'][0]->level==1){
 					$tbody .='	 
 				  <td class="text-center">
-					<a href="javascript:void(0)" class="edit_active" id="'.$id.'">
+					<a href="javascript:void(0)" onclick="chageActiveUsers('.$id.')" class="edit_active" id="'.$id.'">
 					  <img src="/public/admin/assets/images/'; 
 					  if($active==1){
 						$tbody .='active.gif';
