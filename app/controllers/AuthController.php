@@ -58,7 +58,7 @@ class AuthController
   }
   
 
-    public function ajaxRemember()
+    public function remember()
     {
         $user = isset($_POST['aName']) ? $_POST['aName'] : ' ' ;
         $value = array(
@@ -201,7 +201,8 @@ class AuthController
 
                     Session::createSession('rand',$rand);
                     Session::createSession('forgetPass',$query);
-                  
+                    $this->sendMail($email,'Get Password', 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>');
+                    /*
                     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
                     try {
                         //Server settings
@@ -226,8 +227,37 @@ class AuthController
                         echo 'Message could not be sent.';
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
                     }
+                    */
                 }
             }
+        }
+    }
+
+    public function sendMail($email,$subject, $body)
+    {
+        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        try {
+            //Server settings
+
+            $mail->IsSMTP();
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "ssl";
+            $mail->Username = "cuoirongngaodu38@gmail.com";
+            $mail->Password = "phamdinhhung03072311";
+            $mail->Port = "465";
+            $mail->isHTML(true);
+            $mail->setFrom('cuoirongngaodu38@gmail.com', 'Shop');
+            $mail->addAddress($email, 'Shop'); 
+            $mail->Subject =  $subject;      // '<b> Get Password </b>';
+            $mail->Body    =   $body;     // 'Mã xác nhận  tài khoản của bạn là :   <b> '.$rand.'</b>';
+
+            $mail->send();
+            return redirect('admin/check');
+            die();
+        } catch (Exception $e) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
         }
     }
 }

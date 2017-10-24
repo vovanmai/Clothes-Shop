@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
     $("#plus").click(function() {
         $("#sub").removeAttr("disabled");
         var currentNumber = $('#num').val();
@@ -8,44 +7,33 @@ $(document).ready(function() {
             url: '/detail/PlusNumber',
             type: 'POST',
             dataType : 'text',
-            data: {
-               
+            data: {             
                 aNumber: currentNumber,
             },
-            success: function(result) {
-                            
+            success: function(result) {                           
                 $('#number').html(result);
             },
-
             error: function(request, errorType, errorMessage) {
                 alert(' Error : ' + errorType + ' with message ' + errorMessage);
             }
         });
     });
 
-   
-
-
     $("#sub").click(function() {
         var currentNumber = $('#num').val();
         if ( currentNumber ==1) {
              $("#sub").attr('disabled', true);
         } else {
-             
-
             $.ajax({
                 url: '/detail/SubNumber',
                 type: 'POST',
                 dataType : 'text',
-                data: {
-                   
+                data: {                   
                     aNumber: currentNumber,
                 },
-                success: function(result) {
-                                
+                success: function(result) {                               
                     $('#number').html(result);
                 },
-
                 error: function(request, errorType, errorMessage) {
                     alert(' Error : ' + errorType + ' with message ' + errorMessage);
                 }
@@ -54,30 +42,21 @@ $(document).ready(function() {
     });
 
      $(".plusCart").click(function() {
-        $(".subCart").removeAttr("disabled");
-     
+        $(".subCart").removeAttr("disabled");  
          var idProduct= $(this).prev("input[type=text]").attr('id');
          var currentNum= $(this).prev("input[type=text]").attr('value');
-         
-
-       
     });
 
-     $('#updateProducts').click(function(){
-        
-      var obj = {};
-
-      var para= $(".numProd");
+     $('#updateProducts').click(function(){     
+            var obj = {};
+            var para= $(".numProd");
             para.each(function (index) {
             var num = $(this).val();
             var id = $(this).attr('id').substr(4);
             obj[id] = num;
            
        });
-
-        var json= JSON.stringify(obj);
-
-        
+        var json= JSON.stringify(obj);//chuyen dt gom id product co value la so luong update qua json     
        $.ajax({
             url: '/cart/updateCart',
             type: 'GET',
@@ -93,40 +72,24 @@ $(document).ready(function() {
                         if(key=='quantity') {
                             number = val;
                         }else {
-                             var price =$('#price-'+key).text();
+                             var price =$('#price-'+key).text();//lay gia tien
                             var totalPrice = price*val;
                             $('#totalPrice-'+key).html(totalPrice);
                            totalAll +=totalPrice;
                         }
 
-                  })
-
-                 
-                       html ="<span class='indicator'>";
-                        html +=number;
-                        html +="</span>";
-                        $('.showCart').html(html);
-
-                        // $.each(result, function(key,val) {
-
-                        //     var price =$('#price-'+key).val();
-                        //     var totalPrice = price*val;
-                        //     $('#totalPrice-'+key).html(totalPrice);
-                        //    totalAll +=totalPrice;
-                        // })
-
-
-                          $('#priceCart').text(totalAll);
+                  })            
+                  html ="<span class='indicator'>";
+                  html +=number;
+                  html +="</span>";
+                  $('.showCart').html(html);
+                  $('#priceCart').text(totalAll);
             },
 
             error: function(request, errorType, errorMessage) {
                 alert(' Error : ' + errorType + ' with message ' + errorMessage);
             }
-
-
-        });
-
-    
+        });    
      });
 
 
@@ -180,14 +143,11 @@ $(document).ready(function() {
                             $('#notify').html("Added to cart successfully !");
                                     
                        }
-
                           if (check == 0 ) {
                            
                             $('#notify').html("Add product false .Please check again !");
                                     
                        }
-
-
                     }         
                     
                 },

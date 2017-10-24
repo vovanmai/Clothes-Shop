@@ -57,7 +57,7 @@ $router->post('admin/products/edit','AdminProductsController@update');
 //======================REGISTER==============
 $router->get('admin/login','AuthController@getLogin');
 $router->post('admin/login','AuthController@postLogin');
-$router->post('admin/remember','AuthController@ajaxRemember');
+$router->post('admin/remember','AuthController@remember');
 $router->get('admin/logout','AuthController@getLogout');
 $router->get('admin/mail','AuthController@getMail');
 $router->get('admin/check','AuthController@getCheck');
