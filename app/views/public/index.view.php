@@ -1,5 +1,9 @@
 <?php
 require dirname(__DIR__).'/public/require/header.view.php';
+if(isset($_SESSION['msg'])) {
+    echo "<script type='text/javascript'>alert('".$_SESSION['msg']."'); </script>";
+    unset($_SESSION['msg']);
+}
 ?>
 
 <div class="content" id="content">

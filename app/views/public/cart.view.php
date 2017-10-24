@@ -6,8 +6,8 @@ require dirname(__DIR__).'/public/require/header.view.php';
 
 
 <div class="content" id="content">
- <?php
- if (isset($arrStore)) {
+   <?php
+   if (isset($arrStore)) {
 
     ?>
     <section id="cart" class="cart">
@@ -47,14 +47,14 @@ require dirname(__DIR__).'/public/require/header.view.php';
 
                             $totalPrice=0;
                             foreach ($arrStore as $key => $value) {
-                             foreach ($_SESSION['cart'] as $k => $val) {
+                               foreach ($_SESSION['cart'] as $k => $val) {
                                 if ($k ==$key) {
-                                 $numCart =$val;
-                                 $totalPrice += $val* $value->price;
-                             }
-                         }
-                         ?>
-                         <li>
+                                   $numCart =$val;
+                                   $totalPrice += $val* $value->price;
+                               }
+                           }
+                           ?>
+                           <li>
                             <div class="product-order row">
                                 <div class="hidden-mobile col-xs-2 col-md-3 col-lg-3">
                                     <a href="/detail/<?php echo $value->id;?>"">
@@ -79,18 +79,11 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                 <div class="quantity col-sm-12 col-xs-3 col-md-2 col-lg-2">
                                     <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Quantity</div>
                                     <div class=" value-box test1">
-
-
-
-
-                                       <input type="number" min='1' max="<?php echo $value->quantity?>" id="num-<?php echo $key?>"  class="numProd" 
-                                       value="<?php echo $numCart?>"   >
-
-
-                                   </div>
-
-                               </div>
-                               <div class="col-sm-12 col-xs-1 col-md-1 col-lg-1">
+                                     <input type="number" min='1' max="<?php echo $value->quantity?>" id="num-<?php echo $key?>"  class="numProd" 
+                                     value="<?php echo $numCart?>"   >
+                                 </div>
+                             </div>
+                             <div class="col-sm-12 col-xs-1 col-md-1 col-lg-1">
                                 <div class="title-row hidden-tablet hidden-desktop hidden-lage-screen">Price</div>
                                 <div class="price  value-box" id='price-<?php echo $key?>'><?php echo $value->price?></div>
                             </div>
@@ -117,17 +110,13 @@ require dirname(__DIR__).'/public/require/header.view.php';
                 }
                 ?>
             </ul>
-
-
         </div>
-
-
         <div class="box-total row">
             <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-             <div class="total-cost">  Total :<span  id='priceCart'> <?php echo $totalPrice;?></span></div>
-         </div>
-     </div>
-     <div class="box-checkout row">
+               <div class="total-cost">  Total :<span  id='priceCart'> <?php echo $totalPrice;?></span></div>
+           </div>
+       </div>
+       <div class="box-checkout row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
             <a href="/buy"><button class="btn-checkout" >Buy</button></a>
             <a href="" onclick="return false;"><button class="btn-continues buyproduct" id='updateProducts'>Update</button></a>
@@ -140,13 +129,13 @@ require dirname(__DIR__).'/public/require/header.view.php';
 </section>
 <?php 
 } else {
-   ?>
-   <section id="cart" class="cart">
+ ?>
+ <section id="cart" class="cart">
 
-       <?php   
-       echo 'You do not have product !' ;
-   }
-   ?>
+     <?php   
+     echo 'You do not have product !' ;
+ }
+ ?>
 </section>
 <section id="login-register">
     <div class="box-title-login">

@@ -60,9 +60,6 @@ class Router
 				{
 					$checkRoute = true;
 				} else {
-					// foreach ($params as $key => $value) {
-					// 	array_pop($params); 
-					// }
 					continue;
 				}
 			}

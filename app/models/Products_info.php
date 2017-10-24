@@ -112,6 +112,12 @@ class Products_info extends Model
 			);
 		return App::get('database')->query_fetch_params($query,$arr);
 	} 
+
+	public static function updateView($id_products_info)
+	{
+		$query="UPDATE products_info SET view = view+1 WHERE id=?";
+		return App::get('database')->query_excute_params($query,array('id'=>$id_products_info));
+	} 
 }
 
 ?>
