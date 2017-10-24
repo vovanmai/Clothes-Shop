@@ -33,7 +33,7 @@ class OrdersController
 		if ($status ==0) {
 			$email = Orders::getEmail($id)[0]->email;
 			$auth = new AuthController;
-			$auth->sendMail($email,'Xac nhan don hang','Don hang cua ban da duoc xac nhan !');
+			$auth->sendMail($email,'Xác nhận đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn đã đưọc xác nhận và gửi đi trong thời gian sớm nhất !');
 		}
 		echo 'success';
 	}

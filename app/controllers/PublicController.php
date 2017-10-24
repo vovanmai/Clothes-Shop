@@ -10,113 +10,112 @@ use core\Pagination;
 
 class PublicController
 {
-	public function index(){
-        if(!isset($_GET['page'])) {
-            $current_page = 1;
-            $limit = 12;
-            $count = Products_info::count();
-            $allpage = $count[0]->total_record;
+      public function index(){
+            if(!isset($_GET['page'])) {
+                $current_page = 1;
+                $limit = 12;
+                $count = Products_info::count();
+                $allpage = $count[0]->total_record;
 
-            $paging = new Pagination();
-            $paging->init("indexpaging", $current_page, $limit,$allpage);
-            $products_info = Products_info::allPagination($current_page,$limit);
-            $cats = Category::find('gender',1);
-            $hot_product = Products_info::getHotProduct();
-            $gender_men_cats=Category::find('gender',1);
-            $gender_women_cats=Category::find('gender',0);
-            return view('public/index',['products_info' => $products_info,
-            'allpage' => $allpage,
-            'cats' => $cats, 
-            'hot_product' => $hot_product,
-            'gender_men_cats'=>$gender_men_cats,
-            'gender_women_cats'=>$gender_women_cats,
-            'paginghtml'=>$paging->html()]); 
-        } else {
-            $current_page = $_GET['page'];
-            $allpage = $_GET['allpage'];
-            $limit = 12;
-            $products_info = Products_info::allPagination($current_page,$limit);
-            $paging = new Pagination();
-            $paging->init("indexpaging", $current_page, $limit,$allpage);
-            echo 
-            '<div class="box-title">Featutes</div>';    
-                foreach($products_info as $item)  {
-            echo '<div class="product">
-                <div class="cover-img">
-                    <a href="detail/'.$item->id.'">
-                        <img src="/public/upload/product_info/'.$item->image.'" alt="">
-                    </a>
-                </div>
-                <span class="name">'.$item->name.'</span>
-                <span class="price">$'.$item->price.'</span>
-            </div>';
-                 } 
-            echo '<div class="row">
-                <div class="col-lg-12">
-                    <div class="cover-pagination">
-                       '.$paging->html().'
+                $paging = new Pagination();
+                $paging->init("indexpaging", $current_page, $limit,$allpage);
+                $products_info = Products_info::allPagination($current_page,$limit);
+                $cats = Category::find('gender',1);
+                $hot_product = Products_info::getHotProduct();
+                $gender_men_cats=Category::find('gender',1);
+                $gender_women_cats=Category::find('gender',0);
+                return view('public/index',['products_info' => $products_info,
+                'allpage' => $allpage,
+                'cats' => $cats, 
+                'hot_product' => $hot_product,
+                'gender_men_cats'=>$gender_men_cats,
+                'gender_women_cats'=>$gender_women_cats,
+                'paginghtml'=>$paging->html()]); 
+            } else {
+                $current_page = $_GET['page'];
+                $allpage = $_GET['allpage'];
+                $limit = 12;
+                $products_info = Products_info::allPagination($current_page,$limit);
+                $paging = new Pagination();
+                $paging->init("indexpaging", $current_page, $limit,$allpage);
+                echo 
+                '<div class="box-title">Featutes</div>';    
+                    foreach($products_info as $item)  {
+                echo '<div class="product">
+                    <div class="cover-img">
+                        <a href="detail/'.$item->id.'">
+                            <img src="/public/upload/product_info/'.$item->image.'" alt="">
+                        </a>
+                    </div>
+                    <span class="name">'.$item->name.'</span>
+                    <span class="price">$'.$item->price.'</span>
+                </div>';
+                     } 
+                echo '<div class="row">
+                    <div class="col-lg-12">
+                        <div class="cover-pagination">
+                           '.$paging->html().'
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>';
-        }
-	}
+            </div>';
+            }
+       }
 	
+       public function detail($product_info_id)
+       {   
+            $color = Products::getColor($product_info_id);
+            $size = Products::getSize($product_info_id);
+            $productInfo = Products_info::find('id',$product_info_id);
+            $gender_men_cats=Category::find('gender',1);
+            $gender_women_cats=Category::find('gender',0);
+            return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
+            'gender_men_cats'=>$gender_men_cats,
+            'gender_women_cats'=>$gender_women_cats]);
+        }
 
-	public function detail($product_info_id)
-   	{   
-        $color = Products::getColor($product_info_id);
-        $size = Products::getSize($product_info_id);
-        $productInfo = Products_info::find('id',$product_info_id);
-        $gender_men_cats=Category::find('gender',1);
-        $gender_women_cats=Category::find('gender',0);
-        return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
-        'gender_men_cats'=>$gender_men_cats,
-        'gender_women_cats'=>$gender_women_cats]);
-	}
+        public function PlusNumber()
+        {
+            $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
+            $newNumber = 1+$currentNumber;
+            echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
+        }
 
-    public function PlusNumber()
-    {
-        $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
-        $newNumber = 1+$currentNumber;
-        echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
-    }
+        public function SubNumber()
+        {
+            $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
+            $newNumber = $currentNumber-1;
+            echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
+                
+        }
 
-    public function SubNumber()
-    {
-        $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
-        $newNumber = $currentNumber-1;
-        echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
-            
-    }
+        public function updateCart()
+        {
+           
+            if ( Session::getSession('cart') !=null) {
 
-    public function updateCart()
-    {
-       
-        if ( Session::getSession('cart') !=null) {
+                $arrCart = Session::getSession('cart');        
+                $cout =0;
+                 $arr1 = isset($_GET['aJson']) ? json_decode($_GET['aJson']) : ' ' ;
 
-            $arrCart = Session::getSession('cart');        
-            $cout =0;
-             $arr1 = isset($_GET['aJson']) ? json_decode($_GET['aJson']) : ' ' ;
+                  foreach ($arr1 as $key => $value) {               
+                    $products = Products::find('id',$key);
+                    $quantity = $products[0]->quantity;
 
-              foreach ($arr1 as $key => $value) {               
-                $products = Products::find('id',$key);
-                $quantity = $products[0]->quantity;
+                    if( $value<=$quantity AND $value >0) {
+                         $arrCart[$key] =$value;
+                    }
 
-                if( $value<=$quantity AND $value >0) {
-                     $arrCart[$key] =$value;
-                }
-
-              }
-              Session::createSession('cart',$arrCart);
-              foreach ($arrCart as $key => $value) {
-                 $cout +=$value;
-              }
-              $arrCart['quantity'] = $cout;
-              Session::createSession('num',$cout);
-              die(json_encode($arrCart));    
-        }                
-    }
+                  }
+                  Session::createSession('cart',$arrCart);
+                  foreach ($arrCart as $key => $value) {
+                     $cout +=$value;
+                  }
+                  $arrCart['quantity'] = $cout;
+                  Session::createSession('num',$cout);
+                  die(json_encode($arrCart));    
+            }                
+        }
 
         public function cart()
         {         
@@ -152,7 +151,7 @@ class PublicController
            
             $arr = Session::getSession('cart');
             if ( Session::getSession('cart')[$id] !=null) {
-                foreach (Session::getSession('cart') as $key => $value) {
+                foreach ($arr as $key => $value) {
                     if($id == $key) {
                         unset( $arr[$id]);
                     }
@@ -172,9 +171,9 @@ class PublicController
             $size = isset($_POST['aSize']) ? $_POST['aSize'] : 0 ;
             $color = isset($_POST['aColor']) ? $_POST['aColor'] : 0 ;
             $products_info_id = isset($_POST['aProduct_info_id']) ? $_POST['aProduct_info_id'] : 0 ;
-            $num = isset($_POST['aNum']) ? $_POST['aNum'] : 0 ;
-            
-            $products = Products::getProduct($products_info_id,$size,$color);           
+            $num = isset($_POST['aNum']) ? $_POST['aNum'] : 0 ;        
+            $products = Products::getProduct($products_info_id,$size,$color);  
+
             if (empty($products)) {
                 die(json_encode($check));
             } else { 

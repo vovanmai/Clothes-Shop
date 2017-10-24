@@ -89,7 +89,7 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                 <li>
                                                     <div class="row">
                                                         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
-                                                            Product Name
+                                                            Name
                                                         </div>
                                                         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
                                                             Size
