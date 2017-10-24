@@ -10,35 +10,70 @@ use core\Pagination;
 
 class PublicController
 {
-    public function index(){
+	public function index(){
+        if(!isset($_GET['page'])) {
+            $current_page = 1;
+            $limit = 12;
+            $count = Products_info::count();
+            $allpage = $count[0]->total_record;
 
-        $link_full='?p={page}';
-        $limit = 12;
-        $count=Products_info::count();
-        $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-        $paging = new Pagination();
-        $paging->init($current_page, $limit, $link_full, $count[0]->total_record);
-        $products_info=Products_info::allPagination($current_page,$limit);
-        $cats = Category::all();
-        $sizes = Sizes::all();
-        $hot_product = Products_info::getHotProduct();
-        $gender_men_cats=Category::find('gender',1);
-        $gender_women_cats=Category::find('gender',0);
-        return view('public/index',['products_info' => $products_info,
-        'cats' => $cats, 'sizes' => $sizes, 
-        'hot_product' => $hot_product,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'paginghtml'=>$paging->html()]); 
-
-    }
-
-    public function detail($product_info_id)
-        {   
-            $color = Products::getColor($product_info_id);
-            $size = Products::getSize($product_info_id);
-            $productInfo = Products_info::find('id',$product_info_id);
+            $paging = new Pagination();
+            $paging->init("indexpaging", $current_page, $limit,$allpage);
+            $products_info = Products_info::allPagination($current_page,$limit);
+            $cats = Category::find('gender',1);
+            $hot_product = Products_info::getHotProduct();
             $gender_men_cats=Category::find('gender',1);
             $gender_women_cats=Category::find('gender',0);
-            return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
+            return view('public/index',['products_info' => $products_info,
+            'allpage' => $allpage,
+            'cats' => $cats, 
+            'hot_product' => $hot_product,
+            'gender_men_cats'=>$gender_men_cats,
+            'gender_women_cats'=>$gender_women_cats,
+            'paginghtml'=>$paging->html()]); 
+        } else {
+            $current_page = $_GET['page'];
+            $allpage = $_GET['allpage'];
+            $limit = 12;
+            $products_info = Products_info::allPagination($current_page,$limit);
+            $paging = new Pagination();
+            $paging->init("indexpaging", $current_page, $limit,$allpage);
+            echo 
+            '<div class="box-title">Featutes</div>';    
+                foreach($products_info as $item)  {
+            echo '<div class="product">
+                <div class="cover-img">
+                    <a href="detail/'.$item->id.'">
+                        <img src="/public/upload/product_info/'.$item->image.'" alt="">
+                    </a>
+                </div>
+                <span class="name">'.$item->name.'</span>
+                <span class="price">$'.$item->price.'</span>
+            </div>';
+                 } 
+            echo '<div class="row">
+                <div class="col-lg-12">
+                    <div class="cover-pagination">
+                       '.$paging->html().'
+                    </div>
+                </div>
+            </div>
+        </div>';
         }
+	}
+	
+
+	public function detail($product_info_id)
+   	{   
+        $color = Products::getColor($product_info_id);
+        $size = Products::getSize($product_info_id);
+        $productInfo = Products_info::find('id',$product_info_id);
+        $gender_men_cats=Category::find('gender',1);
+        $gender_women_cats=Category::find('gender',0);
+        return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
+        'gender_men_cats'=>$gender_men_cats,
+        'gender_women_cats'=>$gender_women_cats]);
+	}
 
     public function PlusNumber()
     {
@@ -279,6 +314,54 @@ class PublicController
             $gender_women_cats=Category::find('gender',0);
             return view('public/gender_product_info',['gender_products_info'=>$gender_products_info,'hot_product'=>$hot_product,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
            }
-      }
+
+        public function getCat() {
+            $gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
+            $cats = Category::find('gender',$gender);
+            $html = 'abc';
+            foreach($cats as $item) {
+                $html .= '<option value="'.$item->id.'">'.$item->name.'</option>';
+            }
+            echo $html;
+        }
+
+        public function searchProduct() {
+            if(isset($_GET['style']) && isset($_GET['style'])) {
+                $style = $_GET['style'];
+                $price = $_GET['price'];
+                $current_page = !empty($_GET['page'])? $_GET['page'] : 1;
+
+                $ArrProducts = Products_info::search($style, $price);
+                $count = count($ArrProducts);
+                $limit = 12;
+
+                $products_info = Products_info::getProductsSearch($current_page,
+                $limit, $style, $price);
+                $paging = new Pagination();
+                $paging->init("searchFilter",$current_page, $limit, $count);
+                echo 
+                '<div class="box-title">Featutes</div>';    
+                    foreach($products_info as $item)  {
+                echo '<div class="product">
+                    <div class="cover-img">
+                        <a href="detail/'.$item->id.'">
+                            <img src="/public/upload/product_info/'.$item->image.'" alt="">
+                        </a>
+                    </div>
+                    <span class="name">'.$item->name.'</span>
+                    <span class="price">$'.$item->price.'</span>
+                </div>';
+                     } 
+                echo '<div class="row">
+                    <div class="col-lg-12">
+                        <div class="cover-pagination">
+                           '.$paging->html().'
+                        </div>
+                    </div>
+                </div>
+            </div>';
+            }
+        }
+    }
 
 ?>
