@@ -1,4 +1,4 @@
-[Quote aid=2648758 time=1508836822]<?php
+<?php
 require dirname(__DIR__).'/public/require/header.view.php';
 ?>
 <div class="content" id="content">

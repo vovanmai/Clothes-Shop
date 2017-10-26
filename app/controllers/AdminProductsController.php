@@ -71,11 +71,11 @@ class AdminProductsController
 			<td class="text-center">'.$quantity.'</td>
 			<td class="text-center">
 				<div class="hidden-sm hidden-xs btn-group">
-					<a class="btn btn-xs btn-info" href="/admin/products/edit?id='.$id.'">
+					<a class="btn btn-xs btn-info" href="/admin/products/edit/'.$id.'">
 						<i class="ace-icon fa fa-pencil bigger-120"></i>
 					</a>
 					<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ? \');" 
-					href="/admin/products/delete?id='.$id.'">
+					href="/admin/products/delete/'.$id.'">
 						<i class="ace-icon fa fa-trash-o bigger-120"></i>
 					</a>
 				</div>
@@ -88,9 +88,8 @@ class AdminProductsController
 			"paging" => $paging_html));
 		}
 	}
-	public function destroy()
-	{
-		$id=$_GET['id'];
+	public function destroy($id)
+	{	
 		if(Products::delete($id)){
 			Session::createSession('msg','Deleted Successfully !');
 			return redirect('admin/products');
@@ -111,21 +110,30 @@ class AdminProductsController
 		$color_id=$_POST['products_color_add'];
 		$size_id=$_POST['products_size_add'];
 		$quantity=$_POST['quantity'];
+		$ar_product_check = array(
+			'product_info_id' => $product_info_id,
+			'color_id' => $color_id,
+			'size_id' => $size_id
+			);
+		$product_check=Products::checkExistProduct($ar_product_check);
+		if($product_check!=null){
+			Session::createSession('msg','Product is existed. Please check!');
+			return redirect('admin/products/add');
+		}
 		$product = array(
 			'product_info_id' => $product_info_id,
 			'color_id' => $color_id,
 			'size_id' => $size_id,
 			'quantity' => $quantity
-			 );
+			);
 		if(Products::insert($product)){
 			Session::createSession('msg','Inserted Successfully !');
 			return redirect('admin/products');
 		}
 	}
 
-	public function edit()
+	public function edit($id)
 	{
-		$id=$_GET['id'];
 		$product=Products::find('id',$id);
 		if($product==null){
 			return redirect('admin/products');

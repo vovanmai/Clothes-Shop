@@ -155,6 +155,9 @@ class UsersController
 		if(Users::auth($id))	
 		{
 			$auser=Users::find("id",$id);
+			if($auser==null){
+				return redirect('admin/users');	
+			}
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
 			Session::createSession('msg','Non-permission');

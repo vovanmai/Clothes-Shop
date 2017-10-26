@@ -18,6 +18,10 @@ class Products extends Model
 		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
 	
+	public static function checkExistProduct($parametes){
+		$query="SELECT * FROM products WHERE product_info_id=? AND color_id=? AND size_id=?";
+		return App::get('database')->query_fetch_params($query,$parametes);
+	}
 
 	public static function getColor($product_info_id)
 	  {
@@ -39,6 +43,11 @@ class Products extends Model
 	        return App::get('database')->query_fetch_params($query,array('product_info_id'=>$product_info_id,'size_id'=>$size_id,'color_id'=>$color_id));
 
 	  }
+	  public static function deleteByProductInfoId($id)
+	{
+		$query="DELETE FROM ".static::$table." WHERE product_info_id=?";
+		return App::get('database')->query_excute_params($query,array('id'=>$id));
+	}
 
 	  public static function getAllCart($id) {
 	    $query ="SELECT products_info.id as id,products_info.name as namesp,products_info.price as price ,color.name as color,size.size  as size ,products_info.image as image,products.quantity as quantity FROM products INNER JOIN products_info ON products.product_info_id = products_info.id INNER JOIN color ON products.color_id = color.id INNER JOIN size ON products.size_id = size.id WHERE products.id=? ";

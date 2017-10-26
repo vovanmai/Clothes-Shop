@@ -4,6 +4,7 @@ use core\App;
 use core\Session;
 use app\models\Users;
 use app\models\Products_info;
+use app\models\Products;
 use app\models\Category;
 use core\Pagination;
 
@@ -13,6 +14,7 @@ class AdminProductInfoController
 	 
 	public function index()
 	{	
+
 		if(!isset($_GET['page'])) {
 			$limit = 10;
 			$count=Products_info::count();
@@ -69,10 +71,10 @@ class AdminProductInfoController
 					$tbody .= '" alt=""></a></td>
 			<td class="text-center">
 				<div class="hidden-sm hidden-xs btn-group">
-					<a class="btn btn-xs btn-info" href="/admin/product_info/edit?id='.$id.'">
+					<a class="btn btn-xs btn-info" href="/admin/product_info/edit/'.$id.'">
 						<i class="ace-icon fa fa-pencil bigger-120"></i>
 					</a>
-					<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ? \');" href="/admin/product_info/delete?id='.$id.'">
+					<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ? \');" href="/admin/product_info/delete/'.$id.'">
 						<i class="ace-icon fa fa-trash-o bigger-120"></i>
 					</a>
 				</div>
@@ -121,18 +123,17 @@ class AdminProductInfoController
 	}
 
 
-	public function destroy()
+	public function destroy($id)
 	{
-		$id=$_GET['id'];
+		Products::deleteByProductInfoId($id);
 		if(Products_info::delete($id)){
 			Session::createSession('msg','Deleted Successfully !');
 			return redirect('admin/product_info');
 		}
 	}
 
-	public function edit()
+	public function edit($id)
 	{
-		$id=$_GET['id'];
 		$product_info=Products_info::find('id',$id);
 		if($product_info==null){
 			return redirect('admin/product_info');
@@ -185,8 +186,8 @@ class AdminProductInfoController
 	public function changeProductInfoActive()
 	{
 		$id=$_GET['id'];
-		$product_info=Products_info::find('id',$id)[0];
-		if($product_info->active==1){
+		$product_info=Products_info::find('id',$id);
+		if($product_info[0]->active==1){
 			if(Products_info::updateActive($id,0)){
 				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
 			}

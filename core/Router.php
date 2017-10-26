@@ -31,6 +31,7 @@ class Router
 		foreach( $this->routes[$requestType] as $url=>$controller ){
 			$params = array();
 			if( $url === '*' ){
+				die();
 				$checkRoute = true;
 			}elseif( strpos($url, '{') === FALSE ){
 				if( strcmp(strtolower($url), strtolower($uri)) === 0 ){
