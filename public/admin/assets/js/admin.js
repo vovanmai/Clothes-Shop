@@ -243,10 +243,10 @@ $(document).ready(function() {
             $('#email_warning_msg').html('');
             var re = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/; 
             if(re.test(email)==false){
-             $('#email_warning_msg').html('<span style="color:red"><strong>Email</strong> is invalid !</span>');   
-             checkEmail=false;
-             checkAdd();
-         }else{
+               $('#email_warning_msg').html('<span style="color:red"><strong>Email</strong> is invalid !</span>');   
+               checkEmail=false;
+               checkAdd();
+           }else{
                 // ajax will check email existence. 
                 $.ajax({
                     url: "/admin/users/add/check_add_email",
@@ -535,42 +535,35 @@ $(document).ready(function() {
             }
         });
     });
-    
-    //change active shipped order
-    $(".edit_shipped_active").click(function() {
+     
+     //save status order
+     $(".status").change(function() {
        var data=$(this).attr('id');
        var id = data.split('-')[1];
-       var idstring = "#shipped-" + id;
+       var status = $(this).val();
        $.ajax({
-        url: "/admin/orders/activeShipped",
+        url: "/admin/orders/updateStatus",
         type: "GET",
         data: {
-            'id': id
+            'status': status,
+            'id':id
         },
         success: function(data) {
-            $(idstring).html(data);
+            var idstring = "#shipped-" + id;
+            $.ajax({
+                url: "/admin/orders/activeShipped",
+                type: "GET",
+                data: {
+                    'id': id
+                },
+                success: function(data) {
+                    $(idstring).html(data);
+                }
+            });
+            alert(data);
         }
     });
    });
-
-     //save status order
-     $(".status").change(function() {
-         var data=$(this).attr('id');
-         var id = data.split('-')[1];
-         var status = $(this).val();
-         $.ajax({
-            url: "/admin/orders/updateStatus",
-            type: "GET",
-            data: {
-                'status': status,
-                'id':id
-            },
-            success: function(data) {
-                $(".edit_shipped_active").click();
-                alert(data);
-            }
-        });
-     });
 
       //save status order
       $("#checkall").click(function(){
