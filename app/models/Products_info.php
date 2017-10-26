@@ -42,32 +42,35 @@ class Products_info extends Model
 		return App::get('database')->query_fetch($query);
 	} 
 
-	public static function getProductsSearch($current_page, $limit, $style, $price)
+	public static function getProductsSearch($current_page, $limit, $style, $price, $gender)
 	{
-		$query = "SELECT * from products_info where cat_id =? and products_info.active=1";
+		$query = "SELECT * from products_info where products_info.active=1";
+		if($style != -1) {
+			$query .= " and cat_id = $style";
+		} else {
+			$query .= " and cat_id in (select id from cat where gender = $gender)";
+		}
 		switch ($price) {
-			case 0:
+			case 0: break;
+			case 1:
 				$query.=' and price between 0 and 200000';
 				break;
-			case 1:
+			case 2:
 				$query.=' and price between 200000 and 500000';
 				break;
-			case 2:
+			case 3:
 				$query.=' and price between 500000 and 1000000';
 				break;
-			case 3:
+			case 4:
 				$query.=' and price > 1000000';
 				break;
 		}
 		$start = ($current_page - 1) * $limit;
-		 $arr=array(
-		             'style'=>$style,
-		 );
 		 if($current_page!=0 && $limit!=0) {
 			$start = ($current_page - 1)*$limit;
 			$query .= " limit $start, $limit";
 		}
-		return App::get('database')->query_fetch_params($query,$arr);
+		return App::get('database')->query_fetch($query);
 	}
 
 	public static function search($style, $price)
