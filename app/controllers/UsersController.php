@@ -52,7 +52,8 @@ class UsersController
 				'fullname' =>$fullname, 
 				'email' =>$email, 
 				'phone' =>$phone, 
-				'address' =>$address, 
+				'address' =>$address,
+				'gender' =>1,
 				'level' =>2
 				);
 			if($avatar==''){
