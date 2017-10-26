@@ -127,7 +127,7 @@ require dirname(__DIR__).'/require/header.view.php';
                         $color=$item->name_color;
                         $size=$item->name_size;
                         $price=$item->price;
-                        $quantity=$item->quantity;
+                        $quantity=$item->quantity_product;
                         $sum=$price*$quantity;
                         $total+=$sum;
                         ?>

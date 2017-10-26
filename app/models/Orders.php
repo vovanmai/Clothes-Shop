@@ -106,7 +106,7 @@ class Orders extends Model
 
 	public static function detail($order_id)
 	{
-		$query="SELECT *, products_info.name as name_product,products.quantity as quantity_product, products.id as id_product, products_info.id as id_product_info, color.id as id_color, size.id as id_size, color.name as name_color, size.size as name_size FROM order_details inner join products on order_details.product_id=products.id inner join products_info on products.product_info_id=products_info.id
+		$query="SELECT *, products_info.name as name_product,order_details.quantity as quantity_product, products.id as id_product, products_info.id as id_product_info, color.id as id_color, size.id as id_size, color.name as name_color, size.size as name_size FROM order_details inner join products on order_details.product_id=products.id inner join products_info on products.product_info_id=products_info.id
 		inner join color on products.color_id=color.id 
 		inner join size on products.size_id=size.id  WHERE order_id=?";
 		return App::get('database')->query_fetch_params($query,array('order_id'=>$order_id));
