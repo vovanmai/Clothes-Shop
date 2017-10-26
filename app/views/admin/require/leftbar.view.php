@@ -37,6 +37,15 @@
                     $url=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
                 ?>
 				<ul class="nav nav-list">
+					<li class="<?php if(strpos($url,"cat")==true){echo "active";}?>">
+						<a href="/admin/cat">
+							<i class="menu-icon fa fa-product-hunt"></i>
+							<span class="menu-text" style="font-weight: bold;">Category</span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
 					<li class="<?php if(strpos($url,"product_info")==true){echo "active";}?>">
 						<a href="/admin/product_info">
 							<i class="menu-icon fa fa-product-hunt"></i>

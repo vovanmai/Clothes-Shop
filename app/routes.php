@@ -1,10 +1,25 @@
 <?php 
+
+//=====================CAT====================
+$router->get('admin/cat','AdminCatController@index');
+$router->get('admin/cat/add','AdminCatController@add');
+$router->post('admin/cat/add','AdminCatController@store');
+$router->get('admin/cat/edit/{id}','AdminCatController@edit');
+$router->post('admin/cat/edit/{id}','AdminCatController@update');
+$router->get('admin/cat/delete/{id}','AdminCatController@destroy');
+
+
 // ========================PUBLIC SHOP===========
+
 $router->get('','PublicController@index');
 $router->get('men','PublicController@getProductInfoByGender');
 $router->get('women','PublicController@getProductInfoByGender');
 $router->get('cat/{id}','PublicController@cat');
 $router->get('detail/{id}','PublicController@detail');
+
+
+
+
 // ==============USERS==============
 $router->get('admin','AdminProductInfoController@index');
 $router->get('admin/users','UsersController@index');
@@ -21,6 +36,9 @@ $router->post('admin/users/search','UsersController@search');
 $router->get('admin/users/active','UsersController@changeActive');
 $router->post('admin/users/active','UsersController@changeActive');
 $router->get('admin/users/search','UsersController@search');
+
+
+
 
 //=====================COLORS====================
 $router->get('admin/colors','ColorsController@index');

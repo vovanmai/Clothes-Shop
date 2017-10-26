@@ -473,4 +473,5 @@ class PublicController
             }
         }
 }
+
 ?>
