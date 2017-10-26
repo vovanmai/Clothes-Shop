@@ -31,16 +31,12 @@ class OrdersController
 		$id=$_GET['id'];
 		$status=$_GET['status'];
 		$order=Orders::updateStatus($status,$id);
+
+		//0:confirm===1:pending===2:cancel
 		if ($status ==0) {
 			$email = Orders::getEmail($id)[0]->email;
 			$auth = new AuthController;
 			$auth->sendMail($email,'Xác nhận đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn đã đưọc xác nhận và gửi đi trong thời gian sớm nhất !');
-		}
-
-		if ($status ==2) {
-			$email = Orders::getEmail($id)[0]->email;
-			$auth = new AuthController;
-			$auth->sendMail($email,'Hủy bỏ đơn hàng ','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, tuy nhiên đã có lỗi trong quá trình đặt hàng ,vui lòng quy lại shop và đặt lại hàng , chúng tôi rất xin lỗi ,xin cảm ơn !');
 		}
 		echo 'Update  status Successfully !';
 	}

@@ -538,6 +538,7 @@ $(document).ready(function() {
                 'id':id
             },
             success: function(data) {
+                $(".edit_shipped_active").click();
                 alert(data);
             }
         });

@@ -164,7 +164,6 @@ require dirname(__DIR__).'/require/header.view.php';
                              <option <?=$search_key['status'] == -1 ? 'selected="selected"':''?> value="-1">--Status--</option>
                              <option <?=$search_key['status'] == 0 ? 'selected="selected"':''?> value="0">Confirmed</option>
                              <option <?=$search_key['status'] == 1 ? 'selected="selected"':''?> value="1">Pending</option>
-                             <option <?=$search_key['status'] == 2 ? 'selected="selected"':''?> value="2">Cancel</option>
                            </select>
                          </div>
                        </div>
@@ -297,7 +296,6 @@ require dirname(__DIR__).'/require/header.view.php';
                        <select id="status-<?php echo $id ?>" <?php if($_SESSION['user'][0]->level!=1) echo "disabled";?> name="status" class="multiselect status">
                          <option <?php if($status==0) echo 'selected="selected"';?> value="0">Confirmed</option>
                          <option <?php if($status==1) echo 'selected="selected"';?> value="1">Pending</option>
-                         <option <?php if($status==2) echo 'selected="selected"';?> value="2">Cancel</option>
                        </select>
                      </td>
                      <td class="text-center">
