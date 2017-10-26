@@ -87,8 +87,12 @@ class Model
 
 	public static function checkDeleteConstrain($nametable,$id)
 	{
-		$nameid=  rtrim((static::$table),'s');
-		$query="SELECT * FROM $nametable WHERE ".strtolower($nameid)."_id= $id ";
+		if(static::$table=="products_info"){
+			$str3="product_info";
+		}else{
+			$str3=rtrim(static::$table,'s');
+		}
+		$query="SELECT * FROM $nametable WHERE ".strtolower($str3)."_id= $id ";
 		return App::get('database')->query_fetch($query); 
 	}
 

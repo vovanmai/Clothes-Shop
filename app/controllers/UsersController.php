@@ -4,7 +4,7 @@ use core\App;
 use core\Session;
 use app\models\Users;
 use core\Pagination;
-
+use app\models\Orders;
 class UsersController
 {
 	function __construct() {
@@ -202,17 +202,19 @@ class UsersController
 			if(Users::delete($id)){
 				$check = true;
 				$idOrder = Orders::getIdOrderByUser($id);
-				foreach ($idOrder as $key => $value) {
-					if (Orders::deleteOrderDetail($value->id)) {
-						if (Orders::deleteOrderByUser($id)) {
-							continue;
+				if (!empty($idOrder)){
+					foreach ($idOrder as $key => $value) {
+						if (Orders::deleteOrderDetail($value->id)) {
+							if (Orders::deleteOrderByUser($id)) {
+								continue;
+							} else {
+								$check = false;
+								break;
+							}
 						} else {
 							$check = false;
 							break;
 						}
-					} else {
-						$check = false;
-						break;
 					}
 				}
 				if ($check) {

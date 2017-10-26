@@ -32,7 +32,7 @@ class AdminProductsController
 	}
 	public function destroy($id)
 	{
-
+		Products::checkDeleteConstrain('order_details',$id);
 
 		if (empty(Products::checkDeleteConstrain('order_details',$id))) {
 			if(Products::delete($id)){
