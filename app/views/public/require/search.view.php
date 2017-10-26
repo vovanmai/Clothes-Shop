@@ -25,8 +25,8 @@
 				<label>Price (VND): </label>
 				<select class="select" name="price">
 				<?php 
-				$arr = array("Under $200", "From $200 to $ 500", "From $500 to $800",
-				"Over $800");
+				$arr = array("Under 200.000", "From 200.000 to 500.000", "From 500.000 to 1.000.000",
+				"Over 1.000.000");
 				$arrlength = count($arr);
 				for($i = 0; $i < $arrlength ; $i++) { ?> 
 					<option <?php if($i == 1) echo 'selected="selected"';?>  
@@ -34,7 +34,7 @@
 					<?php }?>
 				</select>
 				<button class="btn-search" type="button" name="search_public" id="search_public"
-				onclick="paging('searchFilter',1);">Search</button>
+				onclick="search(1);">Search</button>
 				<!-- <a href="javascript:void(0);" onclick="searchFilter(1);">Search</a> -->
 			</form>
 		</div>

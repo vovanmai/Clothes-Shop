@@ -11,77 +11,115 @@ use app\models\Order_details;
 use app\models\Users;
 use app\models\Orders;
 use core\Pagination;
-
 class PublicController
 {
-	public function index(){
-	if(isset($_SESSION['msg'])) {
-	    echo "<script type='text/javascript'>alert('".$_SESSION['msg']."'); </script>";
-	    unset($_SESSION['msg']);
-	}
+    public function addRegister()
+    {
+        $username=$_POST['username'];
+        $fullname=$_POST['fullname'];
+        $email=$_POST['email'];
+        $password=$_POST['password'];
+        $gender=$_POST['gender'];    
+        
+        $paremeters = array(
+            'username' => $username, 
+            'fullname' => $fullname, 
+            'email' => $email, 
+            'password' => md5($password), 
+            'gender' => $gender,
+            'level' => 3
+            );
+        if(Users::insert($paremeters)){
+            echo 1;
+        }
+
+    }
+    public function postLogin()
+    {
+        $username=$_POST['username'];
+        $password=$_POST['password'];
+        $user=Users::checkPublicLogin($username,$password);
+        if($user!=null){
+            $_SESSION['login'] =$user[0];
+            echo 1;
+        }else{
+            echo 2;
+        }
+
+    }
+    public function postLogout()
+    {
+        if(isset($_SESSION['login'])){
+            unset($_SESSION['login']);
+        }
+        return redirect('');
+
+    }
+    public function getAjaxProducts($products_info, $paging_html) {
+      $result = "<div class='box-title'>Featutes</div>";    
+          foreach($products_info as $item)  {
+            $result .= "<div class='product'>
+                <div class='cover-img'>
+                  <a href='detail/$item->id'>
+                      <img src='/public/upload/product_info/$item->image' alt=''>
+                  </a>
+                </div>
+                <span class='name'>$item->name</span>
+                <span class='price'>".number_format($item->price)." VND</span>
+              </div>";
+          } 
+           $result .= "<div class='row'>
+                <div class='col-lg-12'>
+                  <div class='cover-pagination'>$paging_html</div>
+                </div>
+              </div>
+            </div>";
+      return $result;
+    } 
+    public function index(){
+      if(isset($_SESSION['msg'])) {
+          echo "<script type='text/javascript'>alert('".$_SESSION['msg']."'); </script>";
+          unset($_SESSION['msg']);
+      }
+      $limit = 12;
+      $count = Products_info::count();
+      $all_pages = $count[0]->total_record;
+      $paging = new Pagination();      
         if(!isset($_GET['page'])) {
             $current_page = 1;
-            $limit = 12;
-            $count = Products_info::count();
-            $allpage = $count[0]->total_record;
-
-            $paging = new Pagination();
-            $paging->init("indexpaging", $current_page, $limit,$allpage);
+            $paging->init("","", $current_page, $limit,$all_pages);
             $products_info = Products_info::allPagination($current_page,$limit);
             $cats = Category::find('gender',1);
             $hot_product = Products_info::getHotProduct();
             $gender_men_cats=Category::find('gender',1);
             $gender_women_cats=Category::find('gender',0);
             return view('public/index',['products_info' => $products_info,
-            'allpage' => $allpage,
             'cats' => $cats, 
             'hot_product' => $hot_product,
             'gender_men_cats'=>$gender_men_cats,
             'gender_women_cats'=>$gender_women_cats,
-            'paginghtml'=>$paging->html()]); 
+            'paging'=>$paging->ajaxhtml()]); 
         } else {
             $current_page = $_GET['page'];
-            $allpage = $_GET['allpage'];
-            $limit = 12;
             $products_info = Products_info::allPagination($current_page,$limit);
-            $paging = new Pagination();
-            $paging->init("indexpaging", $current_page, $limit,$allpage);
-            echo 
-            '<div class="box-title">Featutes</div>';    
-                foreach($products_info as $item)  {
-            echo '<div class="product">
-                <div class="cover-img">
-                    <a href="detail/'.$item->id.'">
-                        <img src="/public/upload/product_info/'.$item->image.'" alt="">
-                    </a>
-                </div>
-                <span class="name">'.$item->name.'</span>
-                <span class="price">$'.$item->price.'</span>
-            </div>';
-                 } 
-            echo '<div class="row">
-                <div class="col-lg-12">
-                    <div class="cover-pagination">
-                       '.$paging->html().'
-                    </div>
-                </div>
-            </div>
-        </div>';
+            $paging->init("","", $current_page, $limit,$all_pages);
+            echo $this->getAjaxProducts($products_info, $paging->ajaxhtml());
         }
-	}
-	
 
-	public function detail($product_info_id)
-   	{   
-        $color = Products::getColor($product_info_id);
-        $size = Products::getSize($product_info_id);
-        $productInfo = Products_info::find('id',$product_info_id);
-        $gender_men_cats=Category::find('gender',1);
-        $gender_women_cats=Category::find('gender',0);
-        return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
-        'gender_men_cats'=>$gender_men_cats,
-        'gender_women_cats'=>$gender_women_cats]);
-	}
+  }
+  
+
+  public function detail($product_info_id)  {   
+    $color = Products::getColor($product_info_id);
+    $size = Products::getSize($product_info_id);
+    $productInfo = Products_info::find('id',$product_info_id);
+    $gender_men_cats=Category::find('gender',1);
+    $gender_women_cats=Category::find('gender',0);
+    return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
+    'gender_men_cats'=>$gender_men_cats,
+    'gender_women_cats'=>$gender_women_cats]);
+
+  }
 
   public function PlusNumber()
   {
@@ -89,32 +127,24 @@ class PublicController
     $newNumber = 1+$currentNumber;
     echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
   }
-
   public function SubNumber()
   {
     $currentNumber = isset($_POST['aNumber']) ? $_POST['aNumber'] : ' ' ;
     $newNumber = $currentNumber-1;
     echo  '<input class="num" type="text" value="'.$newNumber.'" id="num" disabled >' ;
-
   }
-
   public function updateCart()
   {
-
     if ( Session::getSession('cart') !=null) {
-
       $arrCart = Session::getSession('cart');        
       $cout =0;
       $arr1 = isset($_GET['aJson']) ? json_decode($_GET['aJson']) : ' ' ;
-
       foreach ($arr1 as $key => $value) {               
         $products = Products::find('id',$key);
         $quantity = $products[0]->quantity;
-
         if( $value<=$quantity AND $value >0) {
           $arrCart[$key] =$value;
         }
-
       }
       Session::createSession('cart',$arrCart);
       foreach ($arrCart as $key => $value) {
@@ -125,55 +155,64 @@ class PublicController
       die(json_encode($arrCart));    
     }                
   }
-
   public function cart()
   {         
     $arrStore= array();
     $gender_men_cats=Category::find('gender',1);
     $gender_women_cats=Category::find('gender',0);
-
     if ( Session::getSession('cart') !=null) {
       foreach (Session::getSession('cart') as $key => $value) {
         $arrStore[$key]= Products::getAllCart($key)[0];              
       }
       return view('public/cart',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
-
     }else{
       return view('public/cart',['gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
     }
   }
-
   public function cat($id)
   {
-    $cat_products_info=Products_info::getProductInfoByCat($id);
-    $gender_men_cats=Category::find('gender',1);
-    $gender_women_cats=Category::find('gender',0);
-    $hot_product = Products_info::getHotProduct();
-    $cat=Category::find('id',$id);
-
-    return view('public/cat',['cat_products_info'=>$cat_products_info,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'cat'=>$cat,'hot_product'=>$hot_product]);
+    $limit = 12;
+    $paging = new Pagination(); 
+    $products_info = Products_info::getProductInfoByCat($id, 0, 0);
+    $all_pages = count($products_info);
+    if(!isset($_GET['page'])) {
+      $current_page = 1;
+      $paging->init("cat/$id","", $current_page, $limit,$all_pages);
+      $products_info = Products_info::getProductInfoByCat($id, $current_page, $limit);
+      $gender_men_cats=Category::find('gender',1);
+      $gender_women_cats=Category::find('gender',0);
+      $hot_product = Products_info::getHotProduct();
+      $cat = Category::find('id',$id);
+      $cats = Category::find('gender',1);
+      
+      return view('public/index',['products_info'=>$products_info,'gender_men_cats'=>$gender_men_cats,
+      'gender_women_cats'=>$gender_women_cats, 'cat' => $cat,
+      'cats' => $cats, 'hot_product'=>$hot_product, 'paging'=>$paging->ajaxhtml()]);
+    } else {
+      $current_page = $_GET['page'];
+      $products_info = Products_info::getProductInfoByCat($id,$current_page,$limit);
+      $paging->init("cat/$id","", $current_page, $limit,$all_pages);
+      echo $this->getAjaxProducts($products_info, $paging->ajaxhtml());
+    }
   }
-
   public function delete($id)
   {   
     $num=0;
-
     $arr = Session::getSession('cart');
     if ( Session::getSession('cart')[$id] !=null) {
-      foreach (Session::getSession('cart') as $key => $value) {
+      foreach ($arr as $key => $value) {
         if($id == $key) {
           unset( $arr[$id]);
         }
       }
       Session::createSession('cart',$arr);
-      foreach ( Session::getSession('cart') as $key => $value) {
+      foreach ( $arr as $key => $value) {
         $num +=$value;
       }
       Session::createSession('num',$num);
       redirect('cart');
     }
   }
-
   public function addCart()
   {           
     $check = 0;
@@ -181,25 +220,21 @@ class PublicController
     $color = isset($_POST['aColor']) ? $_POST['aColor'] : 0 ;
     $products_info_id = isset($_POST['aProduct_info_id']) ? $_POST['aProduct_info_id'] : 0 ;
     $num = isset($_POST['aNum']) ? $_POST['aNum'] : 0 ;
-
     $products = Products::getProduct($products_info_id,$size,$color);           
     if (empty($products)) {
       die(json_encode($check));
     } else { 
-
       if ($num<1) {
         $arr["check"] =0;
         die(json_encode($arr));
       } else {
         $arr = array();                             
-
         if ( Session::getSession('cart') ==null) {  
           if ($products[0]->quantity<$num) {
             $arr["check"] =2;
             $arr["quantity"] =$products[0]->quantity;
             die(json_encode($arr));
           } else {
-
             $_SESSION['cart'] =array($products[0]->id =>$num);
             $arr["quantity"] =$num;
             $arr["check"] =1;
@@ -211,11 +246,9 @@ class PublicController
                 $checkID = false;  //kiem tra id da co chua
                 $coutCart =0;
                 $id =$products[0]->id;
-
                 if (isset($cart[$id])) {
                   $currentNum =Session::getSession('cart')[$id];
                   $newNum = $currentNum + $num;
-
                   if ($products[0]->quantity < $newNum ) {
                    $arr["check"] =2;
                    $order=$products[0]->quantity-$currentNum;
@@ -235,7 +268,6 @@ class PublicController
                   Session::createSession('cart',$cart);
                 } 
               }                                   
-
               foreach ( $cart as $key => $value) {
                 $coutCart += $value;
               }
@@ -246,29 +278,24 @@ class PublicController
             }
           }
         }    
-
       }
-
       public function buy()
       {
         $arrPayments = Payment::all(); 
         $arrStore= array();
         $gender_men_cats=Category::find('gender',1);
         $gender_women_cats=Category::find('gender',0);
-
         if ( Session::getSession('cart') !=null) {
           foreach (Session::getSession('cart') as $key => $value) {
            $arrStore[$key]= Products::getAllCart($key)[0];              
          }
          return view('public/buy',['arrStore'=>$arrStore,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'arrPayments'=>$arrPayments]);
-
        }else{
         return redirect('home');
       }
     }
     public function check() {
       if (isset($_POST['smBuy'])) {
-
         if (isset($_POST['payments'])) {
           $fullname = trim($_POST['name']);
           $phone = trim($_POST['phone']);
@@ -288,9 +315,7 @@ class PublicController
           } else {
             //valid 
             $checkPhone =  '/^[0-9]{10,11}$/';
-
             if (!preg_match($checkPhone, $phone,$match)) {
-
               Session::createSession('msg','please enter a valid phone !') ;
               redirect('buy');
               die();
@@ -312,7 +337,6 @@ class PublicController
             }
           }
         }
-
         $arrOrder = array(
           'user_id' =>$idUser,
           'date_order' => date('Y-m-d H:m:s',time()),
@@ -335,13 +359,11 @@ class PublicController
               break;
             }
           }
-
           unset($_SESSION['cart']);
           unset($_SESSION['num']);
           Session::createSession('msg','Order successfully !') ;
           redirect('buy');
           die();
-
         }
       }  else {
         Session::createSession('msg','Please choose payment !') ;
@@ -358,13 +380,14 @@ class PublicController
     }else{
       $id=0;
     }
-    $gender_products_info=Category::getProductInfoByGender($id);
+    $products_info=Category::getProductInfoByGender($id);
     $hot_product=Products_info::getHotProduct();
     $gender_men_cats=Category::find('gender',1);
     $gender_women_cats=Category::find('gender',0);
-    return view('public/gender_product_info',['gender_products_info'=>$gender_products_info,'hot_product'=>$hot_product,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats]);
+    return view('public/index',['products_info'=>$products_info,'hot_product'=>$hot_product,
+    'gender_men_cats'=>$gender_men_cats,
+    'gender_women_cats'=>$gender_women_cats]);
   }
-
   public function relatedProducts($id_cat,$id_products_info) {
     $products_info=Products_info::relatedProducts($id_cat,$id_products_info);
     $cats = Category::all();
@@ -386,21 +409,19 @@ class PublicController
             }
             echo $html;
         }
-
         public function searchProduct() {
             if(isset($_GET['style']) && isset($_GET['style'])) {
                 $style = $_GET['style'];
                 $price = $_GET['price'];
                 $current_page = !empty($_GET['page'])? $_GET['page'] : 1;
-
-                $ArrProducts = Products_info::search($style, $price);
+                $ArrProducts = Products_info::getProductsSearch(0,0,$style, $price);
                 $count = count($ArrProducts);
                 $limit = 12;
-
                 $products_info = Products_info::getProductsSearch($current_page,
                 $limit, $style, $price);
                 $paging = new Pagination();
-                $paging->init("searchFilter",$current_page, $limit, $count);
+                $paging->init("search","",
+                $current_page, $limit, $count);
                 echo 
                 '<div class="box-title">Featutes</div>';    
                     foreach($products_info as $item)  {
@@ -411,22 +432,18 @@ class PublicController
                         </a>
                     </div>
                     <span class="name">'.$item->name.'</span>
-                    <span class="price">$'.$item->price.'</span>
+                    <span class="price">'.$item->price.' VND</span>
                 </div>';
                      } 
                 echo '<div class="row">
                     <div class="col-lg-12">
                         <div class="cover-pagination">
-                           '.$paging->html().'
+                           '.$paging->ajaxhtml().'
                         </div>
                     </div>
                 </div>
             </div>';
             }
         }
-
 }
-
 ?>
-        
-

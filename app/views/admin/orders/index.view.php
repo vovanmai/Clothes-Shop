@@ -107,22 +107,21 @@ require dirname(__DIR__).'/require/header.view.php';
                   <div class="row text-center">
                     <div class="col-xs-12">
                       <!-- PAGE CONTENT BEGINS -->
-                      <form class="form-horizontal" role="form" action="/admin/orders/search" method="post">
+                      <form class="form-horizontal" id="search-orders" role="form" action="/admin/orders/search" method="get">
                         <?php
-                        $fullname='';
-                        $paid=-1;
-                        $shipped=-1;
-                        $payment=-1;
-                        $date_order='';
-                        $status=-1;
+                        $search_key = array(
+                          'fullname'  => '',
+                          'paid'      => -1,
+                          'shipped'   => -1,
+                          'payment'   => -1,
+                          'status'    => -1,
+                          'date_order'=> ''
+                        );
                         if(isset($search_Order))
                         {
-                          $fullname=$search_Order['fullname'];
-                          $paid=$search_Order['paid'];
-                          $shipped=$search_Order['shipped'];
-                          $payment=$search_Order['payment'];
-                          $date_order=$search_Order['date_order'];
-                          $status=$search_Order['status'];
+                          foreach(array_keys($search_Order) as $key) {
+                            $search_key[$key] = $search_Order[$key];
+                          }
                         }
                         ?>
                         <div class="row">
@@ -148,53 +147,53 @@ require dirname(__DIR__).'/require/header.view.php';
                           <div class="col-xs-2">
                            <div class="form-group">
                              <div class="pos-rel">
-                              <input class="typeahead scrollable" name="fullname" type="text" value="<?php echo $fullname; ?>" placeholder="Fullname" />
+                              <input class="typeahead scrollable" name="fullname" type="text" value="<?=$search_key['fullname']?>" placeholder="Fullname" />
                             </div>
                           </div>
                         </div>
                         <div class="col-xs-2" style="margin-left: 40px">
                          <div class="form-group">
                            <div class="pos-rel">
-                             <input name="date_order" type="date" value="<?php if($date_order!='') echo date("Y-d-m", strtotime($date_order)); ?>" id="date_order"/>
+                             <input name="date_order" type="date" value="<?=$search_key['date_order']?>" id="date_order"/>
                            </div>
                          </div>
                        </div>
                        <div class="col-xs-1" style="margin-left: 40px">
                          <div class="form-group">
                            <select id="status" name="status" class="multiselect">
-                             <option <?php if($status==-1) echo 'selected="selected"';?> value="-1">--Status--</option>
-                             <option <?php if($status==0) echo 'selected="selected"';?> value="0">Confirmed</option>
-                             <option <?php if($status==1) echo 'selected="selected"';?> value="1">Pending</option>
-                             <option <?php if($status==2) echo 'selected="selected"';?> value="2">Cancel</option>
+                             <option <?=$search_key['status'] == -1 ? 'selected="selected"':''?> value="-1">--Status--</option>
+                             <option <?=$search_key['status'] == 0 ? 'selected="selected"':''?> value="0">Confirmed</option>
+                             <option <?=$search_key['status'] == 1 ? 'selected="selected"':''?> value="1">Pending</option>
+                             <option <?=$search_key['status'] == 2 ? 'selected="selected"':''?> value="2">Cancel</option>
                            </select>
                          </div>
                        </div>
                        <div class="col-xs-1" style="margin-left: 30px">
                          <div class="form-group">
                            <select id="paid" name="paid" class="multiselect">
-                            <option <?php if($paid==-1) echo 'selected="selected"';?> value="-1">--paid--</option>
-                            <option <?php if($paid==1) echo 'selected="selected"';?> value="1">Yes</option>
-                            <option <?php if($paid==0) echo 'selected="selected"';?> value="0">No</option>
+                            <option <?=$search_key['paid'] == -1 ? 'selected="selected"':''?> value="-1">--paid--</option>
+                            <option <?=$search_key['paid'] == 1 ? 'selected="selected"':''?> value="1">Yes</option>
+                            <option <?=$search_key['paid'] == 0 ? 'selected="selected"':''?> value="0">No</option>
                           </select>
                         </div>
                       </div>
                       <div class="col-sm-1" style="margin-left: 20px">
                        <div class="form-group">
                          <select id="shipped" name="shipped" class="multiselect" >
-                          <option <?php if($shipped==-1) echo 'selected="selected"';?> value="-1">--shipped--</option>
-                          <option <?php if($shipped==1) echo 'selected="selected"';?> value="1">Yes</option>
-                          <option <?php if($shipped==0) echo 'selected="selected"';?> value="0">No</option>
+                          <option <?=$search_key['shipped'] == -1 ? 'selected="selected"':''?> value="-1">--shipped--</option>
+                          <option <?=$search_key['shipped'] == 1 ? 'selected="selected"':''?> value="1">Yes</option>
+                          <option <?=$search_key['shipped'] == 0 ? 'selected="selected"':''?> value="0">No</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-1" style="margin-left: 40px">
                      <div class="form-group">
                        <select id="payment" name="payment" class="multiselect" >
-                        <option <?php if($payment==-1) echo 'selected="selected"';?> value="-1">--payment--</option>
+                        <option <?= $search_key['payment'] == -1 ? 'selected="selected"':''?> value="-1">--payment--</option>
                         <?php
                         foreach ($payments as $item) {
                           ?>
-                          <option <?php if($payment==$item->id) echo 'selected="selected"';?> value="<?php echo $item->id;?>"><?php echo $item->name;?></option>
+                          <option <?php if($search_key['payment']==$item->id) echo 'selected="selected"';?> value="<?php echo $item->id;?>"><?php echo $item->name;?></option>
                           <?php
                         }
                         ?>
@@ -389,10 +388,10 @@ require dirname(__DIR__).'/require/header.view.php';
   </div>
 </div><!-- /.row -->
 
-<div class="row text-center" id="paging">
+<div class="row text-center cover-pagination">
   <?php 
-    if(isset($paginghtml)) {
-      echo $paginghtml;
+    if(isset($paging)) {
+      echo $paging;
     }
   ?>
 </div>

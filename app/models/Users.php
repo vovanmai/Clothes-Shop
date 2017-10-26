@@ -73,6 +73,12 @@ class Users extends Model
 		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
 	}
 
+	public static function checkPublicLogin($username,$pass) {
+		$query = "SELECT * FROM users WHERE active =1 AND username=? AND password =md5(?)";
+
+		return App::get('database')->query_fetch_params($query,array('username'=>$username,'password'=>$pass));
+	}
+
 	public static function checkEmail($email) {
 		$query = "SELECT * FROM users WHERE active =?  AND email=?";
 		
@@ -97,36 +103,26 @@ class Users extends Model
 		return App::get('database')->query_excute_params($query,$data);
 	}
 
-	public static function search($search_User)
+	public static function search($search_User,$current_page,$limit)
 	{
-		$username=$search_User['username'];
-		$fullname=$search_User['fullname'];
-		$active=$search_User['active'];
-		$level=$search_User['level'];
 		$query='select * from users where 1'; 
 		$params=array();
-		if($username!='')
-		{
-			$query.=' and username like concat("%", ?, "%")';
-			$params['username']=$username;
+		foreach(array_keys($search_User) as $key) {	
+			switch ($key) {
+				case 'username': case 'fullname':
+				$query.=" and $key like concat('%', ?, '%')";
+				$params[$key] = $search_User[$key];
+				break;
+				
+				default:
+				$query.=" and $key = ?";
+				$params[$key]=$search_User[$key];
+			}
 		}
-		if($fullname!='')
-		{
-			$query.=' and fullname like concat("%", ?, "%")';
-			$params['fullname']=$fullname;
+		if($current_page!=0 && $limit!=0) {
+			$start = ($current_page - 1)*$limit;
+			$query .= " limit $start, $limit";
 		}
-		if($active!=-1)
-		{
-			$query.=' and active = ?';
-			$params['active']=$active;
-		}
-		if($level!=0)
-		{
-			$query.=' and level = ?';
-			$params['level']=$level;
-		}
-
-
 		return App::get('database')->query_fetch_params($query,$params);
 	}
 

@@ -173,7 +173,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                                 <?php echo number_format ($price).' VNĐ'; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="javascript:void(0)"  class="product_info_active" id="<?php echo $id; ?>">
+                                                <a href="javascript:void(0)"  onclick="chageActiveProductInfo(<?php echo $id; ?>)" class="product_info_active" id="<?php echo $id; ?>">
                                                     <img src="/public/admin/assets/images/<?php 
                                                     if($active==1){
                                                     echo "active.gif";
@@ -202,9 +202,9 @@ require dirname(__DIR__).'/require/header.view.php';
                             </div>
                         </div><!-- /.row -->
 
-                        <div class="row text-center" id="paging">
+                        <div class="row text-center cover-pagination">
                             <?php 
-                              echo $paginghtml;
+                              echo $paging;
                             ?>
                         </div>
                     </div>

@@ -72,6 +72,6 @@
 	</div>
 </footer>
 </div>
-
+<!-- <script type="text/javascript" src="/public/assets/js/appDetail.js"></script> -->
 </body>
 </html>

@@ -73,13 +73,13 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3 ">
+                    <!-- <div class="col-md-3 col-lg-3 ">
                         <div class="cover search-box">
                             <i class="fa fa-search" aria-hidden="true"></i>
                             <input class="search" type="search" placeholder="search">
                         </div>
-                    </div>
-                    <div class="col-md-2 col-lg-2 ">
+                    </div> -->
+                    <div class="col-md-5 col-lg-5" style="text-align: right;">
                         <div class="cover account-box">
                             <a class="bag" href="/cart">
                                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
@@ -99,8 +99,20 @@
                               
                                
                             </a>
-
-                            <button class="account" id="account"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</button>
+                            <span style="margin-left: 10px;">
+                                <?php
+                                    if(isset($_SESSION['login'])){ 
+                                        echo $_SESSION['login']->username;
+                                    }
+                                ?>
+                            </span>
+                            <?php 
+                                if(!isset($_SESSION['login'])){ 
+                                    echo '<button class="account" id="account"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</button>';
+                                }else{
+                                    echo '<a href="/logout" style="margin-left:10px;" title="">Log out</a>';
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>

@@ -13,121 +13,16 @@ class OrdersController
 	}
 	public function index()
 	{
+		$link='/admin/orders?p={page}';
 		$payments=Payment::all();
-		$count=Orders::count();
+		$all_pages = count(Orders::allOrdersPagination(0, 0)); 
 		$limit = 10;
 		$paging = new Pagination();
-		if(!isset($_GET['page'])) {
-			$current_page = 1;
-			
-			$paging->init("orders", $current_page, $limit, $count[0]->total_record);
-			$orders=Orders::allOrdersPagination($current_page,$limit);	
-			return view('admin/orders/index',['orders'=>$orders,
-			'paginghtml'=>$paging->html(),'payments'=>$payments]);
-		} else {
-			$current_page = $_GET['page'];
-
-			$paging->init("orders", $current_page, $limit, $count[0]->total_record);
-			$orders=Orders::allOrdersPagination($current_page,$limit);
-			$tbody = '';
-			foreach($orders as $item){
-				$id=$item->id_order;
-				$username=$item->username;
-				$fullname=$item->fullname;
-				$address=$item->address;
-				$date_order=$item->date_order;
-				$status=$item->status;
-				$paid=$item->paid;
-				$shipped=$item->shipped;
-				$payment=$item->name;
-				$note=$item->note;
-				$tbody .= '<tr>
-				  <td class="text-center">'.$id.'</td>
-				  <td class="text-center">'.$username.'</td>
-				  <td class="text-center">'.$fullname.'</td>
-				  <td class="text-center">'.$address.'</td>
-				  <td class="text-center">'.
-					 date("d/m/Y H:i:s", strtotime($date_order)).'
-				  </td>
-				  <td class="text-center">
-				   <select id="status-'.$id.'"'; 
-				    if($_SESSION['user'][0]->level!=1) {
-						$tbody .= "disabled";
-					 } 
-					 $tbody .= 'name="status" class="multiselect status">';
-					 $arr = array("Confirmed", "Pending", "Cancel");
-					 for($i = 0; $i < 3; $i++) {
-						$tbody .= '<option';
-						if($status==0) $tbody .= 'selected="selected"';
-						$tbody .= 'value="'.$i.'">'.$arr[$i].'</option>';
-					 }
-					 $tbody .= '</select>
-				 </td>
-				 <td class="text-center">
-				  ';
-				   if($_SESSION['user'][0]->level!=1){
-					$tbody .= '<img src="/public/admin/assets/images/'; 
-					if($paid==1){
-						$tbody .= 'active.gif';
-					}else{
-						$tbody .= 'deactive.gif';
-					}
-					$tbody .='" alt="">';
-				  } else {
-					$tbody .=' 
-					<a href="javascript:void(0)" class="edit_paid_active" id="paid-'.$id.'">
-					  <img src="/public/admin/assets/images/';
-					  if($paid==1){
-						$tbody .= 'active.gif';
-					  }else{
-						$tbody .= 'deactive.gif';
-					  }
-					  $tbody .='" alt=""></a>';
-				  }
-				  $tbody .= '</td>
-				  <td class="text-center">';
-				 if($_SESSION['user'][0]->level!=1){
-					$tbody .= '<img src="/public/admin/assets/images/'; 
-				  if($shipped==1){
-					$tbody .= 'active.gif';
-				  }else{
-					$tbody .= 'deactive.gif';
-				  }
-				  $tbody .='" alt="">';
-				} else {
-					$tbody .='<a href="javascript:void(0)"  class="edit_shipped_active" id="shipped-'.$id.'">
-					<img src="/public/admin/assets/images/'; 
-					if($shipped==1){
-						$tbody .='active.gif';
-					}else{
-						$tbody .='deactive.gif';
-					}
-					$tbody .='" alt=""></a>';
-				}
-				$tbody .='</td>
-			  <td class="text-center">'.$payment.'</td>
-			  <td class="text-center">'.$note.'</td>
-			  <td class="text-center">
-			    <a href="/admin/orders/detail/'.$id.'" alt="">Details</a>
-			  </td>
-			
-			<td class="text-center">
-			  <div class="hidden-sm hidden-xs btn-group">
-				<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ?\');" href="/admin/orders/delete/'.$id.'">
-				  <i class="ace-icon fa fa-trash-o bigger-120"></i>
-				</a>
-			  </div>
-			</td>
-			<td class="text-center">
-			  <input type="checkbox" name="dels[]" value="'.$id.'" />
-			</td>
-		  </tr>'; 
-		}
-			$paging_html =  $paging->html();
-			echo json_encode(array(
-				"tbody" => $tbody, 
-			"paging" => $paging_html));
-		}
+		$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+		$paging->init("",$link, $current_page, $limit, $all_pages);
+		$orders = Orders::allOrdersPagination($current_page,$limit);	
+		return view('admin/orders/index',['orders'=>$orders,
+		'paging'=>$paging->gethtml(),'payments'=>$payments]);
 	}
 	
 
@@ -139,9 +34,15 @@ class OrdersController
 		if ($status ==0) {
 			$email = Orders::getEmail($id)[0]->email;
 			$auth = new AuthController;
-			$auth->sendMail($email,'Xac nhan don hang','Don hang cua ban da duoc xac nhan !');
+			$auth->sendMail($email,'Xác nhận đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn đã đưọc xác nhận và gửi đi trong thời gian sớm nhất !');
 		}
-		echo 'success';
+
+		if ($status ==2) {
+			$email = Orders::getEmail($id)[0]->email;
+			$auth = new AuthController;
+			$auth->sendMail($email,'Hủy bỏ đơn hàng ','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, tuy nhiên đã có lỗi trong quá trình đặt hàng ,vui lòng quy lại shop và đặt lại hàng , chúng tôi rất xin lỗi ,xin cảm ơn !');
+		}
+		echo 'Update  status Successfully !';
 	}
 
 	public function changeActivePaid()
@@ -197,12 +98,12 @@ class OrdersController
 	public function pagination($count,$link_full)
 	{
 		$config = array(
-			    'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
-			    'total_record'  => $count, // Tổng số record
+			'current_page'  => isset($_GET['p']) ? $_GET['p'] : 1, // Trang hiện tại
+			'total_record'  => $count, // Tổng số record
 			 	//  'limit'         => 10,// limit
-			    'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
-			    'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
-			    'range'         => 9, // Số button trang bạn muốn hiển thị 
+			'link_full'     => $link_full, //'/admin/users?p={page}' =Link full có dạng như sau: domain/com/page/{page}
+			'link_first'    => str_replace('{page}', '1', $link_full),// Link trang đầu tiên
+			'range'         => 9, // Số button trang bạn muốn hiển thị 
 			    );
 		$paging = new Pagination();
 		$paging->init($config);
@@ -213,30 +114,42 @@ class OrdersController
 
 	public function search()
 	{
-		if(isset($_REQUEST['search'])||isset($_REQUEST['fullname']))
-		{
-			$payments=Payment::all();
-			$fullname=$_REQUEST['fullname'];
-			$paid=$_REQUEST['paid'];
-			$shipped=$_REQUEST['shipped'];
-			$status=$_REQUEST['status'];
-			$payment=$_REQUEST['payment'];
-			$date_order=$_REQUEST['date_order'];
-			$search_Order = array(
-				'fullname' =>$fullname, 
-				'paid' =>$paid, 
-				'shipped' =>$shipped,
-				'status' =>$status, 
-				'payment' =>$payment, 
-				'date_order' =>$date_order
-				);
-			$orders = Orders::search($search_Order);	
-			return view('admin/orders/index',['orders'=>$orders, 'search_Order'=>$search_Order,'payments'=>$payments]);
+		$fullname = isset($_GET['fullname']) ? $_GET['fullname']: '';
+		$paid = isset($_GET['paid']) ? $_GET['paid']: -1;
+		$shipped = isset($_GET['shipped']) ? $_GET['shipped']: -1;
+		$status = isset($_GET['status']) ? $_GET['status']: -1;
+		$payment = isset($_GET['payment']) ? $_GET['payment']: -1;
+		$date_order = isset($_GET['date_order']) ? $_GET['date_order']: '';
+		$search_Order = array(
+			'fullname' =>$fullname, 
+			'paid' =>$paid, 
+			'shipped' =>$shipped,
+			'status' =>$status, 
+			'payment' =>$payment, 
+			'date_order' =>$date_order
+			);
+
+		foreach(array_keys($search_Order) as $key) {				
+			if ($search_Order[$key]=='' || $search_Order[$key]==-1) {
+				unset($search_Order[$key]);
+			}
+		}
+		if(!empty($search_Order)) {
+			$current_page = isset($_GET['p']) ? $_GET['p']: 1;
+			$limit = 10;
+			$params=http_build_query($search_Order);
+			$link = "/admin/orders/search?$params&p={page}";
+			$paging = new Pagination();
+			$all_pages = count(Orders::search($search_Order,0,0));
+			$paging->init("",$link,$current_page, $limit, $all_pages);
+			$orders = Orders::search($search_Order, $current_page, $limit);
+			$payments=Payment::all();	
+			return view('admin/orders/index',['orders'=>$orders, 
+			'search_Order'=>$search_Order,'payments'=>$payments,
+			'paging'=>$paging->gethtml()]);
 		} else {
 			return redirect('admin/orders');
-
 		}
-		
 	}
 
 	public function detail($id)
