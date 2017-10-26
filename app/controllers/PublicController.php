@@ -186,7 +186,7 @@ public function cat($id)
   $gender_women_cats=Category::find('gender',0);
   $hot_product = Products_info::getHotProduct();
   $cat=Category::find('id',$id);
-  return view('public/index',['products_info'=>$products_info,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'cat'=>$cat,'hot_product'=>$hot_product]);
+  return view('public/index',['products_info'=>$products_info,'gender_men_cats'=>$gender_men_cats,'gender_women_cats'=>$gender_women_cats,'cats'=>$cat,'hot_product'=>$hot_product]);
 }
 public function delete($id)
 {   
@@ -236,7 +236,6 @@ public function addCart()
         }
       } else {                          
         $cart=Session::getSession('cart');
-                $checkID = false;  //kiem tra id da co chua
                 $coutCart =0;
                 $id =$products[0]->id;
                 if (isset($cart[$id])) {
@@ -375,7 +374,7 @@ public function addCart()
         }
         unset($_SESSION['cart']);
         unset($_SESSION['num']);
-        Session::createSession('msg','Order successfully !') ;
+        Session::createSession('msg','Thank you for your order!') ;
         redirect('buy');
         die();
       }

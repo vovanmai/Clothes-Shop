@@ -91,10 +91,18 @@ class AdminProductsController
 	public function destroy()
 	{
 		$id=$_GET['id'];
-		if(Products::delete($id)){
-			Session::createSession('msg','Deleted Successfully !');
+
+		if (empty(Products::checkDeleteConstrain('order_details',$id))) {
+			if(Colors::delete($id)){
+				Session::createSession('msg','Deleted Successfully!');
+				return redirect('admin/products');
+			} 
+		} else {
+			Session::createSession('msg','Error Constrain with Products!');
 			return redirect('admin/products');
 		}
+		
+
 	}
 
 	public function add()
