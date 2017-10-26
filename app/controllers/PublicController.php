@@ -300,82 +300,105 @@ class PublicController
     }
     public function check() {
       if (isset($_POST['smBuy'])) {
-        if (isset($_POST['payments'])) {
-          $fullname = trim($_POST['name']);
-          $phone = trim($_POST['phone']);
-          $email = trim($_POST['email']);
-          $address = trim($_POST['address']);
-          $payment = $_POST['payments'];
-          $note = $_POST['note'];
-          $idUser = 0;
-          if (isset($_SESSION['login'])) {
-           $idUser = $_SESSION['login']->id;
-         } else {
+        //check stock
+       $arrProductsExist= array();
+       $checkStock=true;
+       if ( Session::getSession('cart') !=null) {
+        foreach (Session::getSession('cart') as $key => $value) {
+         if (Products::getAllCart($key)[0]->quantity < $value) {
+          $checkStock=false;
+          break;
+        }              
+      }
+      if (!$checkStock) {
+        //stock is unavailble
+        Session::createSession('msg','Sorry! Quantity have recently updated. Some product you bought is unavailable !') ;
+        redirect('buy');
+        die();
+      } else {
+        //stock is availble
+       if (isset($_POST['payments'])) {
+        $fullname = trim($_POST['name']);
+        $phone = trim($_POST['phone']);
+        $email = trim($_POST['email']);
+        $address = trim($_POST['address']);
+        $payment = $_POST['payments'];
+        $note = $_POST['note'];
+        $idUser = 0;
+        if (isset($_SESSION['login'])) {
+         $idUser = $_SESSION['login']->id;
+       } else {
     //empty
-           if ($fullname =='' || $phone =='' ||  $email =='' ||  $address=='') {
-            Session::createSession('msg','Please complete all information !') ;
+         if ($fullname =='' || $phone =='' ||  $email =='' ||  $address=='') {
+          Session::createSession('msg','Please complete all information !') ;
+          redirect('buy');
+          die();
+        } else {
+            //valid 
+          $checkPhone =  '/^[0-9]{10,11}$/';
+          if (!preg_match($checkPhone, $phone,$match)) {
+            Session::createSession('msg','please enter a valid phone !') ;
             redirect('buy');
             die();
           } else {
-            //valid 
-            $checkPhone =  '/^[0-9]{10,11}$/';
-            if (!preg_match($checkPhone, $phone,$match)) {
-              Session::createSession('msg','please enter a valid phone !') ;
-              redirect('buy');
-              die();
-            } else {
             //add san pham
-              $arrInfoClient=array(
-                'username' => '',
-                'password' => '',
-                'fullname' => $fullname,
-                'phone' => $phone,
-                'email' => $email,
-                'address' => $address,
-                'level' => 3,
-                );
-              if (Users::insert($arrInfoClient)) {
-                $UserNew=Users::getIdLast();
-                $idUser=$UserNew[0]->id;
-              }
+            $arrInfoClient=array(
+              'username' => '',
+              'password' => '',
+              'fullname' => $fullname,
+              'phone' => $phone,
+              'email' => $email,
+              'address' => $address,
+              'level' => 3,
+              );
+            if (Users::insert($arrInfoClient)) {
+              $UserNew=Users::getIdLast();
+              $idUser=$UserNew[0]->id;
             }
           }
         }
-        $arrOrder = array(
-          'user_id' =>$idUser,
-          'date_order' => date('Y-m-d H:m:s',time()),
-          'payment_id' => $payment,
-          'note' => $note,
-          'paid' => ($payment==3) ? 0 : 1,
-          );
-        if (Orders::insert($arrOrder)) {
-          $OrderNew=Orders::getIdLast();
-          $idOrder=$OrderNew[0]->id;
-          foreach (Session::getSession('cart') as $key => $value) {
-            $arrDetail=array(
-              'order_id' => $idOrder,
-              'product_id' => $key,
-              'quantity' => $value,
-              );     
-            if (Order_details::insert($arrDetail)) {
+      }
+      $arrOrder = array(
+        'user_id' =>$idUser,
+        'date_order' => date('Y-m-d H:m:s',time()),
+        'payment_id' => $payment,
+        'note' => $note,
+        'paid' => ($payment==3) ? 0 : 1,
+        );
+      if (Orders::insert($arrOrder)) {
+        $OrderNew=Orders::getIdLast();
+        $idOrder=$OrderNew[0]->id;
+        foreach (Session::getSession('cart') as $key => $value) {
+          $arrDetail=array(
+            'order_id' => $idOrder,
+            'product_id' => $key,
+            'quantity' => $value,
+            );     
+          if (Order_details::insert($arrDetail)) {
+            if (Products::updateQuantityProduct($key,$value)) {
               continue;
             } else {
               break;
             }
+          } else {
+            break;
           }
-          unset($_SESSION['cart']);
-          unset($_SESSION['num']);
-          Session::createSession('msg','Order successfully !') ;
-          redirect('buy');
-          die();
         }
-      }  else {
-        Session::createSession('msg','Please choose payment !') ;
+        unset($_SESSION['cart']);
+        unset($_SESSION['num']);
+        Session::createSession('msg','Order successfully !') ;
         redirect('buy');
         die();
       }
+    }  else {
+      Session::createSession('msg','Please choose payment !') ;
+      redirect('buy');
+      die();
     }
   }
+}
+}
+}
   public function getProductInfoByGender()
   {
     $string_gender=trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/');
