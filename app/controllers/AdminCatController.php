@@ -30,10 +30,16 @@ class AdminCatController
 			'name' => $name,
 			'gender' => $gender,
 			);
-		if(Category::insert($arrCat)){
-			Session::createSession('msg','Inserted Successfully !');
+		if(empty(Category::checkCatAdd($arrCat))){
+			if(Category::insert($arrCat)){
+				Session::createSession('msg','Inserted Successfully !');
+				return redirect('admin/cat');
+			}
+		}else{
+			Session::createSession('msg','Category already exists !');
 			return redirect('admin/cat');
 		}
+		
 	}
 
 

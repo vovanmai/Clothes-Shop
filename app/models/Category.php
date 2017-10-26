@@ -41,6 +41,13 @@ class Category extends Model
 	}
 
 
+	public static function checkCatAdd($parameters)
+	{
+		$query="SELECT * FROM cat WHERE name=? AND gender=?";
+		return App::get('database')->query_fetch_params($query,$parameters);
+	}
+
+
 	
 }
 ?>
