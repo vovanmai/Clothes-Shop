@@ -243,7 +243,6 @@ class PublicController
           }
         } else {                          
           $cart=Session::getSession('cart');
-                $checkID = false;  //kiem tra id da co chua
                 $coutCart =0;
                 $id =$products[0]->id;
                 if (isset($cart[$id])) {
