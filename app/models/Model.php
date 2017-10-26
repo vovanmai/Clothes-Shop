@@ -85,5 +85,12 @@ class Model
 		return App::get('database')->query_fetch($query);
 	}
 
+	public static function checkDeleteConstrain($nametable,$id)
+	{
+		$nameid=  rtrim((static::$table),'s');
+		$query="SELECT * FROM $nametable WHERE ".strtolower($nameid)."_id= $id ";
+		return App::get('database')->query_fetch($query); 
+	}
+
 }
 ?>

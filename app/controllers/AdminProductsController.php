@@ -30,12 +30,21 @@ class AdminProductsController
 		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,
 		'paging'=>$paging->gethtml(),'colors'=>$colors,'sizes'=>$sizes]);
 	}
-	public function destroy($id)
-	{	
-		if(Products::delete($id)){
-			Session::createSession('msg','Deleted Successfully !');
+	public function destroy()
+	{
+		$id=$_GET['id'];
+
+		if (empty(Products::checkDeleteConstrain('order_details',$id))) {
+			if(Products::delete($id)){
+				Session::createSession('msg','Deleted Successfully!');
+				return redirect('admin/products');
+			} 
+		} else {
+			Session::createSession('msg','Error Constrain with Products!');
 			return redirect('admin/products');
 		}
+		
+
 	}
 
 	public function add()
