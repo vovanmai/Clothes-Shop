@@ -65,11 +65,11 @@ class AdminProductInfoController
 		if (empty(Products_info::checkDeleteConstrain('products',$id))) {
 			if(Products_info::delete($id)){
 				Session::createSession('msg','Deleted Successfully!');
-				return redirect('admin/products_info');
+				return redirect('admin/product_info');
 			} 
 		} else {
 			Session::createSession('msg','Error Constrain with Products!');
-			return redirect('admin/products_info');
+			return redirect('admin/product_info');
 		}
 	}
 

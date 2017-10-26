@@ -92,6 +92,7 @@ class Model
 		}else{
 			$str3=rtrim(static::$table,'s');
 		}
+
 		$query="SELECT * FROM $nametable WHERE ".strtolower($str3)."_id= $id ";
 		return App::get('database')->query_fetch($query); 
 	}
