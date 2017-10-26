@@ -84,6 +84,9 @@ class UsersController
 		if(Users::auth($id))	
 		{
 			$auser=Users::find("id",$id);
+			if($auser==null){
+				return redirect('admin/users');	
+			}
 			return view('admin/users/edit',['auser'=>$auser]);
 		} else {
 			Session::createSession('msg','Non-permission');
@@ -175,7 +178,7 @@ class UsersController
 	{
 		if($_SESSION['user'][0]->level==1)
 		{
-			$id=$_GET['id'];
+			$id=$_POST['id'];
 			$user=Users::find("id",$id);
 			if($user[0]->active==1){
 				if(Users::updateActive(0,$id)){

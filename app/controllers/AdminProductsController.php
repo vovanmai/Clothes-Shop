@@ -30,9 +30,8 @@ class AdminProductsController
 		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,
 		'paging'=>$paging->gethtml(),'colors'=>$colors,'sizes'=>$sizes]);
 	}
-	public function destroy()
-	{
-		$id=$_GET['id'];
+	public function destroy($id)
+	{	
 		if(Products::delete($id)){
 			Session::createSession('msg','Deleted Successfully !');
 			return redirect('admin/products');
@@ -53,21 +52,30 @@ class AdminProductsController
 		$color_id=$_POST['products_color_add'];
 		$size_id=$_POST['products_size_add'];
 		$quantity=$_POST['quantity'];
+		$ar_product_check = array(
+			'product_info_id' => $product_info_id,
+			'color_id' => $color_id,
+			'size_id' => $size_id
+			);
+		$product_check=Products::checkExistProduct($ar_product_check);
+		if($product_check!=null){
+			Session::createSession('msg','Product is existed. Please check!');
+			return redirect('admin/products/add');
+		}
 		$product = array(
 			'product_info_id' => $product_info_id,
 			'color_id' => $color_id,
 			'size_id' => $size_id,
 			'quantity' => $quantity
-			 );
+			);
 		if(Products::insert($product)){
 			Session::createSession('msg','Inserted Successfully !');
 			return redirect('admin/products');
 		}
 	}
 
-	public function edit()
+	public function edit($id)
 	{
-		$id=$_GET['id'];
 		$product=Products::find('id',$id);
 		if($product==null){
 			return redirect('admin/products');

@@ -48,7 +48,7 @@ class OrdersController
 	public function changeActivePaid()
 	{
 		$id=$_GET['id'];
-		$order=Orders::find($id);
+		$order=Orders::find('id',$id);
 		if($order[0]->paid==1){
  		if(Orders::updateActivePaid(0,$id)){
 		     echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
@@ -64,7 +64,7 @@ class OrdersController
 	public function changeActiveShipped()
 	{
 		$id=$_GET['id'];
-		$order=Orders::find($id);
+		$order=Orders::find('id',$id);
 		if($order[0]->shipped==1){
 			if(Orders::updateActiveShipped(0,$id)){
 				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';

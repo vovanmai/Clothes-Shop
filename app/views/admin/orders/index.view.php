@@ -279,7 +279,10 @@ require dirname(__DIR__).'/require/header.view.php';
                         <?php echo $id;?>
                       </td>
                       <td class="text-center">
-                        <?php echo $username;?>
+                        <?php 
+                          if(!empty($username)) echo $username;
+                          else echo 'Khach vang lai';
+                        ?>
                       </td>
                       <td class="text-center">
                         <?php echo $fullname;?>

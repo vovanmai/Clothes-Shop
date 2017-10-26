@@ -173,7 +173,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                                 <?php echo number_format ($price).' VNĐ'; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="javascript:void(0)"  onclick="chageActiveProductInfo(<?php echo $id; ?>)" class="product_info_active" id="<?php echo $id; ?>">
+                                                <a href="javascript:void(0)"  onclick="chageActiveProductInfo(<?php echo $id; ?>)" class="product_info_active" id="<?php echo 'active_product_info-'.$id; ?>">
                                                     <img src="/public/admin/assets/images/<?php 
                                                     if($active==1){
                                                     echo "active.gif";
@@ -185,11 +185,11 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
                                             <td class="text-center">
                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                    <a class="btn btn-xs btn-info" href="/admin/product_info/edit?id=<?php echo $id; ?>">
+                                                    <a class="btn btn-xs btn-info" href="/admin/product_info/edit/<?php echo $id; ?>">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                         
-                                                    <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/product_info/delete?id=<?php echo $id; ?>">
+                                                    <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/product_info/delete/<?php echo $id; ?>">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </a>
                                                        

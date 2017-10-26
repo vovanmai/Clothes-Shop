@@ -203,7 +203,7 @@ require dirname(__DIR__).'/require/header.view.php';
                     </td>
                     <?php if($_SESSION['user'][0]->level==1){?>
                     <td class="text-center">
-                      <a href="javascript:void(0)"  class="edit_active" id="<?php echo $id; ?>">
+                      <a href="javascript:void(0)"  onclick="chageActiveUsers(<?php echo $id; ?>)" class="edit_active" id="<?php echo $id; ?>">
                         <img src="/public/admin/assets/images/<?php 
                         if($active==1){
                           echo "active.gif";

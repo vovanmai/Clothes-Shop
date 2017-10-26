@@ -105,20 +105,7 @@ $(document).ready(function() {
             return false;
         });
     });
-    $(".edit_active").click(function() {
-        var id = $(this).attr('id');
-        var idstring = "#" + id;
-        $.ajax({
-            url: "/admin/users/active",
-            type: "POST",
-            data: {
-                'id': id
-            },
-            success: function(data) {
-                $(idstring).html(data);
-            }
-        });
-    });
+    
     // ==================Validate Add users============
 
     //default value
@@ -520,22 +507,7 @@ $(document).ready(function() {
             }
         });
     });
-     $(".product_info_active").click(function() {
-        var id = $(this).attr('id');
-        var idstring = "#" + id;
-        $.ajax({
-            url: "/admin/product_info/active",
-            type: "GET",
-            data: {
-                'id': id
-            },
-            success: function(data) {
-                $(idstring).html(data);
-            }
-        });
-    });
-
-
+    
     //change active shipped order
     $(".edit_shipped_active").click(function() {
        var data=$(this).attr('id');
@@ -847,13 +819,13 @@ $("#quantity").blur(function() {
 
 
 // Edit 
-check_product_info_id_add=true;
-check_product_color_add=true;
-check_products_size_add=true;
-check_products_quantity_add=true;
+check_product_info_id_edit=true;
+check_product_color_edit=true;
+check_products_size_edit=true;
+check_products_quantity_edit=true;
 function check_products_edit()
 {
-    if(check_product_info_id_add&&check_product_color_add&&check_products_size_add&&check_products_quantity_add){
+    if(check_product_info_id_edit&&check_product_color_edit&&check_products_size_edit&&check_products_quantity_edit){
         $("#products_submit").removeAttr("disabled");
     }else{
         $("#products_submit").attr('disabled', true);
@@ -865,11 +837,11 @@ $("#product_info_id").blur(function() {
     product_info_id=$(this).val();
     if(product_info_id==0){
         $('#product_info_id_warning_msg').html('<span style="color:red"><strong>Product Info</strong> is not empty !</span>');
-        check_product_info_id_add=false;
+        check_product_info_id_edit=false;
         check_products_edit();
     }else{
         $('#product_info_id_warning_msg').html('');
-        check_product_info_id_add=true;
+        check_product_info_id_edit=true;
         check_products_edit();
     }
 }); 
@@ -878,11 +850,11 @@ $("#products_color").blur(function() {
     product_color=$(this).val();
     if(product_color==0){
         $('#products_color_warning_msg').html('<span style="color:red"><strong>Color</strong> is not empty !</span>');
-        check_product_color_add=false;
+        check_product_color_edit=false;
         check_products_edit();
     }else{
         $('#products_color_warning_msg').html('');
-        check_product_color_add=true;
+        check_product_color_edit=true;
         check_products_edit();
     }
 });
@@ -890,11 +862,11 @@ $("#products_size").blur(function() {
     products_size=$(this).val();
     if(products_size==0){
         $('#products_size_warning_msg').html('<span style="color:red"><strong>Size</strong> is not empty !</span>');
-        check_products_size_add=false;
+        check_products_size_edit=false;
         check_products_edit();
     }else{
         $('#products_size_warning_msg').html('');
-        check_products_size_add=true;
+        check_products_size_edit=true;
         check_products_edit();
     }
 });
@@ -903,16 +875,16 @@ $("#quantity").blur(function() {
     quantity=$(this).val();
     if(quantity==0){
         $('#products_quantity_warning_msg').html('<span style="color:red"><strong>Quantity</strong> is not empty !</span>');
-        check_products_quantity_add=false;
+        check_products_quantity_edit=false;
         check_products_edit();
     }else{
         if(isNaN(quantity)){
             $('#products_quantity_warning_msg').html('<span style="color:red"><strong>Quantity</strong> must a number!</span>');
-            check_products_quantity_add=false;
+            check_products_quantity_edit=false;
             check_products_edit();
         }else{
             $('#products_quantity_warning_msg').html('');
-            check_products_quantity_add=true;
+            check_products_quantity_edit=true;
             check_products_edit();
 
         }

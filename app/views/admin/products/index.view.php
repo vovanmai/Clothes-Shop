@@ -184,11 +184,11 @@ require dirname(__DIR__).'/require/header.view.php';
                                             </td>
                                             <td class="text-center">
                                                 <div class="hidden-sm hidden-xs btn-group">
-                                                    <a class="btn btn-xs btn-info" href="/admin/products/edit?id=<?php echo $id; ?>">
+                                                    <a class="btn btn-xs btn-info" href="/admin/products/edit/<?php echo $id; ?>">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                                     </a>
                         
-                                                    <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/products/delete?id=<?php echo $id; ?>">
+                                                    <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/products/delete/<?php echo $id; ?>">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </a>
                                                        
