@@ -30,9 +30,9 @@ class AdminProductsController
 		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,
 		'paging'=>$paging->gethtml(),'colors'=>$colors,'sizes'=>$sizes]);
 	}
-	public function destroy()
+	public function destroy($id)
 	{
-		$id=$_GET['id'];
+
 
 		if (empty(Products::checkDeleteConstrain('order_details',$id))) {
 			if(Products::delete($id)){

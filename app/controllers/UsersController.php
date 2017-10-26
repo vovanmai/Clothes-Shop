@@ -3,7 +3,6 @@ namespace app\controllers;
 use core\App;
 use core\Session;
 use app\models\Users;
-use app\models\Orders;
 use core\Pagination;
 
 class UsersController
@@ -198,10 +197,8 @@ class UsersController
 		
 	}
 
-public function destroy($id)
-	{	
-		if($_SESSION['user'][0]->level==1)
-		{
+	public function destroy($id) {	
+		if($_SESSION['user'][0]->level==1) {
 			if(Users::delete($id)){
 				$check = true;
 				$idOrder = Orders::getIdOrderByUser($id);
@@ -218,7 +215,6 @@ public function destroy($id)
 						break;
 					}
 				}
-
 				if ($check) {
 					Session::createSession('msg','Deleted Successfully!');
 				return redirect('admin/users');
@@ -230,7 +226,6 @@ public function destroy($id)
 
 		}
 	}
-	
 
 	public function search()
 	{
