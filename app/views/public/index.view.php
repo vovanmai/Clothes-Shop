@@ -52,7 +52,7 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                     </a>
                                                 </div>
                                                 <span class="name"><?php echo $item->name; ?></span>
-                                                <span class="price">$<?php echo $item->price; ?></span>
+                                                <span class="price"><?php echo number_format($item->price); ?> VND</span>
                                             </div>
     											<?php } 
                                             }else{
@@ -64,8 +64,8 @@ require dirname(__DIR__).'/public/require/header.view.php';
                                                 <div class="col-lg-12">
                                                     <div class="cover-pagination">
                                                         <?php 
-                                                        if(isset($paginghtml)){
-                                                            echo $paginghtml;
+                                                        if(isset($paging)){
+                                                            echo $paging;
                                                         }
                                                         ?>
                                                     </div>
@@ -77,7 +77,6 @@ require dirname(__DIR__).'/public/require/header.view.php';
                         </div>
                     </div>
             </section>
-            <input type="hidden" id="count" value="<?=$allpage?>" >
             <section id="hot-products">
 
             <?php

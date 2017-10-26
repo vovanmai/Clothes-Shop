@@ -4,86 +4,25 @@ use core\App;
 use core\Session;
 use app\models\Users;
 use app\models\Products_info;
+use app\models\Products;
 use app\models\Category;
 use core\Pagination;
 
 
 class AdminProductInfoController
 {
-
-public function index()
-{	
-if(!isset($_GET['page'])) {
-$limit = 10;
-$count=Products_info::count();
-$current_page = 1;
-$paging = new Pagination();
-$paging->init("product_info", $current_page, $limit, $count[0]->total_record);
-$products_info=Products_info::allPagination($current_page,$limit);
-$cats=Category::all();	
-return view('admin/product_info/index',['products_info'=>$products_info, 'paginghtml'=>$paging->html(),'cats'=>$cats]);
-} else {
-$current_page = $_GET['page'];
-$limit = 10;
-$count=Products_info::count();
-$paging = new Pagination();
-$paging->init("product_info", $current_page, $limit, $count[0]->total_record);
-$cats=Category::all();
-$products_info=Products_info::allPagination($current_page,$limit);
-$tbody = '';  
-foreach ($products_info as $item) {
-	$id=$item->id;
-	$image=$item->image;
-	$name=$item->name;
-	$cat_id=$item->cat_id;
-	$preview_text=$item->preview_text;
-	$price=$item->price;
-	$active=$item->active;
-	$tbody .= '   
-	<tr>
-		<td class="text-center">'.$id.'</td>
-		<td class="text-center">
-			<img class="avatar-index" src="/public/upload/product_info/'.$image.'" alt="">
-		</td>
-		<td class="text-center">'.$name.'</td>
-		<td class="text-center">';
-			foreach ($cats as $value) {
-				if($value->id==$cat_id){
-					$tbody .= $value->name;
-					break;
-				}
-			}
-			$tbody .= '</td>
-			<td class="text-center">'.$preview_text.'</td>
-			<td class="text-center">
-				'.number_format($price).' VNĐ
-			</td>
-			<td class="text-center">
-				<a href="javascript:void(0)" onclick="chageActiveProductInfo('.$id.')" class="product_info_active" id="'.$id.'">
-					<img src="/public/admin/assets/images/'; 
-					if($active==1){
-						$tbody .= 'active.gif';
-					}else{
-						$tbody .= 'deactive.gif';
-					}
-					$tbody .= '" alt=""></a></td>
-					<td class="text-center">
-						<div class="hidden-sm hidden-xs btn-group">
-							<a class="btn btn-xs btn-info" href="/admin/product_info/edit?id='.$id.'">
-								<i class="ace-icon fa fa-pencil bigger-120"></i>
-							</a>
-							<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ? \');" href="/admin/product_info/delete?id='.$id.'">
-								<i class="ace-icon fa fa-trash-o bigger-120"></i>
-							</a>
-						</div>
-					</td>
-				</tr>';
-			}
-			$paging_html =  $paging->html();
-			echo json_encode(array(
-				"tbody" => $tbody, 
-				"paging" => $paging_html));
-		}
+	public function index()
+	{	
+		$link='/admin/product_info?p={page}';
+		$limit = 10;
+		$count = Products_info::count();
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+		$paging = new Pagination();
+		$paging->init("",$link, $current_page, $limit, $count[0]->total_record);
+		$products_info=Products_info::allPagination($current_page,$limit);
+		$cats=Category::all();	
+		return view('admin/product_info/index',['products_info'=>$products_info,
+			'paging'=>$paging->gethtml(), 'cats'=>$cats]);
 	}
 	public function add()
 	{
@@ -125,19 +64,18 @@ foreach ($products_info as $item) {
 		$id=$_GET['id'];
 
 		if (empty(Products_info::checkDeleteConstrain('products',$id))) {
-			if(Colors::delete($id)){
+			if(Products_info::delete($id)){
 				Session::createSession('msg','Deleted Successfully!');
-				return redirect('admin/product_info');
+				return redirect('admin/products_info');
 			} 
 		} else {
 			Session::createSession('msg','Error Constrain with Products!');
-			return redirect('admin/product_info');
+			return redirect('admin/products_info');
 		}
 	}
 
-	public function edit()
+	public function edit($id)
 	{
-		$id=$_GET['id'];
 		$product_info=Products_info::find('id',$id);
 		if($product_info==null){
 			return redirect('admin/product_info');
@@ -190,8 +128,8 @@ foreach ($products_info as $item) {
 	public function changeProductInfoActive()
 	{
 		$id=$_GET['id'];
-		$product_info=Products_info::find('id',$id)[0];
-		if($product_info->active==1){
+		$product_info=Products_info::find('id',$id);
+		if($product_info[0]->active==1){
 			if(Products_info::updateActive($id,0)){
 				echo '<img src="/public/admin/assets/images/deactive.gif" alt="">';
 			}

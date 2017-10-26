@@ -91,6 +91,17 @@ require dirname(__DIR__).'/require/header.view.php';
                         <!-- PAGE CONTENT BEGINS -->
                         <form  action="/admin/products/add" method="post" enctype="multipart/form-data">
                             <div class="form-group">
+                                <?php 
+                                    if(isset($_SESSION['msg'])){
+                                ?>
+                                <div style="margin-bottom: 10px; margin-top: 10px;">
+                                    <span style="color:red;font-weight:bold;">
+                                    <?php 
+                                        echo $_SESSION['msg'];
+                                        unset($_SESSION['msg']);
+                                     ?></span>
+                                </div>
+                                <?php } ?>
                                 <label for="form-field-select-3" style="font-weight:bold;">Product Info :</label>
                                 <br />
                                 <select class="chosen-select form-control" name="product_info_id_add" id="product_info_id" data-placeholder="Choose a State...">
@@ -147,7 +158,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                 </div>
                             </div>            
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  disabled id="products_submit" class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  disabled id="products_submit123" class="btn btn-success">Add</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

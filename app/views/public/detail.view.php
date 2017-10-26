@@ -16,7 +16,7 @@
                             <p class="brand-product">Adidas</p>
                             <p class="name-product"><?php echo $productInfo[0]->name;?></p>
                             <p class="id-product" id ="notify" style="color: red"></p>
-                            <p class="price-product">$ <?php echo $productInfo[0]->price;?></p>
+                            <p class="price-product"><?php echo $productInfo[0]->price;?> VND</p>
                             <div class="quantity">
                                 <button class="btn-sub" id ='sub' >-</button>
                                 <span id='number'>
