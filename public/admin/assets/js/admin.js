@@ -1,3 +1,31 @@
+// Change active product_info
+function chageActiveProductInfo(id){
+    $.ajax({
+        url: "/admin/product_info/active",
+        type: "GET",
+        data: {
+            'id': id
+        },
+        success: function(data) {
+            $('#active_product_info-'+id).html(data);
+        }
+    });
+}
+function chageActiveUsers(id){
+    var idstring = "#"+id;
+    $.ajax({
+        url: "/admin/users/active",
+        type: "POST",
+        data: {
+            'id': id
+        },
+        success: function(data) {
+            $(idstring).html(data);
+        }
+    });
+}
+
+
 $(document).ready(function() {
     //prevent submitting search form's input field value if it empty
     $('#search-orders').submit(function() {

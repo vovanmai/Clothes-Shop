@@ -39,7 +39,11 @@ class AdminCatController
 
 	public function edit($id)
 	{
+
 		$arrCat=Category::find('id',$id);
+		if(empty($arrCat)){
+			redirect('admin/cat');
+		}
 		return view('admin/cat/edit',['arrCat'=>$arrCat]);
 	}
 
