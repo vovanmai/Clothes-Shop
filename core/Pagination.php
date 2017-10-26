@@ -115,7 +115,7 @@ class Pagination
         }
         return $p;
     }
-
+    
     public function ajaxhtml()
     {   
         $p = '';
