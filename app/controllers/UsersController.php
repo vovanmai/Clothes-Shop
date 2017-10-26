@@ -196,11 +196,10 @@ class UsersController
 		
 	}
 
-	public function destroy()
+	public function destroy($id)
 	{	
 		if($_SESSION['user'][0]->level==1)
 		{
-			$id=$_GET['id'];
 			if(Users::delete($id)){
 				Session::createSession('msg','Deleted Successfully!');
 				return redirect('admin/users');
