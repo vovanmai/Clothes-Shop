@@ -158,7 +158,7 @@ require dirname(__DIR__).'/require/header.view.php';
                                 </div>
                             </div>            
                             <div class="form-group text-center">
-                                <button type="submit" name="submit"  disabled id="products_submit" class="btn btn-success">Add</button>
+                                <button type="submit" name="submit"  disabled id="products_submit123" class="btn btn-success">Add</button>
                             </div>
                         </form>
                         <!-- PAGE CONTENT ENDS -->

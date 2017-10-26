@@ -771,29 +771,30 @@ $("#product_info_edit_image").blur(function() {
     }
 });
 
-// ================PRODUCTS INFO===============
+// ================PRODUCTS===============
 //Add
-check_product_info_id_add=false;
+check_products_product_info_id_add=false;
 check_product_color_add=false;
 check_products_size_add=false;
 check_products_quantity_add=false;
 function check_products_add()
 {
-    if(check_product_info_id_add&&check_product_color_add&&check_products_size_add&&check_products_quantity_add){
-        $("#products_submit").removeAttr("disabled");
+    
+    if(check_products_product_info_id_add&&check_product_color_add&&check_products_size_add&&check_products_quantity_add){
+        $("#products_submit123").removeAttr("disabled");
     }else{
-        $("#products_submit").attr('disabled', true);
+        $("#products_submit123").attr('disabled', true);
     }
 }
 $("#product_info_id").blur(function() {
     product_info_id=$(this).val();
     if(product_info_id==0){
         $('#product_info_id_warning_msg').html('<span style="color:red"><strong>Product Info</strong> is not empty !</span>');
-        check_product_info_id_add=false;
+        check_products_product_info_id_add=false;
         check_products_add();
     }else{
         $('#product_info_id_warning_msg').html('');
-        check_product_info_id_add=true;
+        check_products_product_info_id_add=true;
         check_products_add();
     }
 }); 
@@ -825,7 +826,7 @@ $("#products_size").blur(function() {
 
 $("#quantity").blur(function() {
     quantity=$(this).val();
-    if(quantity==0){
+    if(quantity==''){
         $('#products_quantity_warning_msg').html('<span style="color:red"><strong>Quantity</strong> is not empty !</span>');
         check_products_quantity_add=false;
         check_products_add();
