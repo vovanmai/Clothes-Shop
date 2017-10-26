@@ -60,8 +60,7 @@ class AdminProductInfoController
 	}
 
 
-	public function destroy() {
-		$id=$_GET['id'];
+	public function destroy($id) {
 
 		if (empty(Products_info::checkDeleteConstrain('products',$id))) {
 			if(Products_info::delete($id)){
