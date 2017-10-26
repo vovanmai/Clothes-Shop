@@ -403,25 +403,24 @@ class PublicController
   public function getCat() {
             $gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
             $cats = Category::find('gender',$gender);
-            $html = 'abc';
+            $html .= '<option value="-1">----All Kinds----</option>';
             foreach($cats as $item) {
                 $html .= '<option value="'.$item->id.'">'.$item->name.'</option>';
             }
             echo $html;
         }
         public function searchProduct() {
-            if(isset($_GET['style']) && isset($_GET['style'])) {
+            if(isset($_GET['gender']) || isset($_GET['style']) || isset($_GET['price'])) {
                 $style = $_GET['style'];
                 $price = $_GET['price'];
+                $gender = $_GET['gender'];
                 $current_page = !empty($_GET['page'])? $_GET['page'] : 1;
-                $ArrProducts = Products_info::getProductsSearch(0,0,$style, $price);
+                $ArrProducts = Products_info::getProductsSearch(0,0,$style, $price, $gender);
                 $count = count($ArrProducts);
                 $limit = 12;
-                $products_info = Products_info::getProductsSearch($current_page,
-                $limit, $style, $price);
+                $products_info = Products_info::getProductsSearch($current_page,$limit, $style, $price, $gender);
                 $paging = new Pagination();
-                $paging->init("search","",
-                $current_page, $limit, $count);
+                $paging->init("search","",$current_page, $limit, $count);
                 echo 
                 '<div class="box-title">Featutes</div>';    
                     foreach($products_info as $item)  {
@@ -432,7 +431,7 @@ class PublicController
                         </a>
                     </div>
                     <span class="name">'.$item->name.'</span>
-                    <span class="price">'.$item->price.' VND</span>
+                    <span class="price">'.number_format($item->price).' VND</span>
                 </div>';
                      } 
                 echo '<div class="row">
