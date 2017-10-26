@@ -110,23 +110,25 @@ public function index(){
 
 
 public function detail($product_info_id)  {  
-
-  $view = 'view-'.$product_info_id;
-  if(!isset($_COOKIE['"'.$view.'"']) ) {
-    if (Products_info::updateView($product_info_id)) {
-      setcookie('"'.$view.'"',$product_info_id, time() + 300);
-    }
-  }
-
-  $color = Products::getColor($product_info_id);
+$color = Products::getColor($product_info_id);
   $size = Products::getSize($product_info_id);
   $productInfo = Products_info::find('id',$product_info_id);
   $gender_men_cats=Category::find('gender',1);
   $gender_women_cats=Category::find('gender',0);
-  return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
-    'gender_men_cats'=>$gender_men_cats,
-    'gender_women_cats'=>$gender_women_cats]);
-
+ 
+   if (empty($productInfo)) {
+            return view('error');
+        } else {
+      $view = 'view-'.$product_info_id;
+        if(!isset($_COOKIE['"'.$view.'"']) ) {
+          if (Products_info::updateView($product_info_id)) {
+            setcookie('"'.$view.'"',$product_info_id, time() + 300);
+          }
+     }
+         return view('public/detail',['size' =>$size,'color'=>$color,'productInfo'=>$productInfo,
+        'gender_men_cats'=>$gender_men_cats,
+        'gender_women_cats'=>$gender_women_cats]);
+    }
 }
 
 public function PlusNumber()
