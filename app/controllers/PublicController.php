@@ -290,7 +290,6 @@ public function addCart()
     public function check() {
       if (isset($_POST['smBuy'])) {
         //check stock
-       $arrProductsExist= array();
        $checkStock=true;
        if ( Session::getSession('cart') !=null) {
         foreach (Session::getSession('cart') as $key => $value) {
