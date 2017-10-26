@@ -1,51 +1,25 @@
-
-// ===========================================================================
-function paging(controller,page) {
-    $.ajax({
-        url: '/admin/'+controller,
-        type: 'GET',
-        dataType: 'json',
-        data:'page='+page,            
-        success: function(result) {
-            $('tbody').html(result.tbody);
-            $('#paging').html(result.paging);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
-}
-
-// Change active product_info
-function chageActiveProductInfo(id){
-    $.ajax({
-        url: "/admin/product_info/active",
-        type: "GET",
-        data: {
-            'id': id
-        },
-        success: function(data) {
-            $('#active_product_info-'+id).html(data);
-        }
-    });
-}
-function chageActiveUsers(id){
-    var idstring = "#"+id;
-    $.ajax({
-        url: "/admin/users/active",
-        type: "POST",
-        data: {
-            'id': id
-        },
-        success: function(data) {
-            $(idstring).html(data);
-        }
-    });
-}
-
-
 $(document).ready(function() {
+    //prevent submitting search form's input field value if it empty
+    $('#search-orders').submit(function() {
+        $(this).find('select:not(:has(option:selected[value!="-1"]))')
+        .attr('name', '');
+        $(this)
+        .find('input[name]')
+        .filter(function () {
+            return !this.value;
+        })
+        .prop('name', '');
+    });
+    $('#search-users').submit(function() {
+        $(this).find('select:not(:has(option:selected[value!="-1"]))')
+        .attr('name', '');
+        $(this)
+        .find('input[name]')
+        .filter(function () {
+            return !this.value;
+        })
+        .prop('name', '');
+    });
     //change active users
     $(document).on('click', '.edit_color', function(){
         var color_id = $(this).attr("id");

@@ -31,36 +31,42 @@ class Products_info extends Model
 		return App::get('database')->query_fetch($query);
 	}
 
-	public static function getProductInfoByCat($id)
+	public static function getProductInfoByCat($id,$current_page,$limit)
 	{
-		$query="SELECT * FROM cat INNER JOIN products_info ON cat.id=products_info.cat_id WHERE cat.active=1 AND products_info.cat_id=$id";
+		$start = ($current_page - 1) * $limit;
+		$query="SELECT * FROM cat INNER JOIN products_info ON cat.id=products_info.cat_id 
+		WHERE cat.active=1 AND products_info.cat_id = $id";
+		if($current_page != 0 && $limit != 0) {
+			$query .= " LIMIT $start, $limit";
+		}
 		return App::get('database')->query_fetch($query);
 	} 
 
 	public static function getProductsSearch($current_page, $limit, $style, $price)
 	{
-		$start = ($current_page - 1) * $limit;
 		$query = "SELECT * from products_info where cat_id =? and products_info.active=1";
 		switch ($price) {
 			case 0:
-				$query.=' and price between 0 and 200';
+				$query.=' and price between 0 and 200000';
 				break;
 			case 1:
-				$query.=' and price between 200 and 500';
+				$query.=' and price between 200000 and 500000';
 				break;
 			case 2:
-				$query.=' and price between 500 and 800';
+				$query.=' and price between 500000 and 1000000';
 				break;
 			case 3:
-				$query.=' and price > 800';
+				$query.=' and price > 1000000';
 				break;
 		}
+		$start = ($current_page - 1) * $limit;
 		 $arr=array(
 		             'style'=>$style,
 		 );
-		$query.=' limit ?, ?';
-		$arr['start']=$start;
-		$arr['limit']=$limit;
+		 if($current_page!=0 && $limit!=0) {
+			$start = ($current_page - 1)*$limit;
+			$query .= " limit $start, $limit";
+		}
 		return App::get('database')->query_fetch_params($query,$arr);
 	}
 

@@ -13,101 +13,43 @@ class Orders extends Model
 	public static function allOrdersPagination($current_page, $limit)
 	{
 		$start = ($current_page - 1) * $limit;
-		$query='select *,orders.id as id_order,users.id as id_user, payment.id as id_payment, orders.id as id_order from '.static::$table.' inner join users on '.static::$table.'.user_id=users.id inner join payment on payment.id='.static::$table.'.payment_id limit ?, ?';
-		return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
+		$query='select *,orders.id as id_order,users.id as id_user, payment.id 
+		as id_payment, orders.id as id_order from '.static::$table.' inner join 
+		users on '.static::$table.'.user_id=users.id inner join payment 
+		on payment.id='.static::$table.'.payment_id';
+		if($current_page != 0 && $limit != 0) {
+			$query .= " limit $start, $limit";
+		}
+			return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
-
-	public static function allSearch($current_page, $limit,$search_User)
-	{
-		$start = ($current_page - 1) * $limit;
-
-		$fullname=$search_User['fullname'];
-		$paid=$search_User['paid'];
-		$shipped=$search_User['shipped'];
-		$status=$search_User['status'];
-		$date_order=$search_User['date_order'];
-		$payment_id=$search_User['payment'];
-		$query='select *,orders.id as id_order, users.id as id_user from '.static::$table.' inner join users on users.id=orders.user_id inner join payment on orders.payment_id=payment.id where 1'; 
-		$params=array();
-		if($fullname!='')
-		{
-			$query.=' and fullname like concat("%", ?, "%")';
-			$params['fullname']=$fullname;
-		}
-		if($paid!=-1)
-		{
-			$query.=' and paid =?';
-			$params['paid']=$paid;
-		}
-		if($shipped!=-1)
-		{
-			$query.=' and shipped = ?';
-			$params['shipped']=$shipped;
-		}
-		if($status!=-1)
-		{
-			$query.=' and status = ?';
-			$params['status']=$status;
-		}
-		if($payment_id!=-1)
-		{
-			$query.=' and payment_id = ?';
-			$params['payment_id']=$payment_id;
-		}
-		if($date_order!='')
-		{
-			$query.=' and date_order = ?';
-			$params['date_order']=$date_order;
-		}
-		
-		$query.=' limit ?, ?';
-		$params['start']=$start;
-		$params['limit']=$limit;
-		return App::get('database')->query_fetch_params($query,$params);
-	}
-
 	
-	public static function search($search_Order)
+	public static function search($search_Order,$current_page,$limit)
 	{
-		$fullname=$search_Order['fullname'];
-		$paid=$search_Order['paid'];
-		$shipped=$search_Order['shipped'];
-		$status=$search_Order['status'];
-		$date_order=$search_Order['date_order'];
-		$payment_id=$search_Order['payment'];
-		$query='select *, orders.id as id_order,users.id as id_user from '.static::$table.' inner join users on users.id=orders.user_id inner join payment on orders.payment_id=payment.id where 1'; 
+		$query= 'select *, orders.id as id_order,users.id as id_user from 
+		'.static::$table.' inner join users on users.id = orders.user_id 
+		inner join payment on orders.payment_id=payment.id where 1'; 
 		$params=array();
-		if($fullname!='')
-		{
-			$query.=' and fullname like concat("%", ?, "%")';
-			$params['fullname']=$fullname;
-		}
-		if($paid!=-1)
-		{
-			$query.=' and paid =?';
-			$params['paid']=$paid;
-		}
-		if($shipped!=-1)
-		{
-			$query.=' and shipped = ?';
-			$params['shipped']=$shipped;
-		}
-		if($status!=-1)
-		{
-			$query.=' and status = ?';
-			$params['status']=$status;
-		}
-		if($payment_id!=-1)
-		{
-			$query.=' and payment_id = ?';
-			$params['payment_id']=$payment_id;
-		}
-		if($date_order!='')
-		{
-			$query.=' and date(date_order) = ?';
-			$params['date_order'] = $date_order;
-		}
+		foreach(array_keys($search_Order) as $key) {	
+			switch ($key) {
+				case 'fullname':
+				$query.=' and fullname like concat("%", ?, "%")';
+				$params['fullname'] = $search_Order['fullname'];
+				break;
 
+				case 'date_order':
+				$query.=' and date(date_order) = ?';
+				$params['date_order'] = $search_Order['date_order'];
+				break;
+				
+				default:
+				$query.=" and $key = ?";
+				$params[$key]=$search_Order[$key];
+			}
+		}
+		if($current_page!=0 && $limit!=0) {
+			$start = ($current_page - 1)*$limit;
+			$query .= " limit $start, $limit";
+		}
 		return App::get('database')->query_fetch_params($query,$params);
 	}
 

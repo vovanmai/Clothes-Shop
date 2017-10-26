@@ -563,15 +563,7 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px 0; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
-        display: block;
-        width: 100%;
-        height: 30px;
-        border: 1px solid black;
-        margin: 10px 0; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
-        height: 80px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -1352,15 +1344,7 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
-        display: block;
-        width: 90%;
-        height: 30px;
-        border: 1px solid black;
-        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
-        height: 80px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -1886,14 +1870,14 @@ a {
         padding: 10px; }
         .wrapper #content #best-sellers .container-full .features .products .product .cover-img {
           width: 100%;
-          height: 290px;
+          height: 80%;
           position: relative; }
           .wrapper #content #best-sellers .container-full .features .products .product .cover-img img {
-            width: 100%; height: 100%; }
+            width: 100%; }
           .wrapper #content #best-sellers .container-full .features .products .product .cover-img .cover-btns {
             width: 100%;
             position: absolute;
-            bottom: 0px;
+            bottom: 5px;
             left: 0;
             display: none; }
             .wrapper #content #best-sellers .container-full .features .products .product .cover-img .cover-btns .btn-add-cart {
@@ -2305,15 +2289,7 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
-        display: block;
-        width: 90%;
-        height: 30px;
-        border: 1px solid black;
-        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
-        height: 80px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -2703,52 +2679,27 @@ a {
         .wrapper #content #best-sellers .container-full .menu-vertical .btn-search:hover {
           color: #fff;
           background-color: #000; }
-          .wrapper #content #best-sellers .container-full .features .products .cover-pagination{
-            display: block;
-            text-align: center;
-
-          }
-          .wrapper #content #best-sellers .container-full .features .products .pagination{
-              list-style: none;
-              margin-top:30px;
-              margin-left:300px;
-          }
-          .wrapper #content #best-sellers .container-full .features .products .pagination li{
-              float: left ;
-              width: 50px;
-              height: 40px;
-              
-              margin-right: 10px;
-              text-align: center;
-          }
-          .wrapper #content #best-sellers .container-full .features .products .pagination li a{
-            
-            
-          }
     .wrapper #content #best-sellers .container-full .features .products {
       margin-top: 30px;
       position: relative;
       border-top: 1px solid black;
-      padding-top: 20px;
-       }
+      padding-top: 20px; }
       .wrapper #content #best-sellers .container-full .features .products .product {
         width: 25%;
         float: left;
         padding: 10px; }
         .wrapper #content #best-sellers .container-full .features .products .product .cover-img {
           width: 100%;
-          height: 290px;
+          height: 80%;
           position: relative; }
           .wrapper #content #best-sellers .container-full .features .products .product .cover-img:hover {
             opacity: 0.7; }
           .wrapper #content #best-sellers .container-full .features .products .product .cover-img img {
-            width: 100%;
-          height: 100%; }
+            width: 100%; }
           .wrapper #content #best-sellers .container-full .features .products .product .cover-img .cover-btns {
             width: 100%;
-            bottom:0;
             position: absolute;
-            
+            bottom: 5px;
             left: 0;
             display: none; }
             .wrapper #content #best-sellers .container-full .features .products .product .cover-img .cover-btns .btn-add-cart {
@@ -2931,6 +2882,8 @@ a {
         margin: 20px 0; }
         .wrapper #content #details-product .right .info-product h4 {
           margin: 10px 0; }
+    .wrapper #content #details-product fb-comments {
+      margin-left: 40px; }
   .wrapper #content #login-register {
     position: fixed;
     top: 30px;
@@ -3096,10 +3049,7 @@ a {
             width: 100%; }
         .wrapper #content #cart .box-content ul.list-products li .product-order .details-product a {
           font-size: 16px;
-          text-decoration: none;
-          
-           }
-           
+          text-decoration: none; }
         .wrapper #content #cart .box-content ul.list-products li .product-order .btn-sub {
           width: 30px;
           height: 30px;
@@ -3168,15 +3118,7 @@ a {
         height: 30px;
         border: 1px solid black;
         margin: 10px; }
-        .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
-        display: block;
-        width: 90%;
-        height: 30px;
-        border: 1px solid black;
-        margin: 10px; }
       .wrapper #content #checkout .box-content #form-info-client textarea[name="address"] {
-        height: 80px; }
-      .wrapper #content #checkout .box-content #form-info-client textarea[name="note"] {
         height: 80px; }
       .wrapper #content #checkout .box-content .payments .visa,
       .wrapper #content #checkout .box-content .payments .atm,
@@ -3319,5 +3261,6 @@ a {
       .wrapper #footer .copyright span {
         font-size: 16px;
         color: white; } }
-
+        .cover-pagination li { width: 40px; height: 40px; float: left; margin-right: 5px;}
+        .cover-pagination ul { list-style: none; }
 /*# sourceMappingURL=style.css.map */

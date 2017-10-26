@@ -17,76 +17,18 @@ class AdminProductsController
 	 
 	public function index()
 	{	
+		$link='/admin/products?p={page}';
 		$product_info=Products_info::all();
 		$colors=Colors::all();
 		$sizes=Sizes::all();
 		$paging = new Pagination();
 		$count=Products::count();
 		$limit = 10;
-		if(!isset($_GET['page'])) {
-			$current_page = 1;
-			$paging->init("products",$current_page, $limit, $count[0]->total_record);
-			$products=Products::getAllPagination($current_page,$limit);
-			return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,'paginghtml'=>$paging->html(),'colors'=>$colors,'sizes'=>$sizes]);
-		} else {
-			$current_page = $_GET['page'];
-			$paging->init("products",$current_page, $limit, $count[0]->total_record);
-			$products=Products::getAllPagination($current_page,$limit);
-			$tbody = '';
-			foreach ($products as $item) {
-					$id=$item->id;
-					$product_info_id=$item->product_info_id;
-					$color_id=$item->color_id;
-					$size_id=$item->size_id;
-					$quantity=$item->quantity;
-			$tbody .= 		
-			'<tr>
-			<td class="text-center">'.$id.'</td>
-			<td class="text-center">';
-					foreach ($product_info as $key => $item) {
-						$id_info=$item->id;
-						$name=$item->name;
-						if($product_info_id==$id_info){
-							$tbody .= $name;
-						}
-					}
-					$tbody .= '</td>
-			<td class="text-center">';
-				foreach ($colors as $key => $item) {
-                    $name=$item->name;
-                    if($item->id==$color_id){
-                        $tbody.=$name;
-                    }
-                }
-            $tbody.='</td>
-			<td class="text-center">';
-				foreach ($sizes as $key => $item) {
-                    $name=$item->size;
-                    if($item->id==$size_id){
-                        $tbody.=$name;
-                        break;
-                    }
-                }
-			$tbody.='</td>
-			<td class="text-center">'.$quantity.'</td>
-			<td class="text-center">
-				<div class="hidden-sm hidden-xs btn-group">
-					<a class="btn btn-xs btn-info" href="/admin/products/edit/'.$id.'">
-						<i class="ace-icon fa fa-pencil bigger-120"></i>
-					</a>
-					<a class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure to delete ? \');" 
-					href="/admin/products/delete/'.$id.'">
-						<i class="ace-icon fa fa-trash-o bigger-120"></i>
-					</a>
-				</div>
-			</td>
-		</tr>';
-		 }
-		 $paging_html =  $paging->html();
-		 echo json_encode(array(
-			"tbody" => $tbody, 
-			"paging" => $paging_html));
-		}
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+		$paging->init("",$link,$current_page, $limit, $count[0]->total_record);
+		$products=Products::getAllPagination($current_page,$limit);
+		return view('admin/products/index',['products'=>$products,'product_info'=>$product_info ,
+		'paging'=>$paging->gethtml(),'colors'=>$colors,'sizes'=>$sizes]);
 	}
 	public function destroy($id)
 	{	

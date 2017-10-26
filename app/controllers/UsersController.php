@@ -12,87 +12,16 @@ class UsersController
 	}
 	public function index()
 	{
+		$link='/admin/users?p={page}';
 		$limit = 10;
-		$count=Users::count();
+		$count = Users::count();
 		$paging = new Pagination();
-		if(!isset($_GET['page'])) {
-			$current_page = 1;
+		$current_page = isset($_GET['p']) ? $_GET['p'] : 1;
 
-			$paging->init("users", $current_page, $limit, $count[0]->total_record);
-			$users=Users::allPagination($current_page,$limit);	
-			return view('admin/users/index',['users'=>$users, 'paginghtml'=>$paging->html()]);
-		} else {
-			$current_page = $_GET['page'];
-
-			$paging->init("users", $current_page, $limit, $count[0]->total_record);
-			$users=Users::allPagination($current_page,$limit);
-			$tbody = '';
-			foreach($users as $item){
-				$id=$item->id;
-				$username=$item->username;
-				$fullname=$item->fullname;
-				$phone=$item->phone;
-				$address=$item->address;
-				$level=$item->level;
-				$avatar=$item->avatar;
-				$active=$item->active;
-				$tbody .= '<tr>
-				  <td class="text-center">'.$id.'</td>
-				  <td class="text-center">
-					<img class="avatar-index" src="/public/upload/avatar/';
-					 if($avatar=='') {
-						$tbody .= "default.png";
-						}  else {
-						$tbody .= $avatar;
-						}
-				$tbody .='" alt=""></td>
-				  <td class="text-center">'.$username.'</td>
-				  <td class="text-center">'.$fullname.'</td>
-				  <td class="text-center">'.$phone.'</td>
-				  <td class="text-center">'.$address.'</td>
-				  <td class="text-center">';
-					if($level==1){
-						$tbody .= 'admin';
-					}else if($level==2){
-						$tbody .= 'employee';
-					}else{
-					    $tbody .= 'customer';
-					}
-				$tbody .='</td>';
-				 if($_SESSION['user'][0]->level==1){
-					$tbody .='	 
-				  <td class="text-center">
-					<a href="javascript:void(0)" onclick="chageActiveUsers('.$id.')" class="edit_active" id="'.$id.'">
-					  <img src="/public/admin/assets/images/'; 
-					  if($active==1){
-						$tbody .='active.gif';
-					  }else{
-						$tbody .='deactive.gif';
-					  }
-					  $tbody .='" alt=""></a>
-				  </td>';
-				}
-				$tbody .='<td class="text-center">
-					<div class="hidden-sm hidden-xs btn-group">
-							<a class="btn btn-xs btn-info" href="/admin/users/edit/'.$id.'">
-							  <i class="ace-icon fa fa-pencil bigger-120"></i>
-							</a>';
-							if($level!=3){
-								$tbody .='<a class="btn btn-xs btn-danger" 
-								onclick="return confirm(\'Are you sure to delete ?\');" 
-								href="/admin/users/delete?id='.$id.'">
-								<i class="ace-icon fa fa-trash-o bigger-120"></i>
-							  </a>';
-							   }
-							   $tbody .= '</div>
-						  </td>
-						</tr>';
-			}
-			$paging_html =  $paging->html();
-			echo json_encode(array(
-				"tbody" => $tbody, 
-			   "paging" => $paging_html));
-		}
+		$paging->init("",$link, $current_page, $limit, $count[0]->total_record);
+		$users=Users::allPagination($current_page,$limit);	
+		return view('admin/users/index',['users'=>$users, 'paging'=>$paging->gethtml()]);
+		
 	}
 	public function add()
 	{
@@ -267,14 +196,28 @@ class UsersController
 		
 	}
 
-	public function destroy()
-	{	
-		if($_SESSION['user'][0]->level==1)
-		{
-			$id=$_GET['id'];
+	public function destroy($id) {	
+		if($_SESSION['user'][0]->level==1) {
 			if(Users::delete($id)){
-				Session::createSession('msg','Deleted Successfully!');
+				$check = true;
+				$idOrder = Orders::getIdOrderByUser($id);
+				foreach ($idOrder as $key => $value) {
+					if (Orders::deleteOrderDetail($value->id)) {
+						if (Orders::deleteOrderByUser($id)) {
+							continue;
+						} else {
+							$check = false;
+							break;
+						}
+					} else {
+						$check = false;
+						break;
+					}
+				}
+				if ($check) {
+					Session::createSession('msg','Deleted Successfully!');
 				return redirect('admin/users');
+				}
 			} 
 		} else {
 			Session::createSession('msg','Non-permission');
@@ -285,25 +228,35 @@ class UsersController
 
 	public function search()
 	{
-			if(isset($_REQUEST['search'])||isset($_REQUEST['username']))
-			{
-				$username=$_REQUEST['username'];
-				$fullname=$_REQUEST['fullname'];
-				$active=$_REQUEST['active'];
-				$level=$_REQUEST['level'];
-				$search_User = array(
-					'username' =>$username, 
-					'fullname' =>$fullname, 
-					'active' =>$active, 
-					'level' =>$level
-					);
-				$users = Users::search($search_User);	
-				return view('admin/users/index',['users'=>$users,'search_User'=>$search_User]);
-			} else {
-				return redirect('admin/users');
-
+		$username = isset($_GET['username']) ? $_GET['username']: '';
+		$fullname = isset($_GET['fullname']) ? $_GET['fullname']: '';
+		$active = isset($_GET['active']) ? $_GET['active']: -1;
+		$level = isset($_GET['level']) ? $_GET['level']: -1;
+		$search_User = array(
+			'username' =>$username, 
+			'fullname' =>$fullname, 
+			'active' =>$active, 
+			'level' =>$level
+			);
+		foreach(array_keys($search_User) as $key) {				
+			if ($search_User[$key]=='' || $search_User[$key]==-1) {
+				unset($search_User[$key]);
+			}
 		}
-
+		if(!empty($search_User)) {
+			$current_page = isset($_GET['p']) ? $_GET['p']: 1;
+			$limit = 10;
+			$params=http_build_query($search_User);
+			$link = "/admin/users/search?$params&p={page}";
+			$paging = new Pagination();
+			$all_pages = count(Users::search($search_User,0,0));
+			$paging->init("",$link,$current_page, $limit, $all_pages);
+			$users = Users::search($search_User, $current_page, $limit);
+			return view('admin/users/index',['users'=>$users, 
+			'search_User'=>$search_User,'paging'=>$paging->gethtml()]);
+		} else {
+			return redirect('admin/users');
+		}
 	}
 
 	public function checkUsername()

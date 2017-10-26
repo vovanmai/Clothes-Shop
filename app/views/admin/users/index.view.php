@@ -61,57 +61,58 @@ require dirname(__DIR__).'/require/header.view.php';
                   <div class="row text-center">
                     <div class="col-xs-12">
                       <!-- PAGE CONTENT BEGINS -->
-                      <form class="form-horizontal" role="form" action="/admin/users/search" method="post">
+                      <form class="form-horizontal" id="search-users" role="form" action="/admin/users/search" method="get">
                         <?php
-                        $username='';
-                        $fullname='';
-                        $active=-1;
-                        $level=0;
+                        $search_key = array(
+                          'username'  => '',
+                          'fullname'   => '',
+                          'active'    => -1,
+                          'level'     => -1,
+                        );
                         if(isset($search_User))
                         {
-                          $username=$search_User['username'];
-                          $fullname=$search_User['fullname'];
-                          $active=$search_User['active'];
-                          $level=$search_User['level'];
+                          foreach(array_keys($search_User) as $key) {
+                            $search_key[$key] = $search_User[$key];
+                          }
                         }
                         ?>
                         <div class="row">
                           <div class="col-xs-3">
                            <div class="form-group">
                              <div class="pos-rel">
-                              <input class="typeahead scrollable" name="username" type="text" placeholder="Username" value="<?php echo $username; ?>" />
+                              <input class="typeahead scrollable" name="username" type="text" placeholder="Username" value="<?=$search_key['username']?>" />
                             </div>
                           </div>
                         </div>
                         <div class="col-xs-3">
                          <div class="form-group">
                            <div class="pos-rel">
-                            <input class="typeahead scrollable" name="fullname" type="text" value="<?php echo $fullname; ?>" placeholder="Fullname" />
+                            <input class="typeahead scrollable" name="fullname" type="text" value="<?= $search_key['fullname']; ?>" placeholder="Fullname" />
                           </div>
                         </div>
                       </div>
                       <div class="col-xs-2">
                        <div class="form-group">
                          <select id="active" name="active" class="multiselect">
-                          <option <?php if($active==-1) echo 'selected="selected"';?> value="-1">--Active--</option>
-                          <option <?php if($active==1) echo 'selected="selected"';?> value="1">Active</option>
-                          <option <?php if($active==0) echo 'selected="selected"';?> value="0">Non-Active</option>
+                          <option <?=$search_key['active'] == -1 ? 'selected="selected"':''?> value="-1">--Active--</option>
+                          <option <?=$search_key['active'] == 1 ? 'selected="selected"':''?> value="1">Active</option>
+                          <option <?=$search_key['active'] == 0 ? 'selected="selected"':''?> value="0">Non-Active</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-2">
                      <div class="form-group">
                        <select id="level" name="level" class="multiselect" >
-                        <option <?php if($level==0) echo 'selected="selected"';?> value="0">--Level--</option>
-                        <option <?php if($level==1) echo 'selected="selected"';?> value="1">Admin</option>
-                        <option <?php if($level==2) echo 'selected="selected"';?> value="2">Employee</option>
-                        <option <?php if($level==3) echo 'selected="selected"';?> value="3">Customer</option>
+                        <option <?=$search_key['level'] == -1 ? 'selected="selected"':''?> value="-1">--Level--</option>
+                        <option <?=$search_key['level'] == 1 ? 'selected="selected"':''?> value="1">Admin</option>
+                        <option <?=$search_key['level'] == 2 ? 'selected="selected"':''?> value="2">Employee</option>
+                        <option <?=$search_key['level'] == 3 ? 'selected="selected"':''?> value="3">Customer</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-xs-2">
                     <div class="form-group">
-                      <button class="btn btn-success  fa fa-plus-square fa-lg" type="submit" name="search">Search</button>
+                      <button class="btn btn-success  fa fa-plus-square fa-lg" type="submit">Search</button>
                     </div>
                   </div>
                 </div>
@@ -223,9 +224,9 @@ require dirname(__DIR__).'/require/header.view.php';
                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                               </a>
                               <?php
-                              if($level!=3){
+                              if($level!=1){
                                 ?>
-                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete?id=<?php echo $id; ?>">
+                                <a class="btn btn-xs btn-danger" onclick="return confirm('Are you sure to delete ? ');" href="/admin/users/delete/<?php echo $id; ?>">
                                   <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                 </a>
                                 <?php } ?>
@@ -248,10 +249,10 @@ require dirname(__DIR__).'/require/header.view.php';
                 </div><!-- /.span -->
               </div><!-- /.row -->
 
-              <div class="row text-center">
+              <div class="row text-center cover-pagination">
                 <?php 
-                  if(isset($paginghtml)) {
-                    echo $paginghtml;
+                  if(isset($paging)) {
+                    echo $paging;
                   }
                   ?>
               </div>
