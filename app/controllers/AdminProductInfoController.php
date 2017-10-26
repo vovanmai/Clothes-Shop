@@ -11,7 +11,6 @@ use core\Pagination;
 
 class AdminProductInfoController
 {
-	 
 	public function index()
 	{	
 		$link='/admin/product_info?p={page}';
@@ -23,8 +22,7 @@ class AdminProductInfoController
 		$products_info=Products_info::allPagination($current_page,$limit);
 		$cats=Category::all();	
 		return view('admin/product_info/index',['products_info'=>$products_info,
-		 'paging'=>$paging->gethtml(), 'cats'=>$cats]);
-		
+			'paging'=>$paging->gethtml(), 'cats'=>$cats]);
 	}
 	public function add()
 	{
@@ -62,12 +60,17 @@ class AdminProductInfoController
 	}
 
 
-	public function destroy($id)
-	{
-		Products::deleteByProductInfoId($id);
-		if(Products_info::delete($id)){
-			Session::createSession('msg','Deleted Successfully !');
-			return redirect('admin/product_info');
+	public function destroy() {
+		$id=$_GET['id'];
+
+		if (empty(Products_info::checkDeleteConstrain('products',$id))) {
+			if(Products_info::delete($id)){
+				Session::createSession('msg','Deleted Successfully!');
+				return redirect('admin/products_info');
+			} 
+		} else {
+			Session::createSession('msg','Error Constrain with Products!');
+			return redirect('admin/products_info');
 		}
 	}
 

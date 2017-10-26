@@ -18,7 +18,7 @@ class Orders extends Model
 		users on '.static::$table.'.user_id=users.id inner join payment 
 		on payment.id='.static::$table.'.payment_id';
 		if($current_page != 0 && $limit != 0) {
-			$query .= " limit $start, $limit";
+			$query .= " order by orders.id DESC limit $start, $limit";
 		}
 			return App::get('database')->query_fetch_params($query,array('start'=>$start,'limit'=>$limit));
 	}
@@ -90,6 +90,18 @@ class Orders extends Model
 	{
 		$query="DELETE FROM order_details WHERE order_id=?";
 		return App::get('database')->query_excute_params($query,array('order_id'=>$order_id));
+	}
+
+	public static function deleteOrderByUser($user_id)
+	{
+		$query="DELETE FROM orders WHERE user_id=?";
+		return App::get('database')->query_excute_params($query,array('user_id'=>$user_id));
+	}
+
+	public static function getIdOrderByUser($user_id)
+	{
+		$query="SELECT * FROM orders WHERE user_id=?";
+		return App::get('database')->query_fetch_params($query,array('user_id'=>$user_id));
 	}
 
 	public static function detail($order_id)
