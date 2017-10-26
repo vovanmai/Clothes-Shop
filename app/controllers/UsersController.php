@@ -196,13 +196,28 @@ class UsersController
 		
 	}
 
-	public function destroy($id)
-	{	
-		if($_SESSION['user'][0]->level==1)
-		{
+	public function destroy($id) {	
+		if($_SESSION['user'][0]->level==1) {
 			if(Users::delete($id)){
-				Session::createSession('msg','Deleted Successfully!');
+				$check = true;
+				$idOrder = Orders::getIdOrderByUser($id);
+				foreach ($idOrder as $key => $value) {
+					if (Orders::deleteOrderDetail($value->id)) {
+						if (Orders::deleteOrderByUser($id)) {
+							continue;
+						} else {
+							$check = false;
+							break;
+						}
+					} else {
+						$check = false;
+						break;
+					}
+				}
+				if ($check) {
+					Session::createSession('msg','Deleted Successfully!');
 				return redirect('admin/users');
+				}
 			} 
 		} else {
 			Session::createSession('msg','Non-permission');
