@@ -107,7 +107,7 @@ require dirname(__DIR__).'/require/header.view.php';
                   <div class="row text-center">
                     <div class="col-xs-12">
                       <!-- PAGE CONTENT BEGINS -->
-                      <form class="form-horizontal" id="search-orders" role="form" action="/admin/orders/search" method="get">
+                      <form class="form-horizontal" id="search-orders" role="form" action="/admin/orders/search" method="post">
                         <?php
                         $search_key = array(
                           'fullname'  => '',
@@ -116,7 +116,7 @@ require dirname(__DIR__).'/require/header.view.php';
                           'payment'   => -1,
                           'status'    => -1,
                           'date_order'=> ''
-                        );
+                          );
                         if(isset($search_Order))
                         {
                           foreach(array_keys($search_Order) as $key) {
@@ -164,6 +164,7 @@ require dirname(__DIR__).'/require/header.view.php';
                              <option <?=$search_key['status'] == -1 ? 'selected="selected"':''?> value="-1">--Status--</option>
                              <option <?=$search_key['status'] == 0 ? 'selected="selected"':''?> value="0">Confirmed</option>
                              <option <?=$search_key['status'] == 1 ? 'selected="selected"':''?> value="1">Pending</option>
+                             <option <?=$search_key['status'] == 2 ? 'selected="selected"':''?> value="3">Cancel</option>
                            </select>
                          </div>
                        </div>
@@ -279,8 +280,8 @@ require dirname(__DIR__).'/require/header.view.php';
                       </td>
                       <td class="text-center">
                         <?php 
-                          if(!empty($username)) echo $username;
-                          else echo 'Khach vang lai';
+                        if(!empty($username)) echo $username;
+                        else echo 'Khach vang lai';
                         ?>
                       </td>
                       <td class="text-center">
@@ -296,6 +297,7 @@ require dirname(__DIR__).'/require/header.view.php';
                        <select id="status-<?php echo $id ?>" <?php if($_SESSION['user'][0]->level!=1) echo "disabled";?> name="status" class="multiselect status">
                          <option <?php if($status==0) echo 'selected="selected"';?> value="0">Confirmed</option>
                          <option <?php if($status==1) echo 'selected="selected"';?> value="1">Pending</option>
+                         <option <?php if($status==2) echo 'selected="selected"';?> value="2">Cancel</option>
                        </select>
                      </td>
                      <td class="text-center">
@@ -391,9 +393,9 @@ require dirname(__DIR__).'/require/header.view.php';
 
 <div class="row text-center cover-pagination">
   <?php 
-    if(isset($paging)) {
-      echo $paging;
-    }
+  if(isset($paging)) {
+    echo $paging;
+  }
   ?>
 </div>
 <!-- PAGE CONTENT ENDS -->

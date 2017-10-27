@@ -81,6 +81,14 @@ class Products extends Model
 		return App::get('database')->query_excute_params($query,array('quantityOrder'=>$quantityOrder,'product_id'=>$product_id));
 		
 	}
+
+
+	//update quantity 
+	public static function updateQuantityProductCancel($product_id,$quantityOrder){  
+		$query ="UPDATE products SET quantity= quantity+? where id=? ";
+		return App::get('database')->query_excute_params($query,array('quantityOrder'=>$quantityOrder,'product_id'=>$product_id));
+		
+	}
 }
 
 

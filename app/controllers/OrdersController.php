@@ -3,6 +3,8 @@ namespace app\controllers;
 use core\App;
 use core\Session;
 use app\models\Orders;
+use app\models\Order_details;
+use app\models\Products;
 use app\models\Payment;
 use core\Pagination;
 use app\controllers\AuthController;
@@ -38,6 +40,23 @@ class OrdersController
 			$auth = new AuthController;
 			$auth->sendMail($email,'Xác nhận đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn đã đưọc xác nhận và gửi đi trong thời gian sớm nhất !');
 		}
+
+		if ($status ==2) {
+
+			$arrDetail = Order_details::getOrderDetailByIdOrder($id);
+			foreach ($arrDetail as $key => $value) {
+				if (Products::updateQuantityProductCancel($value->product_id,$value->quantity)) {
+					continue;
+				} else {
+					break;
+				}
+			}
+
+			$email = Orders::getEmail($id)[0]->email;
+			$auth = new AuthController;
+			$auth->sendMail($email,'Huy bo đơn hàng','Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của shop, đơn hàng của bạn bi huy bo !');
+		}
+
 		echo 'Update  status Successfully !';
 	}
 
@@ -110,18 +129,18 @@ class OrdersController
 
 	public function search()
 	{
-		$fullname = isset($_GET['fullname']) ? $_GET['fullname']: '';
-		$paid = isset($_GET['paid']) ? $_GET['paid']: -1;
-		$shipped = isset($_GET['shipped']) ? $_GET['shipped']: -1;
-		$status = isset($_GET['status']) ? $_GET['status']: -1;
-		$payment = isset($_GET['payment']) ? $_GET['payment']: -1;
-		$date_order = isset($_GET['date_order']) ? $_GET['date_order']: '';
+		$fullname = isset($_REQUEST['fullname']) ? $_REQUEST['fullname']: '';
+		$paid = isset($_REQUEST['paid']) ? $_REQUEST['paid']: -1;
+		$shipped = isset($_REQUEST['shipped']) ? $_REQUEST['shipped']: -1;
+		$status = isset($_REQUEST['status']) ? $_REQUEST['status']: -1;
+		$payment = isset($_REQUEST['payment']) ? $_REQUEST['payment']: -1;
+		$date_order = isset($_REQUEST['date_order']) ? $_REQUEST['date_order']: '';
 		$search_Order = array(
 			'fullname' =>$fullname, 
 			'paid' =>$paid, 
 			'shipped' =>$shipped,
 			'status' =>$status, 
-			'payment' =>$payment, 
+			'payment_id' =>$payment, 
 			'date_order' =>$date_order
 			);
 

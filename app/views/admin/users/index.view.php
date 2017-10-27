@@ -3,28 +3,28 @@ require dirname(__DIR__).'/require/header.view.php';
 ?>
 
 <div class="main-container ace-save-state" id="main-container">
-    <script type="text/javascript">
-        try{ace.settings.loadState('main-container')}catch(e){}
-    </script>
-    <?php 
-    require dirname(__DIR__).'/require/leftbar.view.php';
-    ?>
-    <div class="main-content">
-        <div class="main-content-inner">
-            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="">Home</a>
-                    </li>
-                <li class="active">Dashboard</li>
+  <script type="text/javascript">
+    try{ace.settings.loadState('main-container')}catch(e){}
+  </script>
+  <?php 
+  require dirname(__DIR__).'/require/leftbar.view.php';
+  ?>
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="">Home</a>
+          </li>
+          <li class="active">Dashboard</li>
         </ul><!-- /.breadcrumb -->
 
       </div>
 
       <div class="page-content">
         <?php 
-          require dirname(__DIR__).'/require/rightbar.view.php';
+        require dirname(__DIR__).'/require/rightbar.view.php';
         ?>
 
         <div class="page-header">
@@ -68,7 +68,7 @@ require dirname(__DIR__).'/require/header.view.php';
                           'fullname'   => '',
                           'active'    => -1,
                           'level'     => -1,
-                        );
+                          );
                         if(isset($search_User))
                         {
                           foreach(array_keys($search_User) as $key) {
@@ -201,21 +201,28 @@ require dirname(__DIR__).'/require/header.view.php';
                       }
                       ?>
                     </td>
-                    <?php if($_SESSION['user'][0]->level==1){?>
+                    <?php if($_SESSION['user'][0]->level==1){  
+                      if($level!=1){?>
+                      <td class="text-center">
+                        <a href="javascript:void(0)"  onclick="chageActiveUsers(<?php echo $id; ?>)" class="edit_active" id="<?php echo $id; ?>">
+                          <img src="/public/admin/assets/images/<?php 
+                          if($active==1){
+                            echo "active.gif";
+                          }else{
+                            echo "deactive.gif";
+                          }
+                          ?>" alt="">
+                        </a>
+                      </td>
+                      <?php 
+                    } else { ?>
                     <td class="text-center">
-                      <a href="javascript:void(0)"  onclick="chageActiveUsers(<?php echo $id; ?>)" class="edit_active" id="<?php echo $id; ?>">
-                        <img src="/public/admin/assets/images/<?php 
-                        if($active==1){
-                          echo "active.gif";
-                        }else{
-                          echo "deactive.gif";
-                        }
-                        ?>" alt="">
-                      </a>
                     </td>
-                    <?php } ?>
-                    <td class="text-center">
-                      <div class="hidden-sm hidden-xs btn-group">
+                    <?php  
+                  }
+                } ?>
+                <td class="text-center">
+                  <div class="hidden-sm hidden-xs btn-group">
                               <!-- <button class="btn btn-xs btn-success">
                                 <i class="ace-icon fa fa-check bigger-120"></i>
                               </button> -->
@@ -251,10 +258,10 @@ require dirname(__DIR__).'/require/header.view.php';
 
               <div class="row text-center cover-pagination">
                 <?php 
-                  if(isset($paging)) {
-                    echo $paging;
-                  }
-                  ?>
+                if(isset($paging)) {
+                  echo $paging;
+                }
+                ?>
               </div>
               <!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->

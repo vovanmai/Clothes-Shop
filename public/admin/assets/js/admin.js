@@ -519,7 +519,52 @@ $(document).ready(function() {
 
     // });
 
-     //change active paid order
+   //   //change active paid order
+   //   $(".edit_paid_active").click(function() {
+   //      var data=$(this).attr('id');
+   //      var id = data.split('-')[1];
+   //      var idstring = "#paid-" + id;
+   //      $.ajax({
+   //          url: "/admin/orders/activePaid",
+   //          type: "GET",
+   //          data: {
+   //              'id': id
+   //          },
+   //          success: function(data) {
+   //              $(idstring).html(data);
+   //          }
+   //      });
+   //  });
+     
+   //   //save status order
+   //   $(".status").change(function() {
+   //     var data=$(this).attr('id');
+   //     var id = data.split('-')[1];
+   //     var status = $(this).val();
+   //     $.ajax({
+   //      url: "/admin/orders/updateStatus",
+   //      type: "GET",
+   //      data: {
+   //          'status': status,
+   //          'id':id
+   //      },
+   //      success: function(data) {
+   //          var idstring = "#shipped-" + id;
+   //          $.ajax({
+   //              url: "/admin/orders/activeShipped",
+   //              type: "GET",
+   //              data: {
+   //                  'id': id
+   //              },
+   //              success: function(data) {
+   //                  $(idstring).html(data);
+   //              }
+   //          });
+   //          alert(data);
+   //      }
+   //  });
+   // });
+//change active paid order
      $(".edit_paid_active").click(function() {
         var data=$(this).attr('id');
         var id = data.split('-')[1];
@@ -535,35 +580,41 @@ $(document).ready(function() {
             }
         });
     });
-     
-     //save status order
-     $(".status").change(function() {
+    
+    //change active shipped order
+    $(".edit_shipped_active").click(function() {
        var data=$(this).attr('id');
        var id = data.split('-')[1];
-       var status = $(this).val();
+       var idstring = "#shipped-" + id;
        $.ajax({
-        url: "/admin/orders/updateStatus",
+        url: "/admin/orders/activeShipped",
         type: "GET",
         data: {
-            'status': status,
-            'id':id
+            'id': id
         },
         success: function(data) {
-            var idstring = "#shipped-" + id;
-            $.ajax({
-                url: "/admin/orders/activeShipped",
-                type: "GET",
-                data: {
-                    'id': id
-                },
-                success: function(data) {
-                    $(idstring).html(data);
-                }
-            });
-            alert(data);
+            $(idstring).html(data);
         }
     });
    });
+
+     //save status order
+     $(".status").change(function() {
+         var data=$(this).attr('id');
+         var id = data.split('-')[1];
+         var status = $(this).val();
+         $.ajax({
+            url: "/admin/orders/updateStatus",
+            type: "GET",
+            data: {
+                'status': status,
+                'id':id
+            },
+            success: function(data) {
+                alert(data);
+            }
+        });
+     });
 
       //save status order
       $("#checkall").click(function(){
